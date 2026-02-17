@@ -19,6 +19,7 @@
                         'profile' => __('Profile'),
                         'password' => __('Password'),
                         'appearance' => __('Appearance'),
+                        'api-tokens' => __('API Tokens'),
                     ];
                 @endphp
 
@@ -60,6 +61,13 @@
             <div x-cloak x-show="selectedItem === 'appearance'">
                 <div class="w-full max-w-xl">
                     @livewire('settings.appearance')
+                </div>
+            </div>
+
+            <!-- API Tokens Section -->
+            <div x-cloak x-show="selectedItem === 'api-tokens'">
+                <div class="w-full max-w-xl">
+                    @livewire('settings.api-tokens')
                 </div>
             </div>
 
