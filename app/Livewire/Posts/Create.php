@@ -10,11 +10,12 @@ use App\Support\Toast;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 #[Layout('components.layouts.app')]
 final class Create extends Component
 {
-    use HasToast;
+    use HasToast, WithFileUploads;
 
     public string $title = '';
 
@@ -22,12 +23,15 @@ final class Create extends Component
 
     public string $status = 'draft';
 
+    public $featured_image;
+
     public function save(): void
     {
         $validated = $this->validate([
             'title' => ['required', 'string', 'max:255'],
             'body' => ['required', 'string'],
             'status' => ['required', 'in:draft,published'],
+            'featured_image' => ['nullable', 'image', 'max:2048'],
         ]);
 
         if ($validated['status'] === 'published') {
@@ -35,6 +39,12 @@ final class Create extends Component
         }
 
         $post = Auth::user()->posts()->create($validated);
+
+        if ($this->featured_image) {
+            $post->addMedia($this->featured_image->getRealPath())
+                ->usingFileName($this->featured_image->hashName())
+                ->toMediaCollection('featured_image');
+        }
 
         if ($post->isPublished()) {
             Auth::user()->notify(new PostPublished($post));

@@ -27,6 +27,21 @@
         </div>
 
         <div>
+            <x-input-label for="featured_image" value="{{ __('Featured Image') }}" />
+            <div class="mt-1">
+                @if ($featured_image && method_exists($featured_image, 'isPreviewable') && $featured_image->isPreviewable())
+                    <x-file-upload :preview="$featured_image->temporaryUrl()" />
+                @elseif (!$featured_image)
+                    <x-file-upload wire="featured_image" :label="__('Upload featured image')" />
+                @endif
+            </div>
+            <x-input-error :messages="$errors->get('featured_image')" class="mt-2" />
+            <div wire:loading wire:target="featured_image" class="mt-2 text-sm text-on-surface dark:text-on-surface-dark">
+                {{ __('Uploading...') }}
+            </div>
+        </div>
+
+        <div>
             <x-input-label for="status" value="{{ __('Status') }}" />
             <x-select id="status" wire:model="status" class="mt-1">
                 <option value="draft">{{ __('Draft') }}</option>

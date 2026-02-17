@@ -59,12 +59,12 @@
             </x-slot>
             @forelse ($recentUsers as $user)
                 <div class="flex items-center gap-3 {{ !$loop->last ? 'mb-3 pb-3 border-b border-outline dark:border-outline-dark' : '' }}">
-                    <x-avatar :initials="$user->initials()" size="sm" />
+                    <x-avatar :src="$user->avatarUrl()" :initials="$user->initials()" size="sm" />
                     <div class="flex-1 min-w-0">
                         <p class="text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong truncate">{{ $user->name }}</p>
                         <p class="text-xs text-on-surface dark:text-on-surface-dark truncate">{{ $user->email }}</p>
                     </div>
-                    <x-badge :variant="$user->isAdmin() ? 'primary' : 'default'" size="sm">{{ ucfirst($user->role) }}</x-badge>
+                    <x-badge :variant="$user->isAdmin() ? 'primary' : 'default'" size="sm">{{ ucfirst($user->roles->first()?->name ?? 'user') }}</x-badge>
                 </div>
             @empty
                 <p class="text-sm text-on-surface dark:text-on-surface-dark">{{ __('No users yet.') }}</p>

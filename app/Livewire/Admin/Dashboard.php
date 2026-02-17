@@ -18,7 +18,7 @@ final class Dashboard extends Component
             'totalUsers' => User::count(),
             'totalPosts' => Post::count(),
             'publishedPosts' => Post::where('status', 'published')->count(),
-            'recentUsers' => User::latest()->take(5)->get(),
+            'recentUsers' => User::with('roles')->latest()->take(5)->get(),
             'recentPosts' => Post::with('user')->latest()->take(5)->get(),
         ]);
     }

@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 final class Profile extends Component
 {
-    use HasToast;
+    use HasToast, WithFileUploads;
 
     public string $name = '';
 
@@ -21,11 +22,38 @@ final class Profile extends Component
 
     public string $deletePassword = '';
 
+    public $avatar;
+
     public function mount(): void
     {
         $user = Auth::user();
         $this->name = $user->name;
         $this->email = $user->email;
+    }
+
+    public function updatedAvatar(): void
+    {
+        $this->validate([
+            'avatar' => ['image', 'max:2048'],
+        ]);
+
+        /** @var User $user */
+        $user = Auth::user();
+        $user->addMedia($this->avatar->getRealPath())
+            ->usingFileName($this->avatar->hashName())
+            ->toMediaCollection('avatar');
+
+        $this->reset('avatar');
+        $this->toastSuccess('Avatar updated successfully.');
+    }
+
+    public function removeAvatar(): void
+    {
+        /** @var User $user */
+        $user = Auth::user();
+        $user->clearMediaCollection('avatar');
+
+        $this->toastSuccess('Avatar removed.');
     }
 
     public function updateProfile(): void

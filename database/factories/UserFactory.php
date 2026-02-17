@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\RoleEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -32,6 +33,15 @@ class UserFactory extends Factory
         ];
     }
 
+    public function configure(): static
+    {
+        return $this->afterCreating(function ($user) {
+            if ($user->roles()->count() === 0) {
+                $user->assignRole(RoleEnum::User);
+            }
+        });
+    }
+
     /**
      * Indicate that the model's email address should be unverified.
      */
@@ -44,8 +54,15 @@ class UserFactory extends Factory
 
     public function admin(): static
     {
-        return $this->state(fn () => [
-            'role' => 'admin',
-        ]);
+        return $this->afterCreating(function ($user) {
+            $user->syncRoles(RoleEnum::Admin);
+        });
+    }
+
+    public function editor(): static
+    {
+        return $this->afterCreating(function ($user) {
+            $user->syncRoles(RoleEnum::Editor);
+        });
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
+use App\Enums\PermissionEnum;
 use App\Models\Post;
 use App\Models\User;
 
@@ -16,7 +17,7 @@ final class PostPolicy
 
     public function view(User $user, Post $post): bool
     {
-        return $user->id === $post->user_id || $user->isAdmin();
+        return $user->id === $post->user_id || $user->hasPermissionTo(PermissionEnum::PostsEdit);
     }
 
     public function create(User $user): bool
@@ -26,11 +27,11 @@ final class PostPolicy
 
     public function update(User $user, Post $post): bool
     {
-        return $user->id === $post->user_id || $user->isAdmin();
+        return $user->id === $post->user_id || $user->hasPermissionTo(PermissionEnum::PostsEdit);
     }
 
     public function delete(User $user, Post $post): bool
     {
-        return $user->id === $post->user_id || $user->isAdmin();
+        return $user->id === $post->user_id || $user->hasPermissionTo(PermissionEnum::PostsDelete);
     }
 }

@@ -35,6 +35,12 @@ Route::middleware('auth')->group(function () {
     // Admin routes
     Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', Admin\Dashboard::class)->name('dashboard');
+        Route::get('/users', Admin\Users\Index::class)->name('users.index');
+        Route::get('/users/create', Admin\Users\Create::class)->name('users.create');
+        Route::get('/users/{user}/edit', Admin\Users\Edit::class)->name('users.edit');
+        Route::get('/roles', Admin\Roles\Index::class)->name('roles.index');
+        Route::get('/roles/create', Admin\Roles\Create::class)->name('roles.create');
+        Route::get('/roles/{role}/edit', Admin\Roles\Edit::class)->name('roles.edit');
     });
     Route::get('/verify-email', VerifyEmail::class)->name('verification.notice');
     Route::get('/confirm-password', ConfirmPassword::class)->name('password.confirm');

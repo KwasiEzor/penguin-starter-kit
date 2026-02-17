@@ -38,7 +38,7 @@
 
         <!-- Right Side Content -->
         <div class="w-full lg:p-8">
-            <div class="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
+            <div class="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-87.5">
                 <!-- Mobile Logo -->
                 <a href="{{ route('home') }}" class="flex flex-col items-center gap-2 font-medium lg:hidden">
                     <x-app-logo-icon

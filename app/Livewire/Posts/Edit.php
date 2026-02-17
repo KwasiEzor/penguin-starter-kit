@@ -10,11 +10,12 @@ use App\Support\Toast;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 #[Layout('components.layouts.app')]
 final class Edit extends Component
 {
-    use HasToast;
+    use HasToast, WithFileUploads;
 
     public Post $post;
 
@@ -23,6 +24,8 @@ final class Edit extends Component
     public string $body = '';
 
     public string $status = 'draft';
+
+    public $featured_image;
 
     public function mount(Post $post): void
     {
@@ -40,6 +43,7 @@ final class Edit extends Component
             'title' => ['required', 'string', 'max:255'],
             'body' => ['required', 'string'],
             'status' => ['required', 'in:draft,published'],
+            'featured_image' => ['nullable', 'image', 'max:2048'],
         ]);
 
         if ($validated['status'] === 'published' && ! $this->post->published_at) {
@@ -52,9 +56,21 @@ final class Edit extends Component
 
         $this->post->update($validated);
 
+        if ($this->featured_image) {
+            $this->post->addMedia($this->featured_image->getRealPath())
+                ->usingFileName($this->featured_image->hashName())
+                ->toMediaCollection('featured_image');
+        }
+
         Toast::success('Post updated successfully.');
 
         $this->redirect(route('posts.index'), navigate: true);
+    }
+
+    public function removeFeaturedImage(): void
+    {
+        $this->post->clearMediaCollection('featured_image');
+        $this->toastSuccess('Featured image removed.');
     }
 
     public function render()

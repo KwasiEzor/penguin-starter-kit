@@ -8,4 +8,5 @@ uses(TestCase::class)->in('Unit');
 
 uses()->beforeEach(function () {
     $this->withoutVite();
+    $this->seed(\Database\Seeders\RolesAndPermissionsSeeder::class);
 })->in('Feature');

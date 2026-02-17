@@ -28,10 +28,7 @@
                             class="rounded-radius cursor-pointer bg-transparent hover:bg-surface-alt dark:hover:bg-surface/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary dark:focus-visible:outline-primary-dark"
                             aria-controls="userMenu">
                             <div class="flex items-center p-0.5">
-                                <span
-                                    class="flex size-8 text-sm font-medium items-center justify-center overflow-hidden rounded-radius border border-outline bg-surface-alt tracking-wider text-on-surface/80 dark:border-outline-dark dark:bg-surface-dark-alt dark:text-on-surface-dark/80">
-                                    {{ auth()->user()->initials() }}
-                                </span>
+                                <x-avatar :src="auth()->user()->avatarUrl()" :initials="auth()->user()->initials()" size="sm" />
                                 <div class="p-1 text-on-surface-strong dark:text-on-surface-dark-strong">
                                     <x-icons.chevron-down variant="micro" size="sm" />
                                 </div>

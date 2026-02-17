@@ -28,6 +28,7 @@
     @if ($posts->count())
         <x-table>
             <x-slot name="head">
+                <x-table-heading>{{ __('Image') }}</x-table-heading>
                 <x-table-heading :sortable="true" :direction="$sortBy === 'title' ? $sortDirection : null" wire:click="sortBy('title')">
                     {{ __('Title') }}
                 </x-table-heading>
@@ -40,6 +41,15 @@
 
             @foreach ($posts as $post)
                 <tr class="hover:bg-surface-alt/50 dark:hover:bg-surface-dark/50" wire:key="post-{{ $post->id }}">
+                    <x-table-cell>
+                        @if ($post->featuredImageUrl())
+                            <img src="{{ $post->featuredImageUrl() }}" alt="" class="size-10 rounded-radius object-cover" />
+                        @else
+                            <div class="flex size-10 items-center justify-center rounded-radius bg-surface-alt dark:bg-surface-dark-alt">
+                                <x-icons.document-text variant="outline" size="sm" class="text-on-surface/40 dark:text-on-surface-dark/40" />
+                            </div>
+                        @endif
+                    </x-table-cell>
                     <x-table-cell class="font-medium text-on-surface-strong dark:text-on-surface-dark-strong">
                         {{ $post->title }}
                     </x-table-cell>
