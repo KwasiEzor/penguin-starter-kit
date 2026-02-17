@@ -40,6 +40,21 @@
             </li>
         </ul>
 
+        @if (auth()->user()->isAdmin())
+            <!-- Admin Section -->
+            <div class="px-1 py-2 mt-4">
+                <div class="text-xs leading-none text-on-surface dark:text-on-surface-dark">{{ __('Admin') }}</div>
+            </div>
+            <ul class="flex flex-col gap-2">
+                <li>
+                    <x-sidebar-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.*')">
+                        <x-icons.shield variant="outline" />
+                        <span>{{ __('Admin Panel') }}</span>
+                    </x-sidebar-link>
+                </li>
+            </ul>
+        @endif
+
         <!-- Bottom Navigation -->
         <ul class="flex flex-col gap-2 mt-auto">
             <li>

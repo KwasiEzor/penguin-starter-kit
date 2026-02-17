@@ -65,7 +65,8 @@ final class Index extends Component
 
     public function deletePost(): void
     {
-        $post = Post::where('user_id', Auth::id())->findOrFail($this->deletingPostId);
+        $post = Post::findOrFail($this->deletingPostId);
+        $this->authorize('delete', $post);
         $post->delete();
 
         $this->deletingPostId = null;

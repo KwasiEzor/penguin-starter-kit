@@ -26,7 +26,7 @@ final class Edit extends Component
 
     public function mount(Post $post): void
     {
-        abort_unless($post->user_id === Auth::id(), 403);
+        $this->authorize('update', $post);
 
         $this->post = $post;
         $this->title = $post->title;
