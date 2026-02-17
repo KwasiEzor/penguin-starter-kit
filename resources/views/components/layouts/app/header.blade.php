@@ -11,6 +11,10 @@
 
     {{ $slot }}
 
+    @auth
+        @livewire('spotlight-search')
+    @endauth
+
     <x-toast />
 
     @include('partials.scripts')

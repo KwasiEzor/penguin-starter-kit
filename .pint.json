@@ -1,0 +1,14 @@
+{
+    "preset": "laravel",
+    "rules": {
+        "concat_space": {
+            "spacing": "none"
+        },
+        "array_indentation": true,
+        "method_chaining_indentation": true,
+        "trailing_comma_in_multiline": {
+            "elements": "arguments",
+            "after_heredoc": true
+        }
+    }
+}
