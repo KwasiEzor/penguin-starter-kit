@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Posts;
 
 use App\Livewire\Concerns\HasToast;
+use App\Notifications\PostPublished;
 use App\Support\Toast;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
@@ -33,7 +34,11 @@ final class Create extends Component
             $validated['published_at'] = now();
         }
 
-        Auth::user()->posts()->create($validated);
+        $post = Auth::user()->posts()->create($validated);
+
+        if ($post->isPublished()) {
+            Auth::user()->notify(new PostPublished($post));
+        }
 
         Toast::success('Post created successfully.');
 

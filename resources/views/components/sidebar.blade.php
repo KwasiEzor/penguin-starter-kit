@@ -72,6 +72,11 @@
         </ul>
     </div>
 
+    <!-- Notification Center -->
+    <div class="mb-2 flex justify-start px-2">
+        @livewire('notification-center')
+    </div>
+
     <!-- User Dropdown -->
     <x-dropdown align="bottom-14 left-0 lg:left-full lg:ml-2 lg:bottom-0">
         <x-slot:trigger>
