@@ -32,6 +32,12 @@
                     <span>{{ __('Dashboard') }}</span>
                 </x-sidebar-link>
             </li>
+            <li>
+                <x-sidebar-link href="{{ route('posts.index') }}" :active="request()->routeIs('posts.*')">
+                    <x-icons.document-text variant="outline" />
+                    <span>{{ __('Posts') }}</span>
+                </x-sidebar-link>
+            </li>
         </ul>
 
         <!-- Bottom Navigation -->

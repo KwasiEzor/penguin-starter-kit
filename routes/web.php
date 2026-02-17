@@ -8,6 +8,7 @@ use App\Livewire\Auth\Register;
 use App\Livewire\Auth\ResetPassword;
 use App\Livewire\Auth\VerifyEmail;
 use App\Livewire\Dashboard;
+use App\Livewire\Posts;
 use App\Livewire\Settings;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,9 @@ Route::middleware('guest')->group(function () {
 // Authenticated routes
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
+    Route::get('/posts', Posts\Index::class)->name('posts.index');
+    Route::get('/posts/create', Posts\Create::class)->name('posts.create');
+    Route::get('/posts/{post}/edit', Posts\Edit::class)->name('posts.edit');
     Route::get('/settings', Settings::class)->name('settings');
     Route::get('/verify-email', VerifyEmail::class)->name('verification.notice');
     Route::get('/confirm-password', ConfirmPassword::class)->name('password.confirm');
