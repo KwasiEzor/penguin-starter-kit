@@ -64,7 +64,7 @@ final class Create extends Component
             'meta_title' => ['nullable', 'string', 'max:60'],
             'meta_description' => ['nullable', 'string', 'max:160'],
             'tags_input' => ['nullable', 'string'],
-            'featured_image' => ['nullable', 'image', 'max:2048'],
+            'featured_image' => ['nullable', 'image', 'max:1024'],
         ]);
 
         if ($validated['status'] === 'published') {

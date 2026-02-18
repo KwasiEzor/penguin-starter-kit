@@ -30,6 +30,7 @@
                     @endif
                 </div>
             </div>
+            <p class="mt-1 text-xs text-on-surface dark:text-on-surface-dark">{{ __('PNG, JPG, GIF up to 1MB') }}</p>
             <x-input-error :messages="$errors->get('avatar')" class="mt-2" />
             <div wire:loading wire:target="avatar" class="mt-2 text-sm text-on-surface dark:text-on-surface-dark">
                 {{ __('Uploading...') }}

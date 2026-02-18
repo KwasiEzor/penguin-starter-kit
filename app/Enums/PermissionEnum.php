@@ -18,6 +18,7 @@ enum PermissionEnum: string
     case AdminAccess = 'admin.access';
     case RolesView = 'roles.view';
     case RolesEdit = 'roles.edit';
+    case PaymentsManage = 'payments.manage';
 
     public function label(): string
     {
@@ -34,6 +35,7 @@ enum PermissionEnum: string
             self::AdminAccess => 'Admin Access',
             self::RolesView => 'View Roles',
             self::RolesEdit => 'Edit Roles',
+            self::PaymentsManage => 'Manage Payments',
         };
     }
 
@@ -44,6 +46,7 @@ enum PermissionEnum: string
             self::PostsView, self::PostsCreate, self::PostsEdit, self::PostsDelete, self::PostsPublish => 'Posts',
             self::AdminAccess => 'Admin',
             self::RolesView, self::RolesEdit => 'Roles',
+            self::PaymentsManage => 'Payments',
         };
     }
 }

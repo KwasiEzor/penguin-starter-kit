@@ -34,7 +34,7 @@ final class Profile extends Component
     public function updatedAvatar(): void
     {
         $this->validate([
-            'avatar' => ['image', 'max:2048'],
+            'avatar' => ['image', 'max:1024'],
         ]);
 
         /** @var User $user */

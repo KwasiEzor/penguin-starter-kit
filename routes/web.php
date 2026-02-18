@@ -8,9 +8,13 @@ use App\Livewire\Auth\Register;
 use App\Livewire\Auth\ResetPassword;
 use App\Livewire\Auth\VerifyEmail;
 use App\Livewire\Admin;
+use App\Livewire\Billing;
 use App\Livewire\Blog;
+use App\Livewire\CheckoutCancel;
+use App\Livewire\CheckoutSuccess;
 use App\Livewire\Dashboard;
 use App\Livewire\Posts;
+use App\Livewire\Pricing;
 use App\Livewire\Settings;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +47,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/roles', Admin\Roles\Index::class)->name('roles.index');
         Route::get('/roles/create', Admin\Roles\Create::class)->name('roles.create');
         Route::get('/roles/{role}/edit', Admin\Roles\Edit::class)->name('roles.edit');
+        Route::get('/payments', Admin\Payments\Settings::class)->name('payments');
+    });
+
+    // Payment routes (only when payments are enabled)
+    Route::middleware('payments')->group(function () {
+        Route::get('/pricing', Pricing::class)->name('pricing');
+        Route::get('/billing', Billing::class)->name('billing');
+        Route::get('/checkout/success', CheckoutSuccess::class)->name('checkout.success');
+        Route::get('/checkout/cancel', CheckoutCancel::class)->name('checkout.cancel');
     });
     Route::get('/verify-email', VerifyEmail::class)->name('verification.notice');
     Route::get('/confirm-password', ConfirmPassword::class)->name('password.confirm');
