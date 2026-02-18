@@ -1,6 +1,6 @@
 # Penguin Starter Kit
 
-A production-ready Laravel starter kit built with **Livewire 4**, **Alpine.js 3**, **Tailwind CSS 4**, and the **PenguinUI** design system. It provides a complete authentication system, user settings, dark mode support, toast notifications, and two switchable layouts (sidebar and navbar) -- everything you need to start building your next Laravel application.
+A production-ready Laravel starter kit built with **Livewire 4**, **Alpine.js 3**, **Tailwind CSS 4**, and the **PenguinUI** design system. It provides a complete authentication system, blog with posts and tags, admin dashboard with user/role management, Stripe payments, real-time notifications, API layer, and more -- everything you need to start building your next Laravel application.
 
 ## Tech Stack
 
@@ -14,6 +14,12 @@ A production-ready Laravel starter kit built with **Livewire 4**, **Alpine.js 3*
 | PenguinUI | -- | Design system (CSS custom properties) |
 | Pest | 3 | Testing framework |
 | SQLite | -- | Default database |
+| Spatie Permission | -- | Roles and permissions |
+| Spatie Media Library | -- | File/image uploads (avatars, featured images) |
+| Spatie Tags | -- | Post tagging |
+| Laravel Sanctum | -- | API token authentication |
+| Laravel Cashier | -- | Stripe payments and subscriptions |
+| Laravel Reverb | -- | Real-time WebSocket broadcasting |
 
 ## Features
 
@@ -26,10 +32,65 @@ A production-ready Laravel starter kit built with **Livewire 4**, **Alpine.js 3*
 - **Confirm Password** for secure areas
 - **Logout** with session invalidation and toast notification
 
+### Posts & Blog
+- **Full CRUD** -- create, read, update, and delete posts scoped to the authenticated user
+- **Draft/Published status** with automatic `published_at` timestamp management
+- **Auto-generated slugs** from post titles with unique suffix handling
+- **Tag system** via Spatie Tags -- comma-separated input, filter by tag
+- **Featured images** via Spatie Media Library with upload and removal
+- **SEO fields** -- meta title, meta description, and excerpt per post
+- **Data table** with search, status filter, tag filter, sortable columns, and pagination
+- **Public blog** at `/blog/{slug}` with SEO meta tags and Open Graph image
+- **Authorization** via PostPolicy -- owners manage their posts; users with elevated permissions can act on any post
+
+### Admin Dashboard
+- **Overview stats** -- total users, total posts, published posts, recent users, recent posts
+- **Payment stats** (conditional) -- active subscriptions and monthly revenue when payments are enabled
+- **User management** -- list, create, edit, and delete users with role assignment and avatar upload
+- **Role management** -- create, edit, and delete custom roles with granular permission checkboxes
+- **Payment settings** -- toggle payments, manage Stripe keys, CRUD for plans and products, transaction history
+
+### Roles & Permissions
+- **Three built-in roles**: Administrator, Editor, User
+- **13 granular permissions** across 5 groups: Users, Posts, Admin, Roles, Payments
+- **Custom roles** -- create new roles with any combination of permissions
+- **Safeguards** -- cannot delete the admin role, cannot demote the last admin, cannot delete a role with assigned users
+- Powered by **Spatie Laravel Permission**
+
+### Stripe Payments
+- **Feature-flagged** -- admin toggles payments on/off from the dashboard; all payment routes return 404 when disabled
+- **Stripe key management** -- publishable key, secret key (encrypted at rest), webhook secret, and currency stored in the database
+- **Subscription plans** -- name, description, price, billing interval (monthly/yearly), feature list, Stripe price ID, active/featured toggles
+- **One-time products** -- name, description, price, Stripe price ID, active toggle
+- **Checkout** via Stripe Checkout Sessions for both subscriptions and one-time purchases
+- **Billing portal** -- users manage subscriptions through Stripe's Customer Portal
+- **Order tracking** -- purchase records with status (pending, completed, failed, refunded)
+- **Webhook handling** -- listens for `checkout.session.completed` to record one-time purchases
+- Powered by **Laravel Cashier**
+
+### Notifications & Real-time
+- **Database notifications** -- when a post is published, all other users receive a notification
+- **Real-time push** via Laravel Reverb WebSockets on private per-user channels
+- **Notification center** in the sidebar -- bell icon with unread count, last 10 notifications, mark as read
+- **Instant toast** on push -- new post notifications appear as a toast without a page refresh
+
+### API Layer
+- **Sanctum-authenticated** REST API for posts (`/api/posts`)
+- **Full CRUD** -- list (with status filter), create (with tags array), show, update, delete
+- **Token management UI** in settings -- create named tokens, view existing tokens, revoke tokens
+- Token shown once on creation, never displayed again
+
+### Spotlight Search
+- **Cmd+K / Ctrl+K** opens a search overlay from anywhere in the app
+- **Post search** -- queries the user's posts by title or body (top 5 results)
+- **Page search** -- filters navigation pages (Dashboard, Posts, Create Post, Settings)
+- Closes on Escape or click outside
+
 ### User Settings
-- **Profile** -- update name and email (resets email verification on change)
+- **Profile** -- update name, email (resets email verification on change), and avatar upload/removal
 - **Password** -- change password with current password verification
 - **Appearance** -- light, dark, and system theme picker (persisted in localStorage)
+- **API Tokens** -- create, view, and revoke personal access tokens
 - **Delete Account** -- modal confirmation with password verification
 
 ### UI System
@@ -40,11 +101,17 @@ A production-ready Laravel starter kit built with **Livewire 4**, **Alpine.js 3*
 - **16 icon components** -- SVG Heroicons and custom icons
 - **Responsive** -- mobile-friendly sidebar collapse and hamburger menu
 
+### CI/CD
+- **GitHub Actions** workflow with two parallel jobs on push/PR to `main`:
+  - **Tests** -- PHP 8.4, SQLite, runs full Pest test suite
+  - **Code Style** -- Laravel Pint in check mode
+
 ### Developer Experience
-- **61 tests** with 157 assertions covering all auth flows, components, and settings
-- **TDD approach** -- tests written first, then implementation
+- **236 tests** with 503 assertions covering auth, posts, admin, payments, API, components, and settings
+- **Pest PHP** testing with Livewire test helpers
 - **Livewire Form Objects** for clean validation and form handling
 - **Invokable actions** (e.g., `Logout`) for single-responsibility classes
+- **Strict types** and `final` classes throughout all Livewire components
 
 ## Requirements
 
@@ -73,8 +140,30 @@ php artisan key:generate
 # Run database migrations
 php artisan migrate
 
+# Seed roles and permissions
+php artisan db:seed --class=RolesAndPermissionsSeeder
+
 # Build front-end assets
 npm run build
+```
+
+### Environment Variables
+
+Add the following to your `.env` file to enable optional features:
+
+```env
+# Stripe Payments (or configure via Admin → Payments in the UI)
+STRIPE_KEY=pk_test_...
+STRIPE_SECRET=sk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+CASHIER_CURRENCY=usd
+
+# Real-time Broadcasting (Laravel Reverb)
+BROADCAST_CONNECTION=reverb
+REVERB_APP_KEY=your-app-key
+REVERB_APP_SECRET=your-app-secret
+REVERB_APP_ID=your-app-id
+REVERB_HOST=localhost
 ```
 
 ### Development Server
@@ -85,101 +174,76 @@ php artisan serve
 
 # In a separate terminal, start Vite for hot-reloading
 npm run dev
+
+# (Optional) Start Reverb for real-time features
+php artisan reverb:start
 ```
 
 Visit `http://localhost:8000` to see the welcome page. Register an account at `/register`.
 
-## Project Structure
-
-```
-penguin-starter-kit/
-├── app/
-│   ├── Actions/Auth/
-│   │   └── Logout.php                  # Invokable logout action
-│   ├── Livewire/
-│   │   ├── Auth/
-│   │   │   ├── Login.php               # Login page component
-│   │   │   ├── Register.php            # Registration page component
-│   │   │   ├── ForgotPassword.php      # Forgot password page
-│   │   │   ├── ResetPassword.php       # Reset password page
-│   │   │   ├── VerifyEmail.php         # Email verification page
-│   │   │   └── ConfirmPassword.php     # Password confirmation page
-│   │   ├── Forms/Auth/
-│   │   │   ├── LoginForm.php           # Login validation + rate limiting
-│   │   │   └── RegisterForm.php        # Registration + user creation
-│   │   ├── Concerns/
-│   │   │   └── HasToast.php            # Toast dispatch trait
-│   │   ├── Settings/
-│   │   │   ├── Profile.php             # Update name/email
-│   │   │   ├── Password.php            # Update password
-│   │   │   └── Appearance.php          # Theme picker (Alpine.js)
-│   │   ├── Dashboard.php               # Dashboard page
-│   │   └── Settings.php                # Settings page with tabs
-│   ├── Models/
-│   │   └── User.php                    # User model with initials()
-│   └── Support/
-│       └── Toast.php                   # Session flash toast helper
-│
-├── resources/
-│   ├── css/app.css                     # PenguinUI theme (CSS custom properties)
-│   ├── js/app.js                       # Alpine.js + Livewire ESM bootstrap
-│   └── views/
-│       ├── components/
-│       │   ├── layouts/
-│       │   │   ├── app.blade.php           # Sidebar layout wrapper
-│       │   │   ├── app-navbar.blade.php    # Navbar layout wrapper
-│       │   │   ├── auth.blade.php          # Auth layout wrapper
-│       │   │   ├── app/sidebar.blade.php   # Full sidebar HTML shell
-│       │   │   ├── app/header.blade.php    # Full navbar HTML shell
-│       │   │   └── auth/split.blade.php    # Split-screen auth layout
-│       │   ├── icons/                  # 16 SVG icon components
-│       │   ├── typography/             # heading, subheading
-│       │   ├── button.blade.php        # Multi-variant button
-│       │   ├── input.blade.php         # Text/password with show/hide
-│       │   ├── checkbox.blade.php      # Styled checkbox
-│       │   ├── dropdown.blade.php      # Alpine.js dropdown
-│       │   ├── modal.blade.php         # Modal dialog with focus trap
-│       │   ├── toast.blade.php         # Toast notification container
-│       │   ├── separator.blade.php     # Horizontal/vertical divider
-│       │   ├── sidebar.blade.php       # Sidebar navigation
-│       │   ├── navbar.blade.php        # Top navbar navigation
-│       │   └── ...                     # Other UI components
-│       ├── livewire/
-│       │   ├── auth/                   # Auth page views
-│       │   ├── settings/               # Settings tab views
-│       │   ├── dashboard.blade.php
-│       │   └── settings.blade.php
-│       └── partials/
-│           ├── head.blade.php          # Meta, fonts, Vite
-│           └── scripts.blade.php       # Theme manager JS
-│
-├── routes/web.php                      # All application routes
-└── tests/
-    ├── Feature/
-    │   ├── Auth/                       # 8 auth test files
-    │   ├── Components/                 # 4 component test files
-    │   ├── Settings/                   # 4 settings test files
-    │   └── DashboardTest.php
-    └── Unit/
-        ├── ToastTest.php
-        └── UserTest.php
-```
-
 ## Routes
+
+### Public
 
 | Method | URI | Name | Description |
 |---|---|---|---|
 | GET | `/` | home | Welcome page |
-| GET | `/login` | login | Login form (guest only) |
-| GET | `/register` | register | Registration form (guest only) |
-| GET | `/forgot-password` | password.request | Forgot password form (guest only) |
-| GET | `/reset-password/{token}` | password.reset | Reset password form (guest only) |
-| GET | `/dashboard` | dashboard | Dashboard (authenticated) |
-| GET | `/settings` | settings | Settings page (authenticated) |
-| GET | `/verify-email` | verification.notice | Email verification notice (authenticated) |
-| GET | `/confirm-password` | password.confirm | Password confirmation (authenticated) |
-| POST | `/logout` | logout | Logout action (authenticated) |
-| GET | `/email/verify/{id}/{hash}` | verification.verify | Email verification link (signed) |
+| GET | `/blog/{slug}` | blog.show | Public blog post |
+
+### Guest Only
+
+| Method | URI | Name | Description |
+|---|---|---|---|
+| GET | `/login` | login | Login form |
+| GET | `/register` | register | Registration form |
+| GET | `/forgot-password` | password.request | Forgot password form |
+| GET | `/reset-password/{token}` | password.reset | Reset password form |
+
+### Authenticated
+
+| Method | URI | Name | Description |
+|---|---|---|---|
+| GET | `/dashboard` | dashboard | User dashboard |
+| GET | `/posts` | posts.index | Posts list |
+| GET | `/posts/create` | posts.create | Create post form |
+| GET | `/posts/{post}/edit` | posts.edit | Edit post form |
+| GET | `/settings` | settings | User settings (profile, password, appearance, API tokens) |
+| GET | `/verify-email` | verification.notice | Email verification notice |
+| GET | `/confirm-password` | password.confirm | Password confirmation |
+| POST | `/logout` | logout | Logout action |
+
+### Admin (requires `admin.access` permission)
+
+| Method | URI | Name | Description |
+|---|---|---|---|
+| GET | `/admin/dashboard` | admin.dashboard | Admin overview with stats |
+| GET | `/admin/users` | admin.users.index | User management |
+| GET | `/admin/users/create` | admin.users.create | Create user |
+| GET | `/admin/users/{user}/edit` | admin.users.edit | Edit user |
+| GET | `/admin/roles` | admin.roles.index | Role management |
+| GET | `/admin/roles/create` | admin.roles.create | Create role |
+| GET | `/admin/roles/{role}/edit` | admin.roles.edit | Edit role |
+| GET | `/admin/payments` | admin.payments | Payment settings, plans, products, transactions |
+
+### Payments (requires payments to be enabled)
+
+| Method | URI | Name | Description |
+|---|---|---|---|
+| GET | `/pricing` | pricing | Pricing page with plans and products |
+| GET | `/billing` | billing | User billing and subscription management |
+| GET | `/checkout/success` | checkout.success | Post-checkout success page |
+| GET | `/checkout/cancel` | checkout.cancel | Post-checkout cancellation page |
+
+### API (Sanctum-authenticated)
+
+| Method | URI | Description |
+|---|---|---|
+| GET | `/api/user` | Authenticated user info |
+| GET | `/api/posts` | List own posts (supports `?status=` filter) |
+| POST | `/api/posts` | Create post |
+| GET | `/api/posts/{post}` | Show post |
+| PUT/PATCH | `/api/posts/{post}` | Update post |
+| DELETE | `/api/posts/{post}` | Delete post |
 
 ## Layouts
 
@@ -192,7 +256,7 @@ The starter kit ships with two interchangeable layouts for authenticated pages.
 #[Layout('components.layouts.app')]
 ```
 
-A fixed left sidebar with navigation links, user avatar with initials, and a dropdown menu for settings/logout.
+A fixed left sidebar with navigation links, notification center, user avatar with initials, and a dropdown menu for settings/logout.
 
 ### Navbar Layout
 
@@ -284,6 +348,16 @@ Toast::info('Check your inbox.');
 | `<x-separator>` | Horizontal/vertical divider with optional text |
 | `<x-typography.heading>` | Page headings |
 | `<x-typography.subheading>` | Secondary text |
+| `<x-toggle>` | Toggle switch |
+| `<x-badge>` | Status badges |
+| `<x-card>` | Content card |
+| `<x-avatar>` | User avatar with initials fallback |
+| `<x-alert>` | Alert messages |
+| `<x-tabs>` | Tabbed navigation |
+| `<x-table>` | Data table with headers and rows |
+| `<x-stat-card>` | Dashboard statistic card |
+| `<x-select>` | Dropdown select input |
+| `<x-textarea>` | Multi-line text input |
 
 ## Dark Mode
 
@@ -309,13 +383,16 @@ php artisan test tests/Feature/Auth/AuthFlowTest.php
 php artisan test --coverage
 ```
 
-The test suite covers:
+The test suite includes **236 tests** with **503 assertions** covering:
 - **Auth flows** -- register, login, logout, forgot/reset password, email verification, password confirmation
-- **End-to-end flow** -- register a user, logout, then login with the same credentials
-- **Validation** -- empty fields, invalid emails, short passwords, mismatched confirmations, duplicate emails
-- **Components** -- button variants/sizes, input types, modal rendering, separator styles
-- **Settings** -- profile update, password change, account deletion
-- **Access control** -- guest redirect to login, authenticated-only pages
+- **Posts** -- CRUD, tags, featured images, SEO fields, data table filters
+- **Admin** -- dashboard stats, user management, role management, payment settings, plan/product CRUD
+- **Payments** -- pricing page visibility, billing page, feature flag behavior
+- **API** -- Sanctum-authenticated post endpoints
+- **Components** -- button, input, modal, separator, textarea, select, toggle, badge, card, avatar, alert, tabs, table
+- **Settings** -- profile update, password change, avatar upload, API tokens, account deletion
+- **Notifications** -- notification center, broadcasting events
+- **Spotlight search** -- post search, page search, keyboard shortcut
 
 ## Customization
 
@@ -392,6 +469,11 @@ In any Livewire component, change the `#[Layout]` attribute:
 - **Invokable Actions** (e.g., `Logout`) follow single-responsibility for non-component logic.
 - **PenguinUI tokens** use semantic names (`surface`, `primary`, `on-surface`, `outline`) instead of raw colors for consistent theming.
 - **The User model** has a `hashed` cast on `password`, so never manually call `Hash::make()` when creating users.
+- **Spatie Media Library** handles all file uploads with `singleFile()` collections, so uploading a new file automatically replaces the old one.
+- **Settings model** uses `Cache::rememberForever` with automatic invalidation on update for zero-cost reads.
+- **Payment system** is fully feature-flagged -- toggling payments off makes all payment routes return 404 and hides UI elements.
+- **Stripe secrets** are encrypted at rest using Laravel's `Crypt::encryptString()`.
+- **Real-time broadcasting** uses per-user private channels, not shared public channels, ensuring notifications reach only intended recipients.
 
 ## License
 
