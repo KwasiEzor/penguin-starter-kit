@@ -8,6 +8,7 @@ use App\Livewire\Auth\Register;
 use App\Livewire\Auth\ResetPassword;
 use App\Livewire\Auth\VerifyEmail;
 use App\Livewire\Admin;
+use App\Livewire\Blog;
 use App\Livewire\Dashboard;
 use App\Livewire\Posts;
 use App\Livewire\Settings;
@@ -15,6 +16,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn () => view('welcome'))->name('home');
+Route::get('/blog/{slug}', Blog\Show::class)->name('blog.show');
 
 // Guest-only auth routes
 Route::middleware('guest')->group(function () {

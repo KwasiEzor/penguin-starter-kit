@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace App\Livewire\Posts;
 
+use App\Events\NewPostPublished;
 use App\Livewire\Concerns\HasToast;
+use App\Models\Post;
+use App\Models\User;
 use App\Notifications\PostPublished;
 use App\Support\Toast;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -23,7 +28,30 @@ final class Create extends Component
 
     public string $status = 'draft';
 
+    public string $slug = '';
+
+    public string $excerpt = '';
+
+    public string $meta_title = '';
+
+    public string $meta_description = '';
+
+    public string $tags_input = '';
+
     public $featured_image;
+
+    private string $previousAutoSlug = '';
+
+    public function updatedTitle(): void
+    {
+        $newAutoSlug = Str::slug($this->title);
+
+        if ($this->slug === '' || $this->slug === $this->previousAutoSlug) {
+            $this->slug = $newAutoSlug;
+        }
+
+        $this->previousAutoSlug = $newAutoSlug;
+    }
 
     public function save(): void
     {
@@ -31,6 +59,11 @@ final class Create extends Component
             'title' => ['required', 'string', 'max:255'],
             'body' => ['required', 'string'],
             'status' => ['required', 'in:draft,published'],
+            'slug' => ['nullable', 'string', 'max:255', 'unique:posts,slug'],
+            'excerpt' => ['nullable', 'string', 'max:500'],
+            'meta_title' => ['nullable', 'string', 'max:60'],
+            'meta_description' => ['nullable', 'string', 'max:160'],
+            'tags_input' => ['nullable', 'string'],
             'featured_image' => ['nullable', 'image', 'max:2048'],
         ]);
 
@@ -40,6 +73,12 @@ final class Create extends Component
 
         $post = Auth::user()->posts()->create($validated);
 
+        // Sync tags
+        if (! empty($this->tags_input)) {
+            $tags = array_filter(array_map('trim', explode(',', $this->tags_input)));
+            $post->syncTags($tags);
+        }
+
         if ($this->featured_image) {
             $post->addMedia($this->featured_image->getRealPath())
                 ->usingFileName($this->featured_image->hashName())
@@ -47,7 +86,9 @@ final class Create extends Component
         }
 
         if ($post->isPublished()) {
-            Auth::user()->notify(new PostPublished($post));
+            $otherUsers = User::where('id', '!=', Auth::id())->get();
+            Notification::send($otherUsers, new PostPublished($post));
+            NewPostPublished::dispatch($post, Auth::user());
         }
 
         Toast::success('Post created successfully.');

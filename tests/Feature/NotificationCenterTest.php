@@ -58,21 +58,24 @@ it('shows empty state when no notifications', function () {
         ->assertSee('No notifications yet');
 });
 
-it('sends notification when post is published', function () {
-    $user = User::factory()->create();
+it('sends notification to other users when post is published', function () {
+    $author = User::factory()->create();
+    $otherUser = User::factory()->create();
 
-    Livewire::actingAs($user)
+    Livewire::actingAs($author)
         ->test(\App\Livewire\Posts\Create::class)
         ->set('title', 'Notify Post')
         ->set('body', 'Content here.')
         ->set('status', 'published')
         ->call('save');
 
-    expect($user->fresh()->notifications()->count())->toBe(1);
+    expect($author->fresh()->notifications()->count())->toBe(0);
+    expect($otherUser->fresh()->notifications()->count())->toBe(1);
 });
 
 it('does not send notification for draft posts', function () {
     $user = User::factory()->create();
+    $otherUser = User::factory()->create();
 
     Livewire::actingAs($user)
         ->test(\App\Livewire\Posts\Create::class)
@@ -82,4 +85,37 @@ it('does not send notification for draft posts', function () {
         ->call('save');
 
     expect($user->fresh()->notifications()->count())->toBe(0);
+    expect($otherUser->fresh()->notifications()->count())->toBe(0);
+});
+
+it('sends notification when draft is changed to published via edit', function () {
+    $author = User::factory()->create();
+    $otherUser = User::factory()->create();
+
+    $post = Post::factory()->for($author)->create([
+        'status' => 'draft',
+        'published_at' => null,
+    ]);
+
+    Livewire::actingAs($author)
+        ->test(\App\Livewire\Posts\Edit::class, ['post' => $post])
+        ->set('status', 'published')
+        ->call('save');
+
+    expect($author->fresh()->notifications()->count())->toBe(0);
+    expect($otherUser->fresh()->notifications()->count())->toBe(1);
+});
+
+it('does not send notification when editing an already published post', function () {
+    $author = User::factory()->create();
+    $otherUser = User::factory()->create();
+
+    $post = Post::factory()->for($author)->published()->create();
+
+    Livewire::actingAs($author)
+        ->test(\App\Livewire\Posts\Edit::class, ['post' => $post])
+        ->set('title', 'Updated Title')
+        ->call('save');
+
+    expect($otherUser->fresh()->notifications()->count())->toBe(0);
 });

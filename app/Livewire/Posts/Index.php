@@ -7,6 +7,7 @@ namespace App\Livewire\Posts;
 use App\Livewire\Concerns\HasToast;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -29,6 +30,9 @@ final class Index extends Component
     #[Url]
     public string $statusFilter = '';
 
+    #[Url]
+    public string $tagFilter = '';
+
     public ?int $deletingPostId = null;
 
     public function sortBy(string $column): void
@@ -49,6 +53,11 @@ final class Index extends Component
     }
 
     public function updatedStatusFilter(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatedTagFilter(): void
     {
         $this->resetPage();
     }
@@ -76,15 +85,31 @@ final class Index extends Component
     public function render()
     {
         $posts = Post::query()
+            ->with('tags')
             ->where('user_id', Auth::id())
             ->when($this->search, fn ($q) => $q->where(function ($q) {
                 $q->where('title', 'like', "%{$this->search}%")
                     ->orWhere('body', 'like', "%{$this->search}%");
             }))
             ->when($this->statusFilter, fn ($q) => $q->where('status', $this->statusFilter))
+            ->when($this->tagFilter, fn ($q) => $q->withAnyTags([$this->tagFilter]))
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate(10);
 
-        return view('livewire.posts.index', compact('posts'));
+        $userPostIds = Post::where('user_id', Auth::id())->pluck('id');
+
+        $availableTags = \Spatie\Tags\Tag::query()
+            ->whereExists(function ($q) use ($userPostIds) {
+                $q->select(\Illuminate\Support\Facades\DB::raw(1))
+                    ->from('taggables')
+                    ->whereColumn('taggables.tag_id', 'tags.id')
+                    ->where('taggables.taggable_type', Post::class)
+                    ->whereIn('taggables.taggable_id', $userPostIds);
+            })
+            ->orderBy('name')
+            ->pluck('name')
+            ->toArray();
+
+        return view('livewire.posts.index', compact('posts', 'availableTags'));
     }
 }

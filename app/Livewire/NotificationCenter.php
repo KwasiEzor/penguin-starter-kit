@@ -4,11 +4,26 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
+use App\Livewire\Concerns\HasToast;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 final class NotificationCenter extends Component
 {
+    use HasToast;
+
+    public function getUserIdProperty(): int
+    {
+        return Auth::id();
+    }
+
+    #[On('echo-private:App.Models.User.{userId},post.published')]
+    public function onPostPublished(array $data): void
+    {
+        $this->toastInfo($data['message'] ?? 'A new post was published.');
+    }
+
     public function markAsRead(string $id): void
     {
         Auth::user()

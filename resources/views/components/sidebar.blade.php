@@ -89,7 +89,7 @@
     </div>
 
     <!-- Notification Center -->
-    <div class="mb-2 flex justify-start px-2">
+    <div class="mb-2">
         @livewire('notification-center')
     </div>
 

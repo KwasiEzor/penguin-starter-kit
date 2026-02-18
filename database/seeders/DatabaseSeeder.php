@@ -15,6 +15,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(RolesAndPermissionsSeeder::class);
 
+        $tags = ['Laravel', 'PHP', 'JavaScript', 'Vue.js', 'Tailwind CSS', 'DevOps', 'Testing', 'API', 'Tutorial', 'News'];
+
         // Admin user
         $adminUser = User::factory()->admin()->create([
             'name' => 'Admin User',
@@ -31,5 +33,11 @@ class DatabaseSeeder extends Seeder
         User::factory(5)
             ->has(Post::factory()->count(3))
             ->create();
+
+        // Attach random tags to all posts
+        Post::all()->each(function (Post $post) use ($tags) {
+            $randomTags = collect($tags)->random(rand(1, 3))->toArray();
+            $post->attachTags($randomTags);
+        });
     }
 }

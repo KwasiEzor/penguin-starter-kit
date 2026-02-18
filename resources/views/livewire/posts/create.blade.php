@@ -16,7 +16,7 @@
     <form wire:submit="save" class="max-w-2xl space-y-6">
         <div>
             <x-input-label for="title" value="{{ __('Title') }}" />
-            <x-input id="title" wire:model="title" class="mt-1" placeholder="{{ __('Post title') }}" />
+            <x-input id="title" wire:model.live.debounce.300ms="title" class="mt-1" placeholder="{{ __('Post title') }}" />
             <x-input-error :messages="$errors->get('title')" class="mt-2" />
         </div>
 
@@ -49,6 +49,46 @@
             </x-select>
             <x-input-error :messages="$errors->get('status')" class="mt-2" />
         </div>
+
+        <div>
+            <x-input-label for="tags_input" value="{{ __('Tags') }}" />
+            <x-input id="tags_input" wire:model="tags_input" class="mt-1" placeholder="{{ __('Laravel, PHP, Tutorial') }}" />
+            <p class="mt-1 text-xs text-on-surface dark:text-on-surface-dark">{{ __('Separate tags with commas') }}</p>
+            <x-input-error :messages="$errors->get('tags_input')" class="mt-2" />
+        </div>
+
+        <!-- SEO Settings -->
+        <details class="rounded-lg border border-outline p-4 dark:border-outline-dark">
+            <summary class="cursor-pointer text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong">{{ __('SEO Settings') }}</summary>
+            <div class="mt-4 space-y-4">
+                <div>
+                    <x-input-label for="slug" value="{{ __('Slug') }}" />
+                    <x-input id="slug" wire:model="slug" class="mt-1" placeholder="{{ __('post-url-slug') }}" />
+                    <x-input-error :messages="$errors->get('slug')" class="mt-2" />
+                </div>
+
+                <div>
+                    <x-input-label for="excerpt" value="{{ __('Excerpt') }}" />
+                    <x-textarea id="excerpt" wire:model="excerpt" rows="2" class="mt-1" placeholder="{{ __('Brief summary of the post...') }}" />
+                    <p class="mt-1 text-xs text-on-surface dark:text-on-surface-dark">{{ __('Leave empty to auto-generate from content') }}</p>
+                    <x-input-error :messages="$errors->get('excerpt')" class="mt-2" />
+                </div>
+
+                <div>
+                    <x-input-label for="meta_title" value="{{ __('Meta Title') }}" />
+                    <x-input id="meta_title" wire:model="meta_title" class="mt-1" placeholder="{{ __('SEO title (max 60 characters)') }}" maxlength="60" />
+                    <p class="mt-1 text-xs text-on-surface dark:text-on-surface-dark">{{ strlen($meta_title) }}/60 {{ __('characters') }}</p>
+                    <x-input-error :messages="$errors->get('meta_title')" class="mt-2" />
+                </div>
+
+                <div>
+                    <x-input-label for="meta_description" value="{{ __('Meta Description') }}" />
+                    <x-textarea id="meta_description" wire:model="meta_description" rows="2" class="mt-1" placeholder="{{ __('SEO description (max 160 characters)') }}" maxlength="160" />
+                    <p class="mt-1 text-xs text-on-surface dark:text-on-surface-dark">{{ strlen($meta_description) }}/160 {{ __('characters') }}</p>
+                    <x-input-error :messages="$errors->get('meta_description')" class="mt-2" />
+                </div>
+            </div>
+        </details>
 
         <div class="flex items-center gap-3">
             <x-button type="submit">{{ __('Create Post') }}</x-button>

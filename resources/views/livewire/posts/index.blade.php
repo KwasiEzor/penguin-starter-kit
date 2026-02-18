@@ -22,6 +22,16 @@
                 <option value="published">{{ __('Published') }}</option>
             </x-select>
         </div>
+        @if (!empty($availableTags))
+            <div class="w-full sm:w-40">
+                <x-select wire:model.live="tagFilter">
+                    <option value="">{{ __('All Tags') }}</option>
+                    @foreach ($availableTags as $tag)
+                        <option value="{{ $tag }}">{{ $tag }}</option>
+                    @endforeach
+                </x-select>
+            </div>
+        @endif
     </div>
 
     <!-- Table -->
@@ -32,6 +42,7 @@
                 <x-table-heading :sortable="true" :direction="$sortBy === 'title' ? $sortDirection : null" wire:click="sortBy('title')">
                     {{ __('Title') }}
                 </x-table-heading>
+                <x-table-heading>{{ __('Tags') }}</x-table-heading>
                 <x-table-heading>{{ __('Status') }}</x-table-heading>
                 <x-table-heading :sortable="true" :direction="$sortBy === 'created_at' ? $sortDirection : null" wire:click="sortBy('created_at')">
                     {{ __('Created') }}
@@ -52,6 +63,13 @@
                     </x-table-cell>
                     <x-table-cell class="font-medium text-on-surface-strong dark:text-on-surface-dark-strong">
                         {{ $post->title }}
+                    </x-table-cell>
+                    <x-table-cell>
+                        <div class="flex flex-wrap gap-1">
+                            @foreach ($post->tags as $tag)
+                                <x-badge size="sm" variant="info">{{ $tag->name }}</x-badge>
+                            @endforeach
+                        </div>
                     </x-table-cell>
                     <x-table-cell>
                         <x-badge :variant="$post->status === 'published' ? 'success' : 'default'">
@@ -81,8 +99,8 @@
     @else
         <x-empty-state
             title="{{ __('No posts found') }}"
-            description="{{ $search || $statusFilter ? __('Try adjusting your search or filters.') : __('Create your first post to get started.') }}">
-            @unless ($search || $statusFilter)
+            description="{{ $search || $statusFilter || $tagFilter ? __('Try adjusting your search or filters.') : __('Create your first post to get started.') }}">
+            @unless ($search || $statusFilter || $tagFilter)
                 <x-slot name="action">
                     <x-button href="{{ route('posts.create') }}">{{ __('Create Post') }}</x-button>
                 </x-slot>

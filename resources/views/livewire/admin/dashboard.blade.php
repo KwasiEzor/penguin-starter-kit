@@ -9,45 +9,27 @@
 
     <!-- Stats Cards -->
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <x-card>
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-on-surface dark:text-on-surface-dark">{{ __('Total Users') }}</p>
-                    <p class="text-2xl font-bold text-on-surface-strong dark:text-on-surface-dark-strong">{{ $totalUsers }}</p>
-                </div>
-                <div class="rounded-full bg-primary/10 p-3 dark:bg-primary-dark/10">
-                    <svg class="size-6 text-primary dark:text-primary-dark" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
-                    </svg>
-                </div>
-            </div>
-        </x-card>
+        <x-stat-card :label="__('Total Users')" :value="$totalUsers" color="primary" :href="route('admin.users.index')">
+            <x-slot:icon>
+                <svg class="size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+                </svg>
+            </x-slot:icon>
+        </x-stat-card>
 
-        <x-card>
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-on-surface dark:text-on-surface-dark">{{ __('Total Posts') }}</p>
-                    <p class="text-2xl font-bold text-on-surface-strong dark:text-on-surface-dark-strong">{{ $totalPosts }}</p>
-                </div>
-                <div class="rounded-full bg-info/10 p-3">
-                    <x-icons.document-text class="size-6 text-info" />
-                </div>
-            </div>
-        </x-card>
+        <x-stat-card :label="__('Total Posts')" :value="$totalPosts" color="info">
+            <x-slot:icon>
+                <x-icons.document-text class="size-6" />
+            </x-slot:icon>
+        </x-stat-card>
 
-        <x-card>
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-on-surface dark:text-on-surface-dark">{{ __('Published') }}</p>
-                    <p class="text-2xl font-bold text-on-surface-strong dark:text-on-surface-dark-strong">{{ $publishedPosts }}</p>
-                </div>
-                <div class="rounded-full bg-success/10 p-3">
-                    <svg class="size-6 text-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>
-                </div>
-            </div>
-        </x-card>
+        <x-stat-card :label="__('Published')" :value="$publishedPosts" color="success">
+            <x-slot:icon>
+                <svg class="size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+            </x-slot:icon>
+        </x-stat-card>
     </div>
 
     <!-- Recent Activity -->
@@ -55,7 +37,10 @@
         <!-- Recent Users -->
         <x-card>
             <x-slot name="header">
-                <x-typography.heading accent>{{ __('Recent Users') }}</x-typography.heading>
+                <div class="flex items-center justify-between">
+                    <x-typography.heading accent>{{ __('Recent Users') }}</x-typography.heading>
+                    <x-button size="xs" variant="ghost" href="{{ route('admin.users.index') }}">{{ __('View all') }}</x-button>
+                </div>
             </x-slot>
             @forelse ($recentUsers as $user)
                 <div class="flex items-center gap-3 {{ !$loop->last ? 'mb-3 pb-3 border-b border-outline dark:border-outline-dark' : '' }}">
@@ -64,7 +49,8 @@
                         <p class="text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong truncate">{{ $user->name }}</p>
                         <p class="text-xs text-on-surface dark:text-on-surface-dark truncate">{{ $user->email }}</p>
                     </div>
-                    <x-badge :variant="$user->isAdmin() ? 'primary' : 'default'" size="sm">{{ ucfirst($user->roles->first()?->name ?? 'user') }}</x-badge>
+                    @php $roleName = $user->roles->first()?->name ?? 'user'; @endphp
+                    <x-badge :variant="$roleName === 'admin' ? 'primary' : ($roleName === 'editor' ? 'info' : 'default')" size="sm">{{ ucfirst($roleName) }}</x-badge>
                 </div>
             @empty
                 <p class="text-sm text-on-surface dark:text-on-surface-dark">{{ __('No users yet.') }}</p>
