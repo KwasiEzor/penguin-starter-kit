@@ -71,44 +71,6 @@
                 </div>
             </div>
 
-            <!-- Delete Account Section -->
-            <div x-show="selectedItem === 'profile'">
-                <div class="mt-5 w-full max-w-xl">
-                    <section class="space-y-6">
-                        <header>
-                            <x-typography.heading class="mb-2" accent>{{ __('Delete account') }}</x-typography.heading>
-                            <x-typography.subheading>{{ __('Delete your account and all of its resources') }}</x-typography.subheading>
-                        </header>
-                        <x-modal name="confirm-user-deletion" :maxWidth="'lg'">
-                            <x-slot name="trigger">
-                                <x-button variant="danger" x-on:click="modalIsOpen = true">{{ __('Delete Account') }}</x-button>
-                            </x-slot>
-                            <x-slot name="header">
-                                <x-typography.subheading accent size="lg">{{ __('Are you sure you want to delete your account?') }}</x-typography.subheading>
-                            </x-slot>
-                            <div class="p-4">
-                                <p class="text-sm text-on-surface dark:text-on-surface-dark">
-                                    {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
-                                </p>
-                                <div class="mt-6">
-                                    <x-input-label for="delete-password" value="{{ __('Password') }}" class="sr-only" />
-                                    <x-input variant="password" id="delete-password" placeholder="{{ __('Password') }}" class="block w-3/4"
-                                        type="password" wire:model="deletePassword" required />
-                                    <x-input-error :messages="$errors->get('deletePassword')" class="mt-2" />
-                                </div>
-                            </div>
-                            <div class="mt-4 flex flex-col-reverse justify-between gap-2 border-t border-outline bg-surface-alt/60 p-4 dark:border-outline-dark dark:bg-surface-dark/20 sm:flex-row sm:items-center md:justify-end">
-                                <x-button variant="ghost" type="button" x-on:click="modalIsOpen = false">
-                                    {{ __('Cancel') }}
-                                </x-button>
-                                <x-button variant="danger" type="button" wire:click="deleteAccount">
-                                    {{ __('Delete Account') }}
-                                </x-button>
-                            </div>
-                        </x-modal>
-                    </section>
-                </div>
-            </div>
         </div>
     </div>
 </div>
