@@ -26,7 +26,7 @@ final class Billing extends Component
         return redirect($user->billingPortalUrl(route('billing')));
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $user = auth()->user();
 

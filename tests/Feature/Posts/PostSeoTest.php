@@ -4,7 +4,7 @@ use App\Models\Post;
 use App\Models\User;
 use Livewire\Livewire;
 
-it('auto-generates slug from title when creating a post', function () {
+it('auto-generates slug from title when creating a post', function (): void {
     $user = User::factory()->create();
 
     Livewire::actingAs($user)
@@ -19,7 +19,7 @@ it('auto-generates slug from title when creating a post', function () {
     expect($post->slug)->toBe('my-amazing-post');
 });
 
-it('generates unique slug on collision', function () {
+it('generates unique slug on collision', function (): void {
     $user = User::factory()->create();
 
     // Create first post with slug
@@ -40,7 +40,7 @@ it('generates unique slug on collision', function () {
     expect($second->slug)->toBe('duplicate-title-2');
 });
 
-it('creates post with all SEO fields', function () {
+it('creates post with all SEO fields', function (): void {
     $user = User::factory()->create();
 
     Livewire::actingAs($user)
@@ -62,7 +62,7 @@ it('creates post with all SEO fields', function () {
     expect($post->meta_description)->toBe('Custom meta description for SEO.');
 });
 
-it('updates SEO fields on an existing post', function () {
+it('updates SEO fields on an existing post', function (): void {
     $user = User::factory()->create();
     $post = Post::factory()->for($user)->create(['slug' => 'original-slug']);
 
@@ -82,7 +82,7 @@ it('updates SEO fields on an existing post', function () {
     expect($post->meta_description)->toBe('Updated description.');
 });
 
-it('auto-generates excerpt from body when empty', function () {
+it('auto-generates excerpt from body when empty', function (): void {
     $user = User::factory()->create();
     $body = str_repeat('This is a long body text. ', 20);
 
@@ -95,7 +95,7 @@ it('auto-generates excerpt from body when empty', function () {
     expect($post->getExcerpt())->toHaveLength(163); // 160 chars + '...'
 });
 
-it('returns custom excerpt when set', function () {
+it('returns custom excerpt when set', function (): void {
     $user = User::factory()->create();
 
     $post = $user->posts()->create([
@@ -108,7 +108,7 @@ it('returns custom excerpt when set', function () {
     expect($post->getExcerpt())->toBe('My custom excerpt.');
 });
 
-it('validates meta_title max 60 characters', function () {
+it('validates meta_title max 60 characters', function (): void {
     $user = User::factory()->create();
 
     Livewire::actingAs($user)
@@ -120,7 +120,7 @@ it('validates meta_title max 60 characters', function () {
         ->assertHasErrors(['meta_title']);
 });
 
-it('validates meta_description max 160 characters', function () {
+it('validates meta_description max 160 characters', function (): void {
     $user = User::factory()->create();
 
     Livewire::actingAs($user)

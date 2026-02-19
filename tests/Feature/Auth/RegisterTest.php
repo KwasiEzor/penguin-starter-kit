@@ -4,13 +4,13 @@ use App\Livewire\Auth\Register;
 use App\Models\User;
 use Livewire\Livewire;
 
-it('renders the register page', function () {
+it('renders the register page', function (): void {
     $this->get(route('register'))
         ->assertOk()
         ->assertSeeLivewire(Register::class);
 });
 
-it('registers a new user', function () {
+it('registers a new user', function (): void {
     Livewire::test(Register::class)
         ->set('form.name', 'Test User')
         ->set('form.email', 'test@example.com')
@@ -23,7 +23,7 @@ it('registers a new user', function () {
     $this->assertAuthenticated();
 });
 
-it('fails with duplicate email', function () {
+it('fails with duplicate email', function (): void {
     User::factory()->create(['email' => 'existing@example.com']);
 
     Livewire::test(Register::class)

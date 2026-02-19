@@ -1,6 +1,6 @@
 <?php
 
-it('renders a modal with trigger and content', function () {
+it('renders a modal with trigger and content', function (): void {
     $view = $this->blade('
         <x-modal>
             <x-slot:trigger>

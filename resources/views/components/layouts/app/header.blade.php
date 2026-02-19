@@ -1,24 +1,21 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        @include('partials.head')
+    </head>
 
-<head>
-    @include('partials.head')
-</head>
+    <body class="min-h-screen bg-surface dark:bg-surface-dark-alt">
+        <x-navbar />
 
-<body class="min-h-screen bg-surface dark:bg-surface-dark-alt">
+        {{ $slot }}
 
-    <x-navbar />
+        @auth
+            @livewire('spotlight-search')
+        @endauth
 
-    {{ $slot }}
+        <x-toast />
 
-    @auth
-        @livewire('spotlight-search')
-    @endauth
-
-    <x-toast />
-
-    @include('partials.scripts')
-    @livewireScriptConfig
-</body>
-
+        @include('partials.scripts')
+        @livewireScriptConfig
+    </body>
 </html>

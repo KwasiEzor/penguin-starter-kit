@@ -7,7 +7,6 @@ namespace App\Livewire\Posts;
 use App\Livewire\Concerns\HasToast;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -16,7 +15,8 @@ use Livewire\WithPagination;
 #[Layout('components.layouts.app')]
 final class Index extends Component
 {
-    use HasToast, WithPagination;
+    use HasToast;
+    use WithPagination;
 
     #[Url]
     public string $search = '';
@@ -82,24 +82,24 @@ final class Index extends Component
         $this->toastSuccess('Post deleted successfully.');
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $posts = Post::query()
             ->with('tags')
             ->where('user_id', Auth::id())
-            ->when($this->search, fn ($q) => $q->where(function ($q) {
-                $q->where('title', 'like', "%{$this->search}%")
-                    ->orWhere('body', 'like', "%{$this->search}%");
+            ->when($this->search, fn (\Illuminate\Database\Eloquent\Builder $q) => $q->where(function (\Illuminate\Database\Eloquent\Builder $q): void {
+                $q->where('title', 'like', sprintf('%%%s%%', $this->search))
+                    ->orWhere('body', 'like', sprintf('%%%s%%', $this->search));
             }))
-            ->when($this->statusFilter, fn ($q) => $q->where('status', $this->statusFilter))
-            ->when($this->tagFilter, fn ($q) => $q->withAnyTags([$this->tagFilter]))
+            ->when($this->statusFilter, fn (\Illuminate\Database\Eloquent\Builder $q) => $q->where('status', $this->statusFilter))
+            ->when($this->tagFilter, fn (\Illuminate\Database\Eloquent\Builder $q) => $q->withAnyTags([$this->tagFilter]))
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate(10);
 
         $userPostIds = Post::where('user_id', Auth::id())->pluck('id');
 
         $availableTags = \Spatie\Tags\Tag::query()
-            ->whereExists(function ($q) use ($userPostIds) {
+            ->whereExists(function (\Illuminate\Database\Query\Builder $q) use ($userPostIds): void {
                 $q->select(\Illuminate\Support\Facades\DB::raw(1))
                     ->from('taggables')
                     ->whereColumn('taggables.tag_id', 'tags.id')
@@ -110,6 +110,6 @@ final class Index extends Component
             ->pluck('name')
             ->toArray();
 
-        return view('livewire.posts.index', compact('posts', 'availableTags'));
+        return view('livewire.posts.index', ['posts' => $posts, 'availableTags' => $availableTags]);
     }
 }

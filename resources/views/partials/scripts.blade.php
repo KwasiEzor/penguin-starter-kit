@@ -1,5 +1,5 @@
 <script>
-    (function() {
+    (function () {
         const ThemeManager = {
             init() {
                 this.theme = localStorage.theme || 'system';
@@ -28,12 +28,12 @@
             },
 
             setupListeners() {
-                this.darkModeMediaQuery.addEventListener('change', e => {
+                this.darkModeMediaQuery.addEventListener('change', (e) => {
                     if (localStorage.theme === 'system') {
                         this.applyTheme();
                     }
                 });
-            }
+            },
         };
 
         ThemeManager.init();

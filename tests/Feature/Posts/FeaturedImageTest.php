@@ -8,7 +8,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 
-it('creates a post with a featured image', function () {
+it('creates a post with a featured image', function (): void {
     Storage::fake('public');
 
     $user = User::factory()->create();
@@ -29,7 +29,7 @@ it('creates a post with a featured image', function () {
     expect($post->getFirstMediaUrl('featured_image'))->not->toBeEmpty();
 });
 
-it('uploads a featured image on edit', function () {
+it('uploads a featured image on edit', function (): void {
     Storage::fake('public');
 
     $user = User::factory()->create();
@@ -47,7 +47,7 @@ it('uploads a featured image on edit', function () {
     expect($post->getFirstMediaUrl('featured_image'))->not->toBeEmpty();
 });
 
-it('removes a featured image', function () {
+it('removes a featured image', function (): void {
     Storage::fake('public');
 
     $user = User::factory()->create();
@@ -65,7 +65,7 @@ it('removes a featured image', function () {
     expect($post->getFirstMediaUrl('featured_image'))->toBeEmpty();
 });
 
-it('validates featured image is an image file', function () {
+it('validates featured image is an image file', function (): void {
     $user = User::factory()->create();
 
     $file = UploadedFile::fake()->create('document.pdf', 100, 'application/pdf');

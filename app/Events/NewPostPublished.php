@@ -14,7 +14,9 @@ use Illuminate\Queue\SerializesModels;
 
 final class NewPostPublished implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
 
     public function __construct(
         public readonly Post $post,
@@ -28,7 +30,7 @@ final class NewPostPublished implements ShouldBroadcast
     {
         return User::where('id', '!=', $this->author->id)
             ->pluck('id')
-            ->map(fn (int $id) => new PrivateChannel("App.Models.User.{$id}"))
+            ->map(fn (int $id): \Illuminate\Broadcasting\PrivateChannel => new PrivateChannel('App.Models.User.'.$id))
             ->all();
     }
 
@@ -46,7 +48,7 @@ final class NewPostPublished implements ShouldBroadcast
             'post_id' => $this->post->id,
             'title' => $this->post->title,
             'author' => $this->author->name,
-            'message' => "\"{$this->post->title}\" was just published by {$this->author->name}.",
+            'message' => sprintf('"%s" was just published by %s.', $this->post->title, $this->author->name),
         ];
     }
 }

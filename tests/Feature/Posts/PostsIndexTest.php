@@ -4,7 +4,7 @@ use App\Models\Post;
 use App\Models\User;
 use Livewire\Livewire;
 
-it('renders the posts index for authenticated users', function () {
+it('renders the posts index for authenticated users', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user)
@@ -12,12 +12,12 @@ it('renders the posts index for authenticated users', function () {
         ->assertOk();
 });
 
-it('redirects guests to login', function () {
+it('redirects guests to login', function (): void {
     $this->get(route('posts.index'))
         ->assertRedirect(route('login'));
 });
 
-it('shows only the authenticated users posts', function () {
+it('shows only the authenticated users posts', function (): void {
     $user = User::factory()->create();
     $otherUser = User::factory()->create();
 
@@ -30,7 +30,7 @@ it('shows only the authenticated users posts', function () {
         ->assertDontSee('Other Post');
 });
 
-it('can search posts', function () {
+it('can search posts', function (): void {
     $user = User::factory()->create();
     Post::factory()->for($user)->create(['title' => 'Laravel Tips']);
     Post::factory()->for($user)->create(['title' => 'Vue Guide']);
@@ -42,7 +42,7 @@ it('can search posts', function () {
         ->assertDontSee('Vue Guide');
 });
 
-it('can filter posts by status', function () {
+it('can filter posts by status', function (): void {
     $user = User::factory()->create();
     Post::factory()->for($user)->published()->create(['title' => 'Published One']);
     Post::factory()->for($user)->draft()->create(['title' => 'Draft One']);
@@ -54,7 +54,7 @@ it('can filter posts by status', function () {
         ->assertDontSee('Draft One');
 });
 
-it('can delete a post', function () {
+it('can delete a post', function (): void {
     $user = User::factory()->create();
     $post = Post::factory()->for($user)->create();
 
@@ -66,7 +66,7 @@ it('can delete a post', function () {
     $this->assertDatabaseMissing('posts', ['id' => $post->id]);
 });
 
-it('shows empty state when no posts exist', function () {
+it('shows empty state when no posts exist', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user)

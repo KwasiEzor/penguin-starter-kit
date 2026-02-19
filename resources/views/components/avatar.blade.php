@@ -18,9 +18,15 @@
 @endphp
 
 @if ($src)
-    <img src="{{ $src }}" alt="{{ $alt }}" {{ $attributes->merge(['class' => "inline-block rounded-full object-cover {$sizeClass}"]) }} />
+    <img
+        src="{{ $src }}"
+        alt="{{ $alt }}"
+        {{ $attributes->merge(['class' => "inline-block rounded-full object-cover {$sizeClass}"]) }}
+    />
 @else
-    <span {{ $attributes->merge(['class' => "inline-flex items-center justify-center rounded-full bg-primary font-medium text-on-primary dark:bg-primary-dark dark:text-on-primary-dark {$sizeClass}"]) }}>
+    <span
+        {{ $attributes->merge(['class' => "inline-flex items-center justify-center rounded-full bg-primary font-medium text-on-primary dark:bg-primary-dark dark:text-on-primary-dark {$sizeClass}"]) }}
+    >
         {{ $initials ?? '?' }}
     </span>
 @endif

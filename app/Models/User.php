@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Enums\RoleEnum;
@@ -16,8 +18,12 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasMedia, MustVerifyEmail
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use Billable, HasApiTokens, HasFactory, HasRoles, InteractsWithMedia, Notifiable;
+    use Billable;
+    use HasApiTokens;
+    use HasFactory;
+    use HasRoles;
+    use InteractsWithMedia;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -71,7 +77,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     public function initials(): string
     {
         return collect(explode(' ', $this->name))
-            ->map(fn ($part) => strtoupper(substr($part, 0, 1)))
+            ->map(fn (string $part) => strtoupper(substr($part, 0, 1)))
             ->take(2)
             ->implode('');
     }

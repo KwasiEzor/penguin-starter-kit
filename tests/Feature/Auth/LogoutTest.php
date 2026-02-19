@@ -2,7 +2,7 @@
 
 use App\Models\User;
 
-it('logs out an authenticated user', function () {
+it('logs out an authenticated user', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user)
@@ -12,7 +12,7 @@ it('logs out an authenticated user', function () {
     $this->assertGuest();
 });
 
-it('flashes a toast message on logout', function () {
+it('flashes a toast message on logout', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user)

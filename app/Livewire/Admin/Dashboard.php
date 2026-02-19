@@ -14,7 +14,7 @@ use Livewire\Component;
 #[Layout('components.layouts.app')]
 final class Dashboard extends Component
 {
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $data = [
             'totalUsers' => User::count(),
@@ -26,7 +26,7 @@ final class Dashboard extends Component
         ];
 
         if ($data['paymentsEnabled']) {
-            $data['activeSubscriptions'] = User::whereHas('subscriptions', function ($q) {
+            $data['activeSubscriptions'] = User::whereHas('subscriptions', function (\Illuminate\Database\Eloquent\Builder $q): void {
                 $q->where('stripe_status', 'active');
             })->count();
             $data['monthlyRevenue'] = Order::where('status', 'completed')

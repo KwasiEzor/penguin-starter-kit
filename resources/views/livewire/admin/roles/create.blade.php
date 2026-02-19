@@ -32,9 +32,15 @@
                         <div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
                             @foreach ($permissions as $permission)
                                 <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="checkbox" wire:model="selectedPermissions" value="{{ $permission->value }}"
-                                        class="rounded border-outline text-primary focus:ring-primary dark:border-outline-dark dark:bg-surface-dark dark:text-primary-dark dark:focus:ring-primary-dark" />
-                                    <span class="text-sm text-on-surface-strong dark:text-on-surface-dark-strong">{{ $permission->label() }}</span>
+                                    <input
+                                        type="checkbox"
+                                        wire:model="selectedPermissions"
+                                        value="{{ $permission->value }}"
+                                        class="rounded border-outline text-primary focus:ring-primary dark:border-outline-dark dark:bg-surface-dark dark:text-primary-dark dark:focus:ring-primary-dark"
+                                    />
+                                    <span class="text-sm text-on-surface-strong dark:text-on-surface-dark-strong">
+                                        {{ $permission->label() }}
+                                    </span>
                                 </label>
                             @endforeach
                         </div>

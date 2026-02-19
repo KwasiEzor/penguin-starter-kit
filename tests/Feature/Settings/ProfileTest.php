@@ -4,7 +4,7 @@ use App\Livewire\Settings\Profile;
 use App\Models\User;
 use Livewire\Livewire;
 
-it('renders the profile settings component', function () {
+it('renders the profile settings component', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);
@@ -14,7 +14,7 @@ it('renders the profile settings component', function () {
         ->assertSee('Profile');
 });
 
-it('updates the user profile', function () {
+it('updates the user profile', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);
@@ -30,7 +30,7 @@ it('updates the user profile', function () {
     expect($user->email)->toBe('updated@example.com');
 });
 
-it('resets email verification when email changes', function () {
+it('resets email verification when email changes', function (): void {
     $user = User::factory()->create(['email_verified_at' => now()]);
 
     $this->actingAs($user);
@@ -43,7 +43,7 @@ it('resets email verification when email changes', function () {
     expect($user->email_verified_at)->toBeNull();
 });
 
-it('validates profile fields', function () {
+it('validates profile fields', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);

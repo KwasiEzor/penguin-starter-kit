@@ -50,7 +50,7 @@ final class Index extends Component
         $this->toastSuccess('Role deleted successfully.');
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $roles = Role::withCount(['users', 'permissions'])->get();
 

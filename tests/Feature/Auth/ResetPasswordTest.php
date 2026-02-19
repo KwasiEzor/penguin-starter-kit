@@ -8,13 +8,13 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Livewire\Livewire;
 
-it('renders the reset password page', function () {
+it('renders the reset password page', function (): void {
     $this->get(route('password.reset', ['token' => 'test-token']))
         ->assertOk()
         ->assertSeeLivewire(ResetPassword::class);
 });
 
-it('resets the password with valid token', function () {
+it('resets the password with valid token', function (): void {
     Event::fake();
 
     $user = User::factory()->create();
@@ -34,7 +34,7 @@ it('resets the password with valid token', function () {
     Event::assertDispatched(PasswordReset::class);
 });
 
-it('fails with invalid token', function () {
+it('fails with invalid token', function (): void {
     $user = User::factory()->create();
 
     Livewire::test(ResetPassword::class, ['token' => 'invalid-token'])

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
 use Livewire\Livewire;
 
-it('renders the verify email page', function () {
+it('renders the verify email page', function (): void {
     $user = User::factory()->unverified()->create();
 
     $this->actingAs($user)
@@ -16,7 +16,7 @@ it('renders the verify email page', function () {
         ->assertSeeLivewire(VerifyEmail::class);
 });
 
-it('can resend verification email', function () {
+it('can resend verification email', function (): void {
     Notification::fake();
 
     $user = User::factory()->unverified()->create();
@@ -29,13 +29,13 @@ it('can resend verification email', function () {
     Notification::assertSentTo($user, VerifyEmailNotification::class);
 });
 
-it('can verify email with valid link', function () {
+it('can verify email with valid link', function (): void {
     $user = User::factory()->unverified()->create();
 
     $verificationUrl = URL::temporarySignedRoute(
         'verification.verify',
         now()->addMinutes(60),
-        ['id' => $user->id, 'hash' => sha1($user->email)]
+        ['id' => $user->id, 'hash' => sha1((string) $user->email)]
     );
 
     $this->actingAs($user)
@@ -45,7 +45,7 @@ it('can verify email with valid link', function () {
     expect($user->fresh()->hasVerifiedEmail())->toBeTrue();
 });
 
-it('redirects verified users', function () {
+it('redirects verified users', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);

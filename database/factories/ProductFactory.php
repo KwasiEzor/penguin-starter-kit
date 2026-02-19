@@ -16,7 +16,7 @@ class ProductFactory extends Factory
             'name' => fake()->words(2, true),
             'description' => fake()->sentence(),
             'price' => fake()->randomElement([999, 1999, 4999, 9999]),
-            'stripe_price_id' => 'price_' . fake()->unique()->bothify('??????????'),
+            'stripe_price_id' => 'price_'.fake()->unique()->bothify('??????????'),
             'is_active' => true,
             'sort_order' => fake()->numberBetween(0, 10),
         ];

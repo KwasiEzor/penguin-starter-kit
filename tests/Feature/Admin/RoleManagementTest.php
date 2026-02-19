@@ -5,7 +5,7 @@ use App\Models\User;
 use Livewire\Livewire;
 use Spatie\Permission\Models\Role;
 
-it('renders the roles index for admin', function () {
+it('renders the roles index for admin', function (): void {
     $admin = User::factory()->admin()->create();
 
     $this->actingAs($admin)
@@ -14,7 +14,7 @@ it('renders the roles index for admin', function () {
         ->assertSee('Roles');
 });
 
-it('forbids non-admin from accessing roles index', function () {
+it('forbids non-admin from accessing roles index', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user)
@@ -22,7 +22,7 @@ it('forbids non-admin from accessing roles index', function () {
         ->assertForbidden();
 });
 
-it('shows all roles with user and permission counts', function () {
+it('shows all roles with user and permission counts', function (): void {
     $admin = User::factory()->admin()->create();
 
     $this->actingAs($admin)
@@ -32,7 +32,7 @@ it('shows all roles with user and permission counts', function () {
         ->assertSee('User');
 });
 
-it('renders the create role page', function () {
+it('renders the create role page', function (): void {
     $admin = User::factory()->admin()->create();
 
     $this->actingAs($admin)
@@ -41,7 +41,7 @@ it('renders the create role page', function () {
         ->assertSee('Create Role');
 });
 
-it('can create a role with permissions', function () {
+it('can create a role with permissions', function (): void {
     $admin = User::factory()->admin()->create();
 
     Livewire::actingAs($admin)
@@ -55,7 +55,7 @@ it('can create a role with permissions', function () {
     expect($role->permissions->pluck('name')->toArray())->toContain('posts.view', 'posts.edit');
 });
 
-it('renders the edit role page', function () {
+it('renders the edit role page', function (): void {
     $admin = User::factory()->admin()->create();
     $role = Role::where('name', 'editor')->first();
 
@@ -65,7 +65,7 @@ it('renders the edit role page', function () {
         ->assertSee('Edit Role');
 });
 
-it('can update a role', function () {
+it('can update a role', function (): void {
     $admin = User::factory()->admin()->create();
     $role = Role::create(['name' => 'custom-role', 'guard_name' => 'web']);
 
@@ -80,7 +80,7 @@ it('can update a role', function () {
     expect($role->permissions->pluck('name')->toArray())->toContain('admin.access', 'users.view');
 });
 
-it('cannot delete the admin role', function () {
+it('cannot delete the admin role', function (): void {
     $admin = User::factory()->admin()->create();
     $adminRole = Role::where('name', 'admin')->first();
 
@@ -92,7 +92,7 @@ it('cannot delete the admin role', function () {
     expect(Role::where('name', 'admin')->exists())->toBeTrue();
 });
 
-it('cannot delete a role with users', function () {
+it('cannot delete a role with users', function (): void {
     $admin = User::factory()->admin()->create();
     $user = User::factory()->create();
 
@@ -106,7 +106,7 @@ it('cannot delete a role with users', function () {
     expect(Role::where('name', 'user')->exists())->toBeTrue();
 });
 
-it('can delete a role with no users', function () {
+it('can delete a role with no users', function (): void {
     $admin = User::factory()->admin()->create();
     $emptyRole = Role::create(['name' => 'empty-role', 'guard_name' => 'web']);
 

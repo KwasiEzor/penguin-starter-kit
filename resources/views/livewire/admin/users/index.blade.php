@@ -35,14 +35,26 @@
         <x-table>
             <x-slot name="head">
                 <x-table-heading>{{ __('Avatar') }}</x-table-heading>
-                <x-table-heading :sortable="true" :direction="$sortBy === 'name' ? $sortDirection : null" wire:click="sortBy('name')">
+                <x-table-heading
+                    :sortable="true"
+                    :direction="$sortBy === 'name' ? $sortDirection : null"
+                    wire:click="sortBy('name')"
+                >
                     {{ __('Name') }}
                 </x-table-heading>
-                <x-table-heading :sortable="true" :direction="$sortBy === 'email' ? $sortDirection : null" wire:click="sortBy('email')">
+                <x-table-heading
+                    :sortable="true"
+                    :direction="$sortBy === 'email' ? $sortDirection : null"
+                    wire:click="sortBy('email')"
+                >
                     {{ __('Email') }}
                 </x-table-heading>
                 <x-table-heading>{{ __('Role') }}</x-table-heading>
-                <x-table-heading :sortable="true" :direction="$sortBy === 'created_at' ? $sortDirection : null" wire:click="sortBy('created_at')">
+                <x-table-heading
+                    :sortable="true"
+                    :direction="$sortBy === 'created_at' ? $sortDirection : null"
+                    wire:click="sortBy('created_at')"
+                >
                     {{ __('Created') }}
                 </x-table-heading>
                 <x-table-heading>{{ __('Actions') }}</x-table-heading>
@@ -60,8 +72,13 @@
                         {{ $user->email }}
                     </x-table-cell>
                     <x-table-cell>
-                        @php $roleName = $user->roles->first()?->name ?? 'user'; @endphp
-                        <x-badge :variant="$roleName === 'admin' ? 'primary' : ($roleName === 'editor' ? 'info' : 'default')">
+                        @php
+                            $roleName = $user->roles->first()?->name ?? 'user';
+                        @endphp
+
+                        <x-badge
+                            :variant="$roleName === 'admin' ? 'primary' : ($roleName === 'editor' ? 'info' : 'default')"
+                        >
                             {{ ucfirst($roleName) }}
                         </x-badge>
                     </x-table-cell>
@@ -74,7 +91,12 @@
                                 {{ __('Edit') }}
                             </x-button>
                             @if ($user->id !== auth()->id())
-                                <x-button size="xs" variant="ghost" wire:click="confirmDelete({{ $user->id }})" class="text-danger hover:text-danger">
+                                <x-button
+                                    size="xs"
+                                    variant="ghost"
+                                    wire:click="confirmDelete({{ $user->id }})"
+                                    class="text-danger hover:text-danger"
+                                >
                                     {{ __('Delete') }}
                                 </x-button>
                             @endif
@@ -90,7 +112,8 @@
     @else
         <x-empty-state
             title="{{ __('No users found') }}"
-            description="{{ $search || $roleFilter ? __('Try adjusting your search or filters.') : __('Create your first user to get started.') }}">
+            description="{{ $search || $roleFilter ? __('Try adjusting your search or filters.') : __('Create your first user to get started.') }}"
+        >
             @unless ($search || $roleFilter)
                 <x-slot name="action">
                     <x-button href="{{ route('admin.users.create') }}">{{ __('Create User') }}</x-button>
@@ -110,7 +133,9 @@
                 {{ __('Are you sure you want to delete this user? This action cannot be undone.') }}
             </p>
         </div>
-        <div class="flex flex-col-reverse justify-between gap-2 border-t border-outline bg-surface-alt/60 p-4 dark:border-outline-dark dark:bg-surface-dark/20 sm:flex-row sm:items-center md:justify-end">
+        <div
+            class="flex flex-col-reverse justify-between gap-2 border-t border-outline bg-surface-alt/60 p-4 dark:border-outline-dark dark:bg-surface-dark/20 sm:flex-row sm:items-center md:justify-end"
+        >
             <x-button variant="ghost" type="button" wire:click="cancelDelete">{{ __('Cancel') }}</x-button>
             <x-button variant="danger" type="button" wire:click="deleteUser">{{ __('Delete User') }}</x-button>
         </div>

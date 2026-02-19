@@ -5,9 +5,7 @@
 ])
 
 @php
-    $borderClass = $strong
-        ? 'border-outline-strong dark:border-outline-strong'
-        : 'border-outline dark:border-outline-dark';
+    $borderClass = $strong ? 'border-outline-strong dark:border-outline-strong' : 'border-outline dark:border-outline-dark';
 @endphp
 
 @if ($text)
@@ -18,10 +16,12 @@
     </div>
 @else
     <div
-        {{ $attributes->class([
-            'border-t' => !$vertical,
-            'border-l h-full' => $vertical,
-            $borderClass,
-        ]) }}>
-    </div>
+        {{
+            $attributes->class([
+                'border-t' => ! $vertical,
+                'border-l h-full' => $vertical,
+                $borderClass,
+            ])
+        }}
+    ></div>
 @endif

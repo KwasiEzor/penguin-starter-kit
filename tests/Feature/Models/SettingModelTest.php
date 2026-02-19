@@ -3,21 +3,21 @@
 use App\Models\Setting;
 use Illuminate\Support\Facades\Cache;
 
-it('can set and get a value', function () {
+it('can set and get a value', function (): void {
     Setting::set('test.key', 'test-value');
 
     expect(Setting::get('test.key'))->toBe('test-value');
 });
 
-it('returns default when key does not exist', function () {
+it('returns default when key does not exist', function (): void {
     expect(Setting::get('nonexistent.key', 'default'))->toBe('default');
 });
 
-it('returns null when key does not exist and no default', function () {
+it('returns null when key does not exist and no default', function (): void {
     expect(Setting::get('nonexistent.key'))->toBeNull();
 });
 
-it('caches values', function () {
+it('caches values', function (): void {
     Setting::set('cached.key', 'cached-value');
 
     // Value should be cached
@@ -28,7 +28,7 @@ it('caches values', function () {
     expect(Cache::has('setting.cached.key'))->toBeTrue();
 });
 
-it('clears cache when setting a value', function () {
+it('clears cache when setting a value', function (): void {
     Setting::set('clear.key', 'value1');
     Setting::get('clear.key'); // populate cache
 
@@ -36,11 +36,11 @@ it('clears cache when setting a value', function () {
     expect(Setting::get('clear.key'))->toBe('value2');
 });
 
-it('reports payments as disabled by default', function () {
+it('reports payments as disabled by default', function (): void {
     expect(Setting::paymentsEnabled())->toBeFalse();
 });
 
-it('reports payments as enabled when setting is true', function () {
+it('reports payments as enabled when setting is true', function (): void {
     Setting::set('payments.enabled', '1', 'payments');
 
     // Clear the cache from previous get calls
@@ -49,14 +49,14 @@ it('reports payments as enabled when setting is true', function () {
     expect(Setting::paymentsEnabled())->toBeTrue();
 });
 
-it('stores settings with group', function () {
+it('stores settings with group', function (): void {
     Setting::set('grouped.key', 'value', 'custom-group');
 
     $setting = Setting::where('key', 'grouped.key')->first();
     expect($setting->group)->toBe('custom-group');
 });
 
-it('updates existing setting instead of creating duplicate', function () {
+it('updates existing setting instead of creating duplicate', function (): void {
     Setting::set('unique.key', 'value1');
     Setting::set('unique.key', 'value2');
 

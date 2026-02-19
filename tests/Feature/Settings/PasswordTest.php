@@ -5,7 +5,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Livewire;
 
-it('renders the password settings component', function () {
+it('renders the password settings component', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);
@@ -15,7 +15,7 @@ it('renders the password settings component', function () {
         ->assertSee('Update password');
 });
 
-it('updates the user password', function () {
+it('updates the user password', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);
@@ -31,7 +31,7 @@ it('updates the user password', function () {
     expect(Hash::check('new-password', $user->password))->toBeTrue();
 });
 
-it('fails with wrong current password', function () {
+it('fails with wrong current password', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);
@@ -44,7 +44,7 @@ it('fails with wrong current password', function () {
         ->assertHasErrors('current_password');
 });
 
-it('fails when passwords do not match', function () {
+it('fails when passwords do not match', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);

@@ -38,7 +38,7 @@ class Plan extends Model
 
     protected static function booted(): void
     {
-        static::creating(function (Plan $plan) {
+        static::creating(function (Plan $plan): void {
             if (empty($plan->slug)) {
                 $plan->slug = Str::slug($plan->name);
             }
@@ -47,6 +47,6 @@ class Plan extends Model
 
     public function formattedPrice(): string
     {
-        return '$' . number_format($this->price / 100, 2);
+        return '$'.number_format($this->price / 100, 2);
     }
 }

@@ -1,7 +1,9 @@
 <section class="space-y-6">
     <header>
         <x-typography.heading class="mb-2" accent>{{ __('API Tokens') }}</x-typography.heading>
-        <x-typography.subheading>{{ __('Create and manage API tokens for external access') }}</x-typography.subheading>
+        <x-typography.subheading>
+            {{ __('Create and manage API tokens for external access') }}
+        </x-typography.subheading>
     </header>
 
     <!-- Create Token -->
@@ -25,12 +27,24 @@
     @if ($tokens->count())
         <div class="space-y-2">
             @foreach ($tokens as $token)
-                <div wire:key="token-{{ $token->id }}" class="flex items-center justify-between rounded-radius border border-outline p-3 dark:border-outline-dark">
+                <div
+                    wire:key="token-{{ $token->id }}"
+                    class="flex items-center justify-between rounded-radius border border-outline p-3 dark:border-outline-dark"
+                >
                     <div>
-                        <p class="text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong">{{ $token->name }}</p>
-                        <p class="text-xs text-on-surface dark:text-on-surface-dark">{{ __('Created') }} {{ $token->created_at->diffForHumans() }}</p>
+                        <p class="text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong">
+                            {{ $token->name }}
+                        </p>
+                        <p class="text-xs text-on-surface dark:text-on-surface-dark">
+                            {{ __('Created') }} {{ $token->created_at->diffForHumans() }}
+                        </p>
                     </div>
-                    <x-button size="xs" variant="ghost" wire:click="confirmDelete({{ $token->id }})" class="text-danger">
+                    <x-button
+                        size="xs"
+                        variant="ghost"
+                        wire:click="confirmDelete({{ $token->id }})"
+                        class="text-danger"
+                    >
                         {{ __('Revoke') }}
                     </x-button>
                 </div>
@@ -44,7 +58,9 @@
             {{ __('Are you sure you want to revoke this token?') }}
             <div class="mt-2 flex gap-2">
                 <x-button size="xs" variant="danger" wire:click="deleteToken">{{ __('Revoke') }}</x-button>
-                <x-button size="xs" variant="ghost" wire:click="$set('deletingTokenId', null)">{{ __('Cancel') }}</x-button>
+                <x-button size="xs" variant="ghost" wire:click="$set('deletingTokenId', null)">
+                    {{ __('Cancel') }}
+                </x-button>
             </div>
         </x-alert>
     @endif

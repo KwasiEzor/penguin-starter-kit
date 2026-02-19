@@ -12,7 +12,7 @@ final class TransactionList extends Component
 {
     use WithPagination;
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         return view('livewire.admin.payments.transaction-list', [
             'orders' => Order::with(['user', 'product'])

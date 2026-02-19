@@ -26,7 +26,7 @@ final class PostPublished extends Notification
         return [
             'post_id' => $this->post->id,
             'title' => $this->post->title,
-            'message' => "The post \"{$this->post->title}\" has been published.",
+            'message' => sprintf('The post "%s" has been published.', $this->post->title),
         ];
     }
 }

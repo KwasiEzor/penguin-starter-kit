@@ -35,7 +35,7 @@ final class Pricing extends Component
 
         return $user->newSubscription('default', $plan->stripe_price_id)
             ->checkout([
-                'success_url' => route('checkout.success') . '?session_id={CHECKOUT_SESSION_ID}',
+                'success_url' => route('checkout.success').'?session_id={CHECKOUT_SESSION_ID}',
                 'cancel_url' => route('checkout.cancel'),
             ])
             ->toArray()['url'] ?? null;
@@ -52,7 +52,7 @@ final class Pricing extends Component
         }
 
         return auth()->user()->checkout([$product->stripe_price_id => 1], [
-            'success_url' => route('checkout.success') . '?session_id={CHECKOUT_SESSION_ID}',
+            'success_url' => route('checkout.success').'?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('checkout.cancel'),
             'metadata' => [
                 'product_id' => $product->id,
@@ -60,7 +60,7 @@ final class Pricing extends Component
         ])->toArray()['url'] ?? null;
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         return view('livewire.pricing', [
             'plans' => Plan::where('is_active', true)->orderBy('sort_order')->orderBy('price')->get(),

@@ -30,6 +30,7 @@
                                 default => 'default',
                             };
                         @endphp
+
                         <x-badge :variant="$variant" size="sm">{{ ucfirst($order->status) }}</x-badge>
                     </x-table-cell>
                     <x-table-cell>{{ $order->created_at->format('M d, Y H:i') }}</x-table-cell>
@@ -41,6 +42,9 @@
             {{ $orders->links() }}
         </div>
     @else
-        <x-empty-state title="{{ __('No transactions yet') }}" description="{{ __('Transactions will appear here when customers make purchases.') }}" />
+        <x-empty-state
+            title="{{ __('No transactions yet') }}"
+            description="{{ __('Transactions will appear here when customers make purchases.') }}"
+        />
     @endif
 </div>

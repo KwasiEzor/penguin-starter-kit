@@ -6,7 +6,7 @@
 
 @php
     $baseClasses = 'cursor-pointer flex items-center justify-center gap-2 rounded-radius text-center tracking-wide hover:opacity-75 focus-visible:outline focus-visible:outline-2
-focus-visible:outline-offset-2 active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed';
+        focus-visible:outline-offset-2 active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed';
 
     $sizes = [
         'xs' => 'px-2 py-1 text-xs',
@@ -26,8 +26,7 @@ focus-visible:outline-offset-2 active:opacity-100 active:outline-offset-0 disabl
         'warning' => 'border bg-warning border-warning text-on-warning font-bold focus-visible:outline-warning',
     ];
 
-    $classes =
-        $baseClasses . ' ' . ($variants[$variant] ?? $variants['primary']) . ' ' . ($sizes[$size] ?? $sizes['md']);
+    $classes = $baseClasses . ' ' . ($variants[$variant] ?? $variants['primary']) . ' ' . ($sizes[$size] ?? $sizes['md']);
 @endphp
 
 @if ($href)

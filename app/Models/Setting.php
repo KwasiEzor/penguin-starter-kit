@@ -14,7 +14,7 @@ class Setting extends Model
 
     public static function get(string $key, mixed $default = null): mixed
     {
-        return Cache::rememberForever("setting.{$key}", function () use ($key, $default) {
+        return Cache::rememberForever('setting.'.$key, function () use ($key, $default) {
             try {
                 if (! Schema::hasTable('settings')) {
                     return $default;
@@ -22,7 +22,7 @@ class Setting extends Model
 
                 $setting = static::where('key', $key)->first();
 
-                return $setting?->value ?? $default;
+                return $setting->value ?? $default;
             } catch (\Exception) {
                 return $default;
             }
@@ -36,7 +36,7 @@ class Setting extends Model
             ['value' => $value, 'group' => $group],
         );
 
-        Cache::forget("setting.{$key}");
+        Cache::forget('setting.'.$key);
     }
 
     public static function paymentsEnabled(): bool

@@ -35,7 +35,7 @@ class UserFactory extends Factory
 
     public function configure(): static
     {
-        return $this->afterCreating(function ($user) {
+        return $this->afterCreating(function ($user): void {
             if ($user->roles()->count() === 0) {
                 $user->assignRole(RoleEnum::User);
             }
@@ -47,21 +47,21 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn (array $attributes): array => [
             'email_verified_at' => null,
         ]);
     }
 
     public function admin(): static
     {
-        return $this->afterCreating(function ($user) {
+        return $this->afterCreating(function ($user): void {
             $user->syncRoles(RoleEnum::Admin);
         });
     }
 
     public function editor(): static
     {
-        return $this->afterCreating(function ($user) {
+        return $this->afterCreating(function ($user): void {
             $user->syncRoles(RoleEnum::Editor);
         });
     }

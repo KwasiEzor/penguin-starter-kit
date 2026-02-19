@@ -26,7 +26,7 @@ final class Create extends Component
 
     public string $role = 'user';
 
-    public $avatar;
+    public ?\Livewire\Features\SupportFileUploads\TemporaryUploadedFile $avatar = null;
 
     public function save(): void
     {
@@ -48,7 +48,7 @@ final class Create extends Component
 
         $user->assignRole(RoleEnum::from($validated['role']));
 
-        if ($this->avatar) {
+        if ($this->avatar instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile) {
             $user->addMedia($this->avatar->getRealPath())
                 ->usingFileName($this->avatar->hashName())
                 ->toMediaCollection('avatar');
@@ -59,7 +59,7 @@ final class Create extends Component
         $this->redirect(route('admin.users.index'), navigate: true);
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         return view('livewire.admin.users.create', [
             'roles' => RoleEnum::cases(),

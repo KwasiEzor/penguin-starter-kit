@@ -3,7 +3,7 @@
 use App\Models\User;
 use Livewire\Livewire;
 
-it('renders the create post page', function () {
+it('renders the create post page', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user)
@@ -11,7 +11,7 @@ it('renders the create post page', function () {
         ->assertOk();
 });
 
-it('creates a post with valid data', function () {
+it('creates a post with valid data', function (): void {
     $user = User::factory()->create();
 
     Livewire::actingAs($user)
@@ -29,7 +29,7 @@ it('creates a post with valid data', function () {
     ]);
 });
 
-it('sets published_at when status is published', function () {
+it('sets published_at when status is published', function (): void {
     $user = User::factory()->create();
 
     Livewire::actingAs($user)
@@ -43,7 +43,7 @@ it('sets published_at when status is published', function () {
     expect($post->published_at)->not->toBeNull();
 });
 
-it('validates required fields', function () {
+it('validates required fields', function (): void {
     $user = User::factory()->create();
 
     Livewire::actingAs($user)

@@ -14,8 +14,9 @@ use Spatie\Tags\HasTags;
 
 class Post extends Model implements HasMedia
 {
-    /** @use HasFactory<\Database\Factories\PostFactory> */
-    use HasFactory, HasTags, InteractsWithMedia;
+    use HasFactory;
+    use HasTags;
+    use InteractsWithMedia;
 
     protected $fillable = [
         'title',
@@ -37,13 +38,13 @@ class Post extends Model implements HasMedia
 
     protected static function booted(): void
     {
-        static::creating(function (Post $post) {
+        static::creating(function (Post $post): void {
             if (empty($post->slug)) {
                 $post->slug = static::generateUniqueSlug($post->title);
             }
         });
 
-        static::updating(function (Post $post) {
+        static::updating(function (Post $post): void {
             if (empty($post->slug)) {
                 $post->slug = static::generateUniqueSlug($post->title, $post->id);
             }
@@ -58,10 +59,10 @@ class Post extends Model implements HasMedia
 
         while (static::query()
             ->where('slug', $slug)
-            ->when($excludeId, fn ($q) => $q->where('id', '!=', $excludeId))
+            ->when($excludeId, fn (\Illuminate\Database\Eloquent\Builder $q) => $q->where('id', '!=', $excludeId))
             ->exists()
         ) {
-            $slug = $baseSlug . '-' . $counter++;
+            $slug = $baseSlug.'-'.$counter++;
         }
 
         return $slug;

@@ -1,5 +1,8 @@
 <div class="flex flex-col gap-6">
-    <x-auth-header title="Confirm password" description="This is a secure area of the application. Please confirm your password before continuing." />
+    <x-auth-header
+        title="Confirm password"
+        description="This is a secure area of the application. Please confirm your password before continuing."
+    />
 
     <!-- Session Status -->
     <x-auth-session-status class="text-center" :status="session('status')" />
@@ -8,9 +11,14 @@
         <!-- Password -->
         <div>
             <x-input-label for="password" :value="__('Password')" />
-            <x-input variant="password" id="password" class="block mt-1 w-full"
+            <x-input
+                variant="password"
+                id="password"
+                class="block mt-1 w-full"
                 wire:model="password"
-                required autocomplete="current-password" />
+                required
+                autocomplete="current-password"
+            />
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 

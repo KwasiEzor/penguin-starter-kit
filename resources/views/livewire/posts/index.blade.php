@@ -22,7 +22,7 @@
                 <option value="published">{{ __('Published') }}</option>
             </x-select>
         </div>
-        @if (!empty($availableTags))
+        @if (! empty($availableTags))
             <div class="w-full sm:w-40">
                 <x-select wire:model.live="tagFilter">
                     <option value="">{{ __('All Tags') }}</option>
@@ -39,12 +39,20 @@
         <x-table>
             <x-slot name="head">
                 <x-table-heading>{{ __('Image') }}</x-table-heading>
-                <x-table-heading :sortable="true" :direction="$sortBy === 'title' ? $sortDirection : null" wire:click="sortBy('title')">
+                <x-table-heading
+                    :sortable="true"
+                    :direction="$sortBy === 'title' ? $sortDirection : null"
+                    wire:click="sortBy('title')"
+                >
                     {{ __('Title') }}
                 </x-table-heading>
                 <x-table-heading>{{ __('Tags') }}</x-table-heading>
                 <x-table-heading>{{ __('Status') }}</x-table-heading>
-                <x-table-heading :sortable="true" :direction="$sortBy === 'created_at' ? $sortDirection : null" wire:click="sortBy('created_at')">
+                <x-table-heading
+                    :sortable="true"
+                    :direction="$sortBy === 'created_at' ? $sortDirection : null"
+                    wire:click="sortBy('created_at')"
+                >
                     {{ __('Created') }}
                 </x-table-heading>
                 <x-table-heading>{{ __('Actions') }}</x-table-heading>
@@ -54,10 +62,20 @@
                 <tr class="hover:bg-surface-alt/50 dark:hover:bg-surface-dark/50" wire:key="post-{{ $post->id }}">
                     <x-table-cell>
                         @if ($post->featuredImageUrl())
-                            <img src="{{ $post->featuredImageUrl() }}" alt="" class="size-10 rounded-radius object-cover" />
+                            <img
+                                src="{{ $post->featuredImageUrl() }}"
+                                alt=""
+                                class="size-10 rounded-radius object-cover"
+                            />
                         @else
-                            <div class="flex size-10 items-center justify-center rounded-radius bg-surface-alt dark:bg-surface-dark-alt">
-                                <x-icons.document-text variant="outline" size="sm" class="text-on-surface/40 dark:text-on-surface-dark/40" />
+                            <div
+                                class="flex size-10 items-center justify-center rounded-radius bg-surface-alt dark:bg-surface-dark-alt"
+                            >
+                                <x-icons.document-text
+                                    variant="outline"
+                                    size="sm"
+                                    class="text-on-surface/40 dark:text-on-surface-dark/40"
+                                />
                             </div>
                         @endif
                     </x-table-cell>
@@ -84,7 +102,12 @@
                             <x-button size="xs" variant="ghost" href="{{ route('posts.edit', $post) }}">
                                 {{ __('Edit') }}
                             </x-button>
-                            <x-button size="xs" variant="ghost" wire:click="confirmDelete({{ $post->id }})" class="text-danger hover:text-danger">
+                            <x-button
+                                size="xs"
+                                variant="ghost"
+                                wire:click="confirmDelete({{ $post->id }})"
+                                class="text-danger hover:text-danger"
+                            >
                                 {{ __('Delete') }}
                             </x-button>
                         </div>
@@ -99,7 +122,8 @@
     @else
         <x-empty-state
             title="{{ __('No posts found') }}"
-            description="{{ $search || $statusFilter || $tagFilter ? __('Try adjusting your search or filters.') : __('Create your first post to get started.') }}">
+            description="{{ $search || $statusFilter || $tagFilter ? __('Try adjusting your search or filters.') : __('Create your first post to get started.') }}"
+        >
             @unless ($search || $statusFilter || $tagFilter)
                 <x-slot name="action">
                     <x-button href="{{ route('posts.create') }}">{{ __('Create Post') }}</x-button>
@@ -119,7 +143,9 @@
                 {{ __('Are you sure you want to delete this post? This action cannot be undone.') }}
             </p>
         </div>
-        <div class="flex flex-col-reverse justify-between gap-2 border-t border-outline bg-surface-alt/60 p-4 dark:border-outline-dark dark:bg-surface-dark/20 sm:flex-row sm:items-center md:justify-end">
+        <div
+            class="flex flex-col-reverse justify-between gap-2 border-t border-outline bg-surface-alt/60 p-4 dark:border-outline-dark dark:bg-surface-dark/20 sm:flex-row sm:items-center md:justify-end"
+        >
             <x-button variant="ghost" type="button" wire:click="cancelDelete">{{ __('Cancel') }}</x-button>
             <x-button variant="danger" type="button" wire:click="deletePost">{{ __('Delete Post') }}</x-button>
         </div>

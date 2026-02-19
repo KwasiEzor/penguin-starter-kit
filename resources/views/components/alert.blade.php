@@ -21,10 +21,19 @@
     $variantClass = $variants[$variant] ?? $variants['info'];
 @endphp
 
-<div {{ $attributes->merge(['class' => "flex items-start gap-3 rounded-radius border p-4 {$variantClass}"]) }}
+<div
+    {{ $attributes->merge(['class' => "flex items-start gap-3 rounded-radius border p-4 {$variantClass}"]) }}
     @if ($dismissible) x-data="{ visible: true }" x-show="visible" x-transition @endif
-    role="alert">
-    <svg class="size-5 shrink-0 mt-0.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    role="alert"
+>
+    <svg
+        class="size-5 shrink-0 mt-0.5"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+    >
         {!! $icons[$variant] ?? $icons['info'] !!}
     </svg>
     <div class="flex-1 text-sm">
@@ -32,7 +41,14 @@
     </div>
     @if ($dismissible)
         <button x-on:click="visible = false" class="shrink-0 opacity-70 hover:opacity-100" aria-label="Dismiss">
-            <svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <svg
+                class="size-4"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+            >
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
             </svg>
         </button>

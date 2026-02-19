@@ -4,7 +4,7 @@ use App\Livewire\Auth\ConfirmPassword;
 use App\Models\User;
 use Livewire\Livewire;
 
-it('renders the confirm password page', function () {
+it('renders the confirm password page', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user)
@@ -13,7 +13,7 @@ it('renders the confirm password page', function () {
         ->assertSeeLivewire(ConfirmPassword::class);
 });
 
-it('confirms password with valid password', function () {
+it('confirms password with valid password', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);
@@ -24,7 +24,7 @@ it('confirms password with valid password', function () {
         ->assertRedirect(route('dashboard'));
 });
 
-it('fails with invalid password', function () {
+it('fails with invalid password', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);

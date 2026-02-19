@@ -6,7 +6,7 @@ use Tests\TestCase;
 uses(TestCase::class, RefreshDatabase::class)->in('Feature');
 uses(TestCase::class)->in('Unit');
 
-uses()->beforeEach(function () {
+uses()->beforeEach(function (): void {
     $this->withoutVite();
     $this->seed(\Database\Seeders\RolesAndPermissionsSeeder::class);
 })->in('Feature');

@@ -4,7 +4,7 @@ use App\Models\Post;
 use App\Models\User;
 use Livewire\Livewire;
 
-it('creates a post with tags via comma-separated input', function () {
+it('creates a post with tags via comma-separated input', function (): void {
     $user = User::factory()->create();
 
     Livewire::actingAs($user)
@@ -20,7 +20,7 @@ it('creates a post with tags via comma-separated input', function () {
     expect($post->tags->pluck('name')->toArray())->toEqualCanonicalizing(['Laravel', 'PHP', 'Testing']);
 });
 
-it('creates tags that do not exist yet', function () {
+it('creates tags that do not exist yet', function (): void {
     $user = User::factory()->create();
 
     Livewire::actingAs($user)
@@ -35,7 +35,7 @@ it('creates tags that do not exist yet', function () {
     expect(\Spatie\Tags\Tag::where('name->en', 'AnotherNewTag')->exists())->toBeTrue();
 });
 
-it('syncs tags properly when editing a post', function () {
+it('syncs tags properly when editing a post', function (): void {
     $user = User::factory()->create();
     $post = Post::factory()->for($user)->create();
     $post->attachTags(['Laravel', 'PHP']);
@@ -50,7 +50,7 @@ it('syncs tags properly when editing a post', function () {
     expect($post->tags->pluck('name')->toArray())->toEqualCanonicalizing(['Vue.js', 'JavaScript']);
 });
 
-it('removes all tags when input is cleared', function () {
+it('removes all tags when input is cleared', function (): void {
     $user = User::factory()->create();
     $post = Post::factory()->for($user)->create();
     $post->attachTags(['Laravel', 'PHP']);
@@ -64,7 +64,7 @@ it('removes all tags when input is cleared', function () {
     expect($post->tags)->toHaveCount(0);
 });
 
-it('filters posts by tag on the index', function () {
+it('filters posts by tag on the index', function (): void {
     $user = User::factory()->create();
 
     $laravelPost = Post::factory()->for($user)->create(['title' => 'Laravel Post']);
@@ -80,7 +80,7 @@ it('filters posts by tag on the index', function () {
         ->assertDontSee('PHP Post');
 });
 
-it('displays tags as badges on the index page', function () {
+it('displays tags as badges on the index page', function (): void {
     $user = User::factory()->create();
     $post = Post::factory()->for($user)->create();
     $post->attachTags(['Laravel', 'Testing']);

@@ -3,7 +3,7 @@
 use App\Models\Post;
 use App\Models\User;
 
-it('shows a published post by slug', function () {
+it('shows a published post by slug', function (): void {
     $user = User::factory()->create();
     $post = Post::factory()->for($user)->create([
         'title' => 'Published Blog Post',
@@ -17,7 +17,7 @@ it('shows a published post by slug', function () {
         ->assertSee('Published Blog Post');
 });
 
-it('returns 404 for draft posts', function () {
+it('returns 404 for draft posts', function (): void {
     $user = User::factory()->create();
     Post::factory()->for($user)->create([
         'slug' => 'draft-post',
@@ -28,12 +28,12 @@ it('returns 404 for draft posts', function () {
         ->assertNotFound();
 });
 
-it('returns 404 for non-existent slug', function () {
+it('returns 404 for non-existent slug', function (): void {
     $this->get(route('blog.show', 'does-not-exist'))
         ->assertNotFound();
 });
 
-it('displays OG meta tags in head', function () {
+it('displays OG meta tags in head', function (): void {
     $user = User::factory()->create();
     $post = Post::factory()->for($user)->create([
         'title' => 'Meta Tags Post',
@@ -52,7 +52,7 @@ it('displays OG meta tags in head', function () {
         ->assertSee('Custom OG description for testing.', false);
 });
 
-it('shows tags on the blog post page', function () {
+it('shows tags on the blog post page', function (): void {
     $user = User::factory()->create();
     $post = Post::factory()->for($user)->create([
         'slug' => 'tagged-blog-post',
@@ -67,7 +67,7 @@ it('shows tags on the blog post page', function () {
         ->assertSee('Tutorial');
 });
 
-it('is accessible without authentication', function () {
+it('is accessible without authentication', function (): void {
     $user = User::factory()->create();
     Post::factory()->for($user)->create([
         'slug' => 'public-post',

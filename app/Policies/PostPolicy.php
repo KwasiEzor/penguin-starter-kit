@@ -10,7 +10,7 @@ use App\Models\User;
 
 final class PostPolicy
 {
-    public function viewAny(User $user): bool
+    public function viewAny(): bool
     {
         return true;
     }
@@ -20,7 +20,7 @@ final class PostPolicy
         return $user->id === $post->user_id || $user->hasPermissionTo(PermissionEnum::PostsEdit);
     }
 
-    public function create(User $user): bool
+    public function create(): bool
     {
         return true;
     }

@@ -6,7 +6,6 @@ namespace App\Livewire\Posts;
 
 use App\Events\NewPostPublished;
 use App\Livewire\Concerns\HasToast;
-use App\Models\Post;
 use App\Models\User;
 use App\Notifications\PostPublished;
 use App\Support\Toast;
@@ -20,7 +19,8 @@ use Livewire\WithFileUploads;
 #[Layout('components.layouts.app')]
 final class Create extends Component
 {
-    use HasToast, WithFileUploads;
+    use HasToast;
+    use WithFileUploads;
 
     public string $title = '';
 
@@ -38,7 +38,7 @@ final class Create extends Component
 
     public string $tags_input = '';
 
-    public $featured_image;
+    public ?\Livewire\Features\SupportFileUploads\TemporaryUploadedFile $featured_image = null;
 
     private string $previousAutoSlug = '';
 
@@ -74,12 +74,12 @@ final class Create extends Component
         $post = Auth::user()->posts()->create($validated);
 
         // Sync tags
-        if (! empty($this->tags_input)) {
-            $tags = array_filter(array_map('trim', explode(',', $this->tags_input)));
+        if ($this->tags_input !== '' && $this->tags_input !== '0') {
+            $tags = array_filter(array_map(trim(...), explode(',', $this->tags_input)));
             $post->syncTags($tags);
         }
 
-        if ($this->featured_image) {
+        if ($this->featured_image instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile) {
             $post->addMedia($this->featured_image->getRealPath())
                 ->usingFileName($this->featured_image->hashName())
                 ->toMediaCollection('featured_image');
@@ -96,7 +96,7 @@ final class Create extends Component
         $this->redirect(route('posts.index'), navigate: true);
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         return view('livewire.posts.create');
     }

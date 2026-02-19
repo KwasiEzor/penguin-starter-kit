@@ -4,7 +4,7 @@ use App\Livewire\Settings\Profile;
 use App\Models\User;
 use Livewire\Livewire;
 
-it('deletes the user account with correct password', function () {
+it('deletes the user account with correct password', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);
@@ -18,7 +18,7 @@ it('deletes the user account with correct password', function () {
     $this->assertGuest();
 });
 
-it('fails to delete account with wrong password', function () {
+it('fails to delete account with wrong password', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);

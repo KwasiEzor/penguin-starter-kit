@@ -4,7 +4,7 @@ use App\Models\Post;
 use App\Models\User;
 use Livewire\Livewire;
 
-it('renders the edit post page', function () {
+it('renders the edit post page', function (): void {
     $user = User::factory()->create();
     $post = Post::factory()->for($user)->create();
 
@@ -13,7 +13,7 @@ it('renders the edit post page', function () {
         ->assertOk();
 });
 
-it('updates a post with valid data', function () {
+it('updates a post with valid data', function (): void {
     $user = User::factory()->create();
     $post = Post::factory()->for($user)->create();
 
@@ -30,7 +30,7 @@ it('updates a post with valid data', function () {
     ]);
 });
 
-it('prevents editing another users post', function () {
+it('prevents editing another users post', function (): void {
     $user = User::factory()->create();
     $otherUser = User::factory()->create();
     $post = Post::factory()->for($otherUser)->create();
@@ -40,7 +40,7 @@ it('prevents editing another users post', function () {
         ->assertForbidden();
 });
 
-it('validates required fields', function () {
+it('validates required fields', function (): void {
     $user = User::factory()->create();
     $post = Post::factory()->for($user)->create();
 

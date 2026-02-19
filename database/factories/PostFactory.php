@@ -18,7 +18,7 @@ class PostFactory extends Factory
         return [
             'user_id' => User::factory(),
             'title' => $title,
-            'slug' => Str::slug($title) . '-' . fake()->unique()->randomNumber(5),
+            'slug' => Str::slug($title).'-'.fake()->unique()->randomNumber(5),
             'body' => fake()->paragraphs(3, true),
             'excerpt' => fake()->sentences(2, true),
             'status' => fake()->randomElement(['draft', 'published']),
@@ -28,7 +28,7 @@ class PostFactory extends Factory
 
     public function published(): static
     {
-        return $this->state(fn () => [
+        return $this->state(fn (): array => [
             'status' => 'published',
             'published_at' => fake()->dateTimeBetween('-1 year'),
         ]);
@@ -36,7 +36,7 @@ class PostFactory extends Factory
 
     public function draft(): static
     {
-        return $this->state(fn () => [
+        return $this->state(fn (): array => [
             'status' => 'draft',
             'published_at' => null,
         ]);

@@ -15,27 +15,28 @@
 @endphp
 
 <div
-class="relative"
-x-data="{ dropDownIsOpen: false, openWithKeyboard: false }"
-x-on:keydown.esc.window="dropDownIsOpen = false, openWithKeyboard = false">
-
+    class="relative"
+    x-data="{ dropDownIsOpen: false, openWithKeyboard: false }"
+    x-on:keydown.esc.window="dropDownIsOpen = false, openWithKeyboard = false"
+>
     <div
-    x-on:click="dropDownIsOpen = ! dropDownIsOpen"
-    x-on:keydown.space.prevent="openWithKeyboard = true"
-    x-on:keydown.enter.prevent="openWithKeyboard = true"
-    x-on:keydown.down.prevent="openWithKeyboard = true"
+        x-on:click="dropDownIsOpen = ! dropDownIsOpen"
+        x-on:keydown.space.prevent="openWithKeyboard = true"
+        x-on:keydown.enter.prevent="openWithKeyboard = true"
+        x-on:keydown.down.prevent="openWithKeyboard = true"
     >
         {{ $trigger }}
     </div>
 
     <div
-    x-cloak
-    x-show="dropDownIsOpen || openWithKeyboard"
-    x-transition.opacity x-trap="openWithKeyboard"
-    x-on:click.outside="dropDownIsOpen = false, openWithKeyboard = false"
-    x-on:keydown.down.prevent="$focus.wrap().next()"
-    x-on:keydown.up.prevent="$focus.wrap().previous()"
-    class="absolute z-10 {{ $alignmentClasses }} {{ $width }} {{ $contentClasses }}"
+        x-cloak
+        x-show="dropDownIsOpen || openWithKeyboard"
+        x-transition.opacity
+        x-trap="openWithKeyboard"
+        x-on:click.outside="dropDownIsOpen = false, openWithKeyboard = false"
+        x-on:keydown.down.prevent="$focus.wrap().next()"
+        x-on:keydown.up.prevent="$focus.wrap().previous()"
+        class="absolute z-10 {{ $alignmentClasses }} {{ $width }} {{ $contentClasses }}"
     >
         {{ $content }}
     </div>

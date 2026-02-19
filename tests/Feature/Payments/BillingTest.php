@@ -4,11 +4,11 @@ use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Cache::flush();
 });
 
-it('returns 404 when payments are disabled', function () {
+it('returns 404 when payments are disabled', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user)
@@ -16,7 +16,7 @@ it('returns 404 when payments are disabled', function () {
         ->assertNotFound();
 });
 
-it('requires authentication', function () {
+it('requires authentication', function (): void {
     Setting::set('payments.enabled', '1', 'payments');
     Cache::forget('setting.payments.enabled');
 
@@ -24,7 +24,7 @@ it('requires authentication', function () {
         ->assertRedirect(route('login'));
 });
 
-it('shows billing page when payments are enabled', function () {
+it('shows billing page when payments are enabled', function (): void {
     Setting::set('payments.enabled', '1', 'payments');
     Cache::forget('setting.payments.enabled');
 
@@ -36,7 +36,7 @@ it('shows billing page when payments are enabled', function () {
         ->assertSee('Billing');
 });
 
-it('shows subscription info when user has no subscription', function () {
+it('shows subscription info when user has no subscription', function (): void {
     Setting::set('payments.enabled', '1', 'payments');
     Cache::forget('setting.payments.enabled');
 

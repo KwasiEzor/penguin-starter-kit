@@ -1,21 +1,21 @@
 @push('meta')
-    <meta name="description" content="{{ $metaDescription }}">
+    <meta name="description" content="{{ $metaDescription }}" />
 
     <!-- Open Graph -->
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="{{ $metaTitle }}">
-    <meta property="og:description" content="{{ $metaDescription }}">
-    <meta property="og:url" content="{{ route('blog.show', $post->slug) }}">
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{ $metaTitle }}" />
+    <meta property="og:description" content="{{ $metaDescription }}" />
+    <meta property="og:url" content="{{ route('blog.show', $post->slug) }}" />
     @if ($metaImage)
-        <meta property="og:image" content="{{ $metaImage }}">
+        <meta property="og:image" content="{{ $metaImage }}" />
     @endif
 
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="{{ $metaImage ? 'summary_large_image' : 'summary' }}">
-    <meta name="twitter:title" content="{{ $metaTitle }}">
-    <meta name="twitter:description" content="{{ $metaDescription }}">
+    <meta name="twitter:card" content="{{ $metaImage ? 'summary_large_image' : 'summary' }}" />
+    <meta name="twitter:title" content="{{ $metaTitle }}" />
+    <meta name="twitter:description" content="{{ $metaDescription }}" />
     @if ($metaImage)
-        <meta name="twitter:image" content="{{ $metaImage }}">
+        <meta name="twitter:image" content="{{ $metaImage }}" />
     @endif
 @endpush
 
@@ -23,10 +23,17 @@
     <!-- Header -->
     <header class="mb-8">
         @if ($post->featuredImageUrl())
-            <img src="{{ $post->featuredImageUrl() }}" alt="{{ $post->title }}" class="mb-6 w-full rounded-lg object-cover" style="max-height: 400px;" />
+            <img
+                src="{{ $post->featuredImageUrl() }}"
+                alt="{{ $post->title }}"
+                class="mb-6 w-full rounded-lg object-cover"
+                style="max-height: 400px"
+            />
         @endif
 
-        <h1 class="text-3xl font-bold tracking-tight text-on-surface-strong dark:text-on-surface-dark-strong sm:text-4xl">
+        <h1
+            class="text-3xl font-bold tracking-tight text-on-surface-strong dark:text-on-surface-dark-strong sm:text-4xl"
+        >
             {{ $post->title }}
         </h1>
 

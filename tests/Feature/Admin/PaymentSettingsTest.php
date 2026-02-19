@@ -4,7 +4,7 @@ use App\Models\Setting;
 use App\Models\User;
 use Livewire\Livewire;
 
-it('allows admin to access payment settings page', function () {
+it('allows admin to access payment settings page', function (): void {
     $admin = User::factory()->admin()->create();
 
     $this->actingAs($admin)
@@ -13,7 +13,7 @@ it('allows admin to access payment settings page', function () {
         ->assertSee('Payments');
 });
 
-it('forbids non-admin from accessing payment settings', function () {
+it('forbids non-admin from accessing payment settings', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user)
@@ -21,12 +21,12 @@ it('forbids non-admin from accessing payment settings', function () {
         ->assertForbidden();
 });
 
-it('redirects guests to login', function () {
+it('redirects guests to login', function (): void {
     $this->get(route('admin.payments'))
         ->assertRedirect(route('login'));
 });
 
-it('can save payment settings', function () {
+it('can save payment settings', function (): void {
     $admin = User::factory()->admin()->create();
 
     Livewire::actingAs($admin)
@@ -44,7 +44,7 @@ it('can save payment settings', function () {
     expect(Setting::get('payments.currency'))->toBe('usd');
 });
 
-it('validates stripe key prefix', function () {
+it('validates stripe key prefix', function (): void {
     $admin = User::factory()->admin()->create();
 
     Livewire::actingAs($admin)
@@ -54,7 +54,7 @@ it('validates stripe key prefix', function () {
         ->assertHasErrors('stripeKey');
 });
 
-it('validates stripe secret prefix', function () {
+it('validates stripe secret prefix', function (): void {
     $admin = User::factory()->admin()->create();
 
     Livewire::actingAs($admin)
@@ -64,7 +64,7 @@ it('validates stripe secret prefix', function () {
         ->assertHasErrors('stripeSecret');
 });
 
-it('validates webhook secret prefix', function () {
+it('validates webhook secret prefix', function (): void {
     $admin = User::factory()->admin()->create();
 
     Livewire::actingAs($admin)
@@ -74,7 +74,7 @@ it('validates webhook secret prefix', function () {
         ->assertHasErrors('stripeWebhookSecret');
 });
 
-it('encrypts stripe secret when saving', function () {
+it('encrypts stripe secret when saving', function (): void {
     $admin = User::factory()->admin()->create();
 
     Livewire::actingAs($admin)
@@ -88,7 +88,7 @@ it('encrypts stripe secret when saving', function () {
     expect(\Illuminate\Support\Facades\Crypt::decryptString($stored))->toBe('sk_test_encrypted');
 });
 
-it('can toggle payments on and off', function () {
+it('can toggle payments on and off', function (): void {
     $admin = User::factory()->admin()->create();
 
     Livewire::actingAs($admin)

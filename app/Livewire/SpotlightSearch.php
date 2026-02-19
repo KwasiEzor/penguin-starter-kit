@@ -25,16 +25,16 @@ final class SpotlightSearch extends Component
         $this->query = '';
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $results = [];
 
         if (strlen($this->query) >= 2) {
             $results = Post::query()
                 ->where('user_id', Auth::id())
-                ->where(fn ($q) => $q
-                    ->where('title', 'like', "%{$this->query}%")
-                    ->orWhere('body', 'like', "%{$this->query}%")
+                ->where(fn (\Illuminate\Database\Eloquent\Builder $q) => $q
+                    ->where('title', 'like', sprintf('%%%s%%', $this->query))
+                    ->orWhere('body', 'like', sprintf('%%%s%%', $this->query))
                 )
                 ->latest()
                 ->take(5)
@@ -47,8 +47,8 @@ final class SpotlightSearch extends Component
             ['name' => 'Posts', 'url' => route('posts.index'), 'icon' => 'document-text'],
             ['name' => 'Create Post', 'url' => route('posts.create'), 'icon' => 'document-text'],
             ['name' => 'Settings', 'url' => route('settings'), 'icon' => 'cog'],
-        ])->when(strlen($this->query) >= 1, fn ($c) => $c->filter(
-            fn ($p) => str_contains(strtolower($p['name']), strtolower($this->query))
+        ])->when(strlen($this->query) >= 1, fn (\Illuminate\Support\Collection $c) => $c->filter(
+            fn (array $p): bool => str_contains(strtolower($p['name']), strtolower($this->query))
         ));
 
         return view('livewire.spotlight-search', [

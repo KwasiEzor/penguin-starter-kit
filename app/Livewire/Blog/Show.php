@@ -32,7 +32,7 @@ final class Show extends Component
         $this->metaImage = $this->post->featuredImageUrl();
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         return view('livewire.blog.show');
     }

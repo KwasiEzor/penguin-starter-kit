@@ -38,7 +38,7 @@ final class NotificationCenter extends Component
         Auth::user()->unreadNotifications->markAsRead();
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         return view('livewire.notification-center', [
             'notifications' => Auth::user()->notifications()->latest()->take(10)->get(),

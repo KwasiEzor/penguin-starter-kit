@@ -101,7 +101,7 @@ final class ProductManager extends Component
         $this->toastSuccess($product->is_active ? 'Product activated.' : 'Product deactivated.');
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         return view('livewire.admin.payments.product-manager', [
             'products' => Product::orderBy('sort_order')->orderBy('name')->get(),

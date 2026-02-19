@@ -66,7 +66,7 @@ final class PlanManager extends Component
             'interval' => ['required', 'in:month,year'],
         ]);
 
-        $features = array_filter(array_map('trim', explode("\n", $this->featuresText)));
+        $features = array_filter(array_map(trim(...), explode("\n", $this->featuresText)));
 
         $data = [
             'name' => $this->name,
@@ -116,7 +116,7 @@ final class PlanManager extends Component
         $this->toastSuccess($plan->is_active ? 'Plan activated.' : 'Plan deactivated.');
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         return view('livewire.admin.payments.plan-manager', [
             'plans' => Plan::orderBy('sort_order')->orderBy('name')->get(),

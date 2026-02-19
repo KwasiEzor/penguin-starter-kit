@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Support\Facades\Event;
 
-it('dispatches the event when a post is published via create', function () {
+it('dispatches the event when a post is published via create', function (): void {
     Event::fake([NewPostPublished::class]);
 
     $author = User::factory()->create();
@@ -22,7 +22,7 @@ it('dispatches the event when a post is published via create', function () {
     Event::assertDispatched(NewPostPublished::class);
 });
 
-it('does not dispatch the event for draft posts', function () {
+it('does not dispatch the event for draft posts', function (): void {
     Event::fake([NewPostPublished::class]);
 
     $author = User::factory()->create();
@@ -37,7 +37,7 @@ it('does not dispatch the event for draft posts', function () {
     Event::assertNotDispatched(NewPostPublished::class);
 });
 
-it('broadcasts to private channels excluding the author', function () {
+it('broadcasts to private channels excluding the author', function (): void {
     $author = User::factory()->create();
     $user1 = User::factory()->create();
     $user2 = User::factory()->create();
@@ -48,12 +48,12 @@ it('broadcasts to private channels excluding the author', function () {
 
     $channelNames = array_map(fn (PrivateChannel $ch) => $ch->name, $channels);
 
-    expect($channelNames)->toContain("private-App.Models.User.{$user1->id}")
-        ->toContain("private-App.Models.User.{$user2->id}")
-        ->not->toContain("private-App.Models.User.{$author->id}");
+    expect($channelNames)->toContain('private-App.Models.User.'.$user1->id)
+        ->toContain('private-App.Models.User.'.$user2->id)
+        ->not->toContain('private-App.Models.User.'.$author->id);
 });
 
-it('returns the correct broadcast payload', function () {
+it('returns the correct broadcast payload', function (): void {
     $author = User::factory()->create(['name' => 'Jane Doe']);
     $post = Post::factory()->for($author)->published()->create(['title' => 'My Post']);
 
@@ -68,7 +68,7 @@ it('returns the correct broadcast payload', function () {
         ->toContain('Jane Doe');
 });
 
-it('uses the correct broadcast name', function () {
+it('uses the correct broadcast name', function (): void {
     $author = User::factory()->create();
     $post = Post::factory()->for($author)->published()->create();
 

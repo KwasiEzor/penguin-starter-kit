@@ -1,13 +1,13 @@
 <?php
 
 use App\Actions\Auth\Logout;
+use App\Livewire\Admin;
 use App\Livewire\Auth\ConfirmPassword;
 use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
 use App\Livewire\Auth\ResetPassword;
 use App\Livewire\Auth\VerifyEmail;
-use App\Livewire\Admin;
 use App\Livewire\Billing;
 use App\Livewire\Blog;
 use App\Livewire\CheckoutCancel;
@@ -19,11 +19,11 @@ use App\Livewire\Settings;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', fn () => view('welcome'))->name('home');
+Route::get('/', fn (): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View => view('welcome'))->name('home');
 Route::get('/blog/{slug}', Blog\Show::class)->name('blog.show');
 
 // Guest-only auth routes
-Route::middleware('guest')->group(function () {
+Route::middleware('guest')->group(function (): void {
     Route::get('/login', Login::class)->name('login');
     Route::get('/register', Register::class)->name('register');
     Route::get('/forgot-password', ForgotPassword::class)->name('password.request');
@@ -31,7 +31,7 @@ Route::middleware('guest')->group(function () {
 });
 
 // Authenticated routes
-Route::middleware('auth')->group(function () {
+Route::middleware('auth')->group(function (): void {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
     Route::get('/posts', Posts\Index::class)->name('posts.index');
     Route::get('/posts/create', Posts\Create::class)->name('posts.create');
@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/settings', Settings::class)->name('settings');
 
     // Admin routes
-    Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
+    Route::middleware('admin')->prefix('admin')->name('admin.')->group(function (): void {
         Route::get('/dashboard', Admin\Dashboard::class)->name('dashboard');
         Route::get('/users', Admin\Users\Index::class)->name('users.index');
         Route::get('/users/create', Admin\Users\Create::class)->name('users.create');
@@ -51,7 +51,7 @@ Route::middleware('auth')->group(function () {
     });
 
     // Payment routes (only when payments are enabled)
-    Route::middleware('payments')->group(function () {
+    Route::middleware('payments')->group(function (): void {
         Route::get('/pricing', Pricing::class)->name('pricing');
         Route::get('/billing', Billing::class)->name('billing');
         Route::get('/checkout/success', CheckoutSuccess::class)->name('checkout.success');
@@ -63,7 +63,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // Signed email verification
-Route::middleware(['auth', 'signed'])->group(function () {
+Route::middleware(['auth', 'signed'])->group(function (): void {
     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
         $request->fulfill();
 

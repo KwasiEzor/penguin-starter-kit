@@ -9,10 +9,11 @@
 
 @theme {
     /* Fonts */
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-    'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans:
+        'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
 
-   /* Light Themes */
+    /* Light Themes */
     --color-surface: var(--color-white);
     --color-surface-alt: var(--color-neutral-50);
     --color-on-surface: var(--color-neutral-600);

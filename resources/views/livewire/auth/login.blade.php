@@ -8,9 +8,16 @@
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email address')" />
-            <x-input id="email" class="block mt-1 w-full" type="email"
+            <x-input
+                id="email"
+                class="block mt-1 w-full"
+                type="email"
                 wire:model="form.email"
-                placeholder="email@example.com" required autofocus autocomplete="email" />
+                placeholder="email@example.com"
+                required
+                autofocus
+                autocomplete="email"
+            />
             <x-input-error :messages="$errors->get('form.email')" class="mt-2" />
         </div>
 
@@ -25,9 +32,15 @@
                 @endif
             </div>
 
-            <x-input variant="password" id="password" class="block mt-1 w-full"
+            <x-input
+                variant="password"
+                id="password"
+                class="block mt-1 w-full"
                 wire:model="form.password"
-                placeholder="Password" required autocomplete="current-password" />
+                placeholder="Password"
+                required
+                autocomplete="current-password"
+            />
             <x-input-error :messages="$errors->get('form.password')" class="mt-2" />
         </div>
 

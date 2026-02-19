@@ -5,7 +5,7 @@ use App\Models\User;
 use App\Notifications\PostPublished;
 use Livewire\Livewire;
 
-it('renders the notification center', function () {
+it('renders the notification center', function (): void {
     $user = User::factory()->create();
 
     Livewire::actingAs($user)
@@ -13,7 +13,7 @@ it('renders the notification center', function () {
         ->assertSee('Notifications');
 });
 
-it('shows unread notification count', function () {
+it('shows unread notification count', function (): void {
     $user = User::factory()->create();
     $post = Post::factory()->for($user)->published()->create();
     $user->notify(new PostPublished($post));
@@ -23,7 +23,7 @@ it('shows unread notification count', function () {
         ->assertSee('1');
 });
 
-it('can mark a notification as read', function () {
+it('can mark a notification as read', function (): void {
     $user = User::factory()->create();
     $post = Post::factory()->for($user)->published()->create();
     $user->notify(new PostPublished($post));
@@ -37,7 +37,7 @@ it('can mark a notification as read', function () {
     expect($user->fresh()->unreadNotifications()->count())->toBe(0);
 });
 
-it('can mark all notifications as read', function () {
+it('can mark all notifications as read', function (): void {
     $user = User::factory()->create();
     $posts = Post::factory(3)->for($user)->published()->create();
 
@@ -50,7 +50,7 @@ it('can mark all notifications as read', function () {
     expect($user->fresh()->unreadNotifications()->count())->toBe(0);
 });
 
-it('shows empty state when no notifications', function () {
+it('shows empty state when no notifications', function (): void {
     $user = User::factory()->create();
 
     Livewire::actingAs($user)
@@ -58,7 +58,7 @@ it('shows empty state when no notifications', function () {
         ->assertSee('No notifications yet');
 });
 
-it('sends notification to other users when post is published', function () {
+it('sends notification to other users when post is published', function (): void {
     $author = User::factory()->create();
     $otherUser = User::factory()->create();
 
@@ -73,7 +73,7 @@ it('sends notification to other users when post is published', function () {
     expect($otherUser->fresh()->notifications()->count())->toBe(1);
 });
 
-it('does not send notification for draft posts', function () {
+it('does not send notification for draft posts', function (): void {
     $user = User::factory()->create();
     $otherUser = User::factory()->create();
 
@@ -88,7 +88,7 @@ it('does not send notification for draft posts', function () {
     expect($otherUser->fresh()->notifications()->count())->toBe(0);
 });
 
-it('sends notification when draft is changed to published via edit', function () {
+it('sends notification when draft is changed to published via edit', function (): void {
     $author = User::factory()->create();
     $otherUser = User::factory()->create();
 
@@ -106,7 +106,7 @@ it('sends notification when draft is changed to published via edit', function ()
     expect($otherUser->fresh()->notifications()->count())->toBe(1);
 });
 
-it('does not send notification when editing an already published post', function () {
+it('does not send notification when editing an already published post', function (): void {
     $author = User::factory()->create();
     $otherUser = User::factory()->create();
 

@@ -8,9 +8,15 @@
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
-            <x-input id="email" class="block mt-1 w-full" type="email"
+            <x-input
+                id="email"
+                class="block mt-1 w-full"
+                type="email"
                 wire:model="email"
-                placeholder="email@example.com" required autofocus />
+                placeholder="email@example.com"
+                required
+                autofocus
+            />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 

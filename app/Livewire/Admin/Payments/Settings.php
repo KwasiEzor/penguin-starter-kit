@@ -63,11 +63,11 @@ final class Settings extends Component
         Setting::set('payments.stripe_key', $this->stripeKey, 'payments');
         Setting::set('payments.currency', $this->currency, 'payments');
 
-        if ($this->stripeSecret) {
+        if ($this->stripeSecret !== '' && $this->stripeSecret !== '0') {
             Setting::set('payments.stripe_secret', Crypt::encryptString($this->stripeSecret), 'payments');
         }
 
-        if ($this->stripeWebhookSecret) {
+        if ($this->stripeWebhookSecret !== '' && $this->stripeWebhookSecret !== '0') {
             Setting::set('payments.stripe_webhook_secret', Crypt::encryptString($this->stripeWebhookSecret), 'payments');
         }
 
@@ -77,7 +77,7 @@ final class Settings extends Component
         $this->toastSuccess('Payment settings saved successfully.');
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         return view('livewire.admin.payments.settings');
     }

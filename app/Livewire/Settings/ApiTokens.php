@@ -43,7 +43,7 @@ final class ApiTokens extends Component
         $this->toastSuccess('API token revoked.');
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         return view('livewire.settings.api-tokens', [
             'tokens' => Auth::user()->tokens()->latest()->get(),

@@ -53,7 +53,7 @@
             <div class="mt-1">
                 @if ($avatar && method_exists($avatar, 'isPreviewable') && $avatar->isPreviewable())
                     <x-file-upload :preview="$avatar->temporaryUrl()" />
-                @elseif (!$avatar)
+                @elseif (! $avatar)
                     <x-file-upload wire="avatar" :label="__('Upload avatar')" />
                 @endif
             </div>

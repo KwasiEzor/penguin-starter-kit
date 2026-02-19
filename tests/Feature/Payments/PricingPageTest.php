@@ -6,11 +6,11 @@ use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Cache::flush();
 });
 
-it('returns 404 when payments are disabled', function () {
+it('returns 404 when payments are disabled', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user)
@@ -18,7 +18,7 @@ it('returns 404 when payments are disabled', function () {
         ->assertNotFound();
 });
 
-it('shows pricing page when payments are enabled', function () {
+it('shows pricing page when payments are enabled', function (): void {
     Setting::set('payments.enabled', '1', 'payments');
     Cache::forget('setting.payments.enabled');
 
@@ -30,7 +30,7 @@ it('shows pricing page when payments are enabled', function () {
         ->assertSee('Pricing');
 });
 
-it('only shows active plans', function () {
+it('only shows active plans', function (): void {
     Setting::set('payments.enabled', '1', 'payments');
     Cache::forget('setting.payments.enabled');
 
@@ -45,7 +45,7 @@ it('only shows active plans', function () {
         ->assertDontSee('Inactive Plan');
 });
 
-it('only shows active products', function () {
+it('only shows active products', function (): void {
     Setting::set('payments.enabled', '1', 'payments');
     Cache::forget('setting.payments.enabled');
 

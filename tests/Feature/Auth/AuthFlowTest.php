@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Livewire;
 
-it('registers a user and then that user can log in', function () {
+it('registers a user and then that user can log in', function (): void {
     // Step 1: Register
     Livewire::test(Register::class)
         ->set('form.name', 'Test User')
@@ -37,7 +37,7 @@ it('registers a user and then that user can log in', function () {
     $this->assertAuthenticatedAs($user);
 });
 
-it('cannot register with a password that is too short', function () {
+it('cannot register with a password that is too short', function (): void {
     Livewire::test(Register::class)
         ->set('form.name', 'Test User')
         ->set('form.email', 'test@example.com')
@@ -49,7 +49,7 @@ it('cannot register with a password that is too short', function () {
     $this->assertGuest();
 });
 
-it('cannot register with mismatched passwords', function () {
+it('cannot register with mismatched passwords', function (): void {
     Livewire::test(Register::class)
         ->set('form.name', 'Test User')
         ->set('form.email', 'test@example.com')
@@ -61,7 +61,7 @@ it('cannot register with mismatched passwords', function () {
     $this->assertGuest();
 });
 
-it('cannot register with empty name', function () {
+it('cannot register with empty name', function (): void {
     Livewire::test(Register::class)
         ->set('form.name', '')
         ->set('form.email', 'test@example.com')
@@ -71,7 +71,7 @@ it('cannot register with empty name', function () {
         ->assertHasErrors('form.name');
 });
 
-it('cannot register with invalid email', function () {
+it('cannot register with invalid email', function (): void {
     Livewire::test(Register::class)
         ->set('form.name', 'Test User')
         ->set('form.email', 'not-an-email')
@@ -81,7 +81,7 @@ it('cannot register with invalid email', function () {
         ->assertHasErrors('form.email');
 });
 
-it('login works with factory user', function () {
+it('login works with factory user', function (): void {
     $user = User::factory()->create();
 
     Livewire::test(Login::class)
@@ -93,7 +93,7 @@ it('login works with factory user', function () {
     $this->assertAuthenticatedAs($user);
 });
 
-it('login fails with wrong password', function () {
+it('login fails with wrong password', function (): void {
     $user = User::factory()->create();
 
     Livewire::test(Login::class)
@@ -105,7 +105,7 @@ it('login fails with wrong password', function () {
     $this->assertGuest();
 });
 
-it('login remembers user when remember is checked', function () {
+it('login remembers user when remember is checked', function (): void {
     $user = User::factory()->create();
 
     Livewire::test(Login::class)

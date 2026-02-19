@@ -24,7 +24,7 @@ return new class extends Migration
             $slug = $baseSlug;
             $counter = 2;
             while (DB::table('posts')->where('slug', $slug)->where('id', '!=', $post->id)->exists()) {
-                $slug = $baseSlug . '-' . $counter++;
+                $slug = $baseSlug.'-'.$counter++;
             }
             DB::table('posts')->where('id', $post->id)->update(['slug' => $slug]);
         }

@@ -5,7 +5,7 @@ use App\Livewire\Admin\Users;
 use App\Models\User;
 use Livewire\Livewire;
 
-it('renders the users index for admin', function () {
+it('renders the users index for admin', function (): void {
     $admin = User::factory()->admin()->create();
 
     $this->actingAs($admin)
@@ -14,7 +14,7 @@ it('renders the users index for admin', function () {
         ->assertSee('Users');
 });
 
-it('forbids non-admin from accessing users index', function () {
+it('forbids non-admin from accessing users index', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user)
@@ -22,7 +22,7 @@ it('forbids non-admin from accessing users index', function () {
         ->assertForbidden();
 });
 
-it('can search users by name', function () {
+it('can search users by name', function (): void {
     $admin = User::factory()->admin()->create();
     User::factory()->create(['name' => 'Xylophone Player']);
     User::factory()->create(['name' => 'Zeppelin Rider']);
@@ -34,7 +34,7 @@ it('can search users by name', function () {
         ->assertDontSee('Zeppelin Rider');
 });
 
-it('can search users by email', function () {
+it('can search users by email', function (): void {
     $admin = User::factory()->admin()->create();
     User::factory()->create(['name' => 'John', 'email' => 'john@test.com']);
     User::factory()->create(['name' => 'Jane', 'email' => 'jane@test.com']);
@@ -46,7 +46,7 @@ it('can search users by email', function () {
         ->assertDontSee('Jane');
 });
 
-it('can filter users by role', function () {
+it('can filter users by role', function (): void {
     $admin = User::factory()->admin()->create(['name' => 'Admin User']);
     User::factory()->create(['name' => 'Regular User']);
 
@@ -57,7 +57,7 @@ it('can filter users by role', function () {
         ->assertDontSee('Regular User');
 });
 
-it('renders the create user page', function () {
+it('renders the create user page', function (): void {
     $admin = User::factory()->admin()->create();
 
     $this->actingAs($admin)
@@ -66,7 +66,7 @@ it('renders the create user page', function () {
         ->assertSee('Create User');
 });
 
-it('can create a user', function () {
+it('can create a user', function (): void {
     $admin = User::factory()->admin()->create();
 
     Livewire::actingAs($admin)
@@ -85,7 +85,7 @@ it('can create a user', function () {
     expect($user->email_verified_at)->not->toBeNull();
 });
 
-it('renders the edit user page', function () {
+it('renders the edit user page', function (): void {
     $admin = User::factory()->admin()->create();
     $user = User::factory()->create();
 
@@ -95,7 +95,7 @@ it('renders the edit user page', function () {
         ->assertSee('Edit User');
 });
 
-it('can update a user', function () {
+it('can update a user', function (): void {
     $admin = User::factory()->admin()->create();
     $user = User::factory()->create();
 
@@ -112,7 +112,7 @@ it('can update a user', function () {
     expect($user->hasRole(RoleEnum::Editor))->toBeTrue();
 });
 
-it('can update a user without changing password', function () {
+it('can update a user without changing password', function (): void {
     $admin = User::factory()->admin()->create();
     $user = User::factory()->create();
     $originalPassword = $user->password;
@@ -126,7 +126,7 @@ it('can update a user without changing password', function () {
     expect($user->password)->toBe($originalPassword);
 });
 
-it('can delete a user', function () {
+it('can delete a user', function (): void {
     $admin = User::factory()->admin()->create();
     $user = User::factory()->create();
 
@@ -138,7 +138,7 @@ it('can delete a user', function () {
     $this->assertDatabaseMissing('users', ['id' => $user->id]);
 });
 
-it('cannot delete self', function () {
+it('cannot delete self', function (): void {
     $admin = User::factory()->admin()->create();
 
     Livewire::actingAs($admin)
@@ -149,7 +149,7 @@ it('cannot delete self', function () {
     $this->assertDatabaseHas('users', ['id' => $admin->id]);
 });
 
-it('cannot delete the last admin', function () {
+it('cannot delete the last admin', function (): void {
     $admin = User::factory()->admin()->create();
     $admin2 = User::factory()->admin()->create();
 
@@ -175,7 +175,7 @@ it('cannot delete the last admin', function () {
     expect(User::role('admin')->count())->toBe(1);
 });
 
-it('cannot change own role', function () {
+it('cannot change own role', function (): void {
     $admin = User::factory()->admin()->create();
 
     Livewire::actingAs($admin)

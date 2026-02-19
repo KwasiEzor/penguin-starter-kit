@@ -35,8 +35,8 @@ class DatabaseSeeder extends Seeder
             ->create();
 
         // Attach random tags to all posts
-        Post::all()->each(function (Post $post) use ($tags) {
-            $randomTags = collect($tags)->random(rand(1, 3))->toArray();
+        Post::all()->each(function (Post $post) use ($tags): void {
+            $randomTags = collect($tags)->random(random_int(1, 3))->toArray();
             $post->attachTags($randomTags);
         });
     }

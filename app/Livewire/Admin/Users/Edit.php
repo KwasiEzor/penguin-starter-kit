@@ -17,7 +17,8 @@ use Livewire\WithFileUploads;
 #[Layout('components.layouts.app')]
 final class Edit extends Component
 {
-    use HasToast, WithFileUploads;
+    use HasToast;
+    use WithFileUploads;
 
     public User $user;
 
@@ -31,7 +32,7 @@ final class Edit extends Component
 
     public string $role = '';
 
-    public $avatar;
+    public ?\Livewire\Features\SupportFileUploads\TemporaryUploadedFile $avatar = null;
 
     public function mount(User $user): void
     {
@@ -60,18 +61,16 @@ final class Edit extends Component
         // Only change role if it's not the current user
         if ($this->user->id !== Auth::id()) {
             // Prevent demoting the last admin
-            if ($this->user->hasRole(RoleEnum::Admin) && $validated['role'] !== RoleEnum::Admin->value) {
-                if (User::role(RoleEnum::Admin->value)->count() <= 1) {
-                    $this->toastError('Cannot demote the last admin user.');
+            if ($this->user->hasRole(RoleEnum::Admin) && $validated['role'] !== RoleEnum::Admin->value && User::role(RoleEnum::Admin->value)->count() <= 1) {
+                $this->toastError('Cannot demote the last admin user.');
 
-                    return;
-                }
+                return;
             }
 
             $this->user->syncRoles([RoleEnum::from($validated['role'])]);
         }
 
-        if ($this->avatar) {
+        if ($this->avatar instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile) {
             $this->user->addMedia($this->avatar->getRealPath())
                 ->usingFileName($this->avatar->hashName())
                 ->toMediaCollection('avatar');
@@ -88,7 +87,7 @@ final class Edit extends Component
         $this->toastSuccess('Avatar removed.');
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         return view('livewire.admin.users.edit', [
             'roles' => RoleEnum::cases(),

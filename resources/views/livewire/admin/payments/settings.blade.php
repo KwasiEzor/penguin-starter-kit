@@ -7,7 +7,9 @@
         </x-breadcrumbs>
 
         <x-typography.heading accent size="xl" level="1">{{ __('Payments') }}</x-typography.heading>
-        <x-typography.subheading size="lg">{{ __('Manage payment settings, plans, products, and transactions') }}</x-typography.subheading>
+        <x-typography.subheading size="lg">
+            {{ __('Manage payment settings, plans, products, and transactions') }}
+        </x-typography.subheading>
     </div>
 
     <x-separator />
@@ -33,7 +35,9 @@
                         <x-toggle id="payments-enabled" wire:model="paymentsEnabled">
                             {{ __('Enable Payments') }}
                         </x-toggle>
-                        <p class="mt-1 text-xs text-on-surface dark:text-on-surface-dark">{{ __('When enabled, users can subscribe to plans and purchase products.') }}</p>
+                        <p class="mt-1 text-xs text-on-surface dark:text-on-surface-dark">
+                            {{ __('When enabled, users can subscribe to plans and purchase products.') }}
+                        </p>
                     </div>
 
                     <x-separator />
@@ -42,24 +46,46 @@
                     <div class="grid gap-4 sm:grid-cols-2">
                         <div>
                             <x-input-label value="{{ __('Stripe Publishable Key') }}" for="stripe-key" />
-                            <x-input id="stripe-key" type="text" wire:model="stripeKey" placeholder="pk_test_..." class="mt-1" />
+                            <x-input
+                                id="stripe-key"
+                                type="text"
+                                wire:model="stripeKey"
+                                placeholder="pk_test_..."
+                                class="mt-1"
+                            />
                             <x-input-error :messages="$errors->get('stripeKey')" class="mt-1" />
                         </div>
 
                         <div>
                             <x-input-label value="{{ __('Stripe Secret Key') }}" for="stripe-secret" />
-                            <x-input id="stripe-secret" type="text" wire:model="stripeSecret" placeholder="sk_test_..." class="mt-1" />
+                            <x-input
+                                id="stripe-secret"
+                                type="text"
+                                wire:model="stripeSecret"
+                                placeholder="sk_test_..."
+                                class="mt-1"
+                            />
                             <x-input-error :messages="$errors->get('stripeSecret')" class="mt-1" />
-                            <p class="mt-1 text-xs text-on-surface dark:text-on-surface-dark">{{ __('Leave blank to keep current value. Stored encrypted.') }}</p>
+                            <p class="mt-1 text-xs text-on-surface dark:text-on-surface-dark">
+                                {{ __('Leave blank to keep current value. Stored encrypted.') }}
+                            </p>
                         </div>
                     </div>
 
                     <div class="grid gap-4 sm:grid-cols-2">
                         <div>
                             <x-input-label value="{{ __('Webhook Secret') }}" for="webhook-secret" />
-                            <x-input id="webhook-secret" type="text" wire:model="stripeWebhookSecret" placeholder="whsec_..." class="mt-1" />
+                            <x-input
+                                id="webhook-secret"
+                                type="text"
+                                wire:model="stripeWebhookSecret"
+                                placeholder="whsec_..."
+                                class="mt-1"
+                            />
                             <x-input-error :messages="$errors->get('stripeWebhookSecret')" class="mt-1" />
-                            <p class="mt-1 text-xs text-on-surface dark:text-on-surface-dark">{{ __('Leave blank to keep current value. Stored encrypted.') }}</p>
+                            <p class="mt-1 text-xs text-on-surface dark:text-on-surface-dark">
+                                {{ __('Leave blank to keep current value. Stored encrypted.') }}
+                            </p>
                         </div>
 
                         <div>

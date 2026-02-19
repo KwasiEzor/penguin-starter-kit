@@ -1,4 +1,6 @@
-@props(['active'])
+@props([
+    'active',
+])
 
 @php
     $classes =

@@ -33,10 +33,10 @@ final class Create extends Component
         $this->redirect(route('admin.roles.index'), navigate: true);
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $permissionsByGroup = collect(PermissionEnum::cases())
-            ->groupBy(fn (PermissionEnum $p) => $p->group());
+            ->groupBy(fn (PermissionEnum $p): string => $p->group());
 
         return view('livewire.admin.roles.create', [
             'permissionsByGroup' => $permissionsByGroup,

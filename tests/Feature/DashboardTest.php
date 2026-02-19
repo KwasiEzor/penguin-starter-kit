@@ -2,9 +2,8 @@
 
 use App\Livewire\Dashboard;
 use App\Models\User;
-use Livewire\Livewire;
 
-it('renders the dashboard page for authenticated users', function () {
+it('renders the dashboard page for authenticated users', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user)
@@ -13,7 +12,7 @@ it('renders the dashboard page for authenticated users', function () {
         ->assertSeeLivewire(Dashboard::class);
 });
 
-it('redirects guests to login', function () {
+it('redirects guests to login', function (): void {
     $this->get(route('dashboard'))
         ->assertRedirect(route('login'));
 });

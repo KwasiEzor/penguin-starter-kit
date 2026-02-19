@@ -27,9 +27,35 @@
             @if ($change !== null)
                 <p class="mt-1 flex items-center gap-1 text-xs {{ $change >= 0 ? 'text-success' : 'text-danger' }}">
                     @if ($change >= 0)
-                        <svg class="size-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" /></svg>
+                        <svg
+                            class="size-3"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="2.5"
+                            stroke="currentColor"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
+                            />
+                        </svg>
                     @else
-                        <svg class="size-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 4.5l15 15m0 0V8.25m0 11.25H8.25" /></svg>
+                        <svg
+                            class="size-3"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="2.5"
+                            stroke="currentColor"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M4.5 4.5l15 15m0 0V8.25m0 11.25H8.25"
+                            />
+                        </svg>
                     @endif
                     <span>{{ $change >= 0 ? '+' : '' }}{{ $change }}{{ $changeLabel ? " $changeLabel" : '' }}</span>
                 </p>
@@ -43,7 +69,13 @@
     </div>
     @if ($href)
         <div class="mt-3 border-t border-outline pt-3 dark:border-outline-dark">
-            <a href="{{ $href }}" class="text-xs font-medium text-primary hover:underline dark:text-primary-dark" wire:navigate>{{ __('View all') }} &rarr;</a>
+            <a
+                href="{{ $href }}"
+                class="text-xs font-medium text-primary hover:underline dark:text-primary-dark"
+                wire:navigate
+            >
+                {{ __('View all') }} &rarr;
+            </a>
         </div>
     @endif
 </x-card>

@@ -12,7 +12,7 @@ use Livewire\Component;
 #[Layout('components.layouts.app')]
 final class Dashboard extends Component
 {
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $user = Auth::user();
 

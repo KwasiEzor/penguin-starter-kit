@@ -1,6 +1,6 @@
 <?php
 
-it('renders tabs component', function () {
+it('renders tabs component', function (): void {
     $view = $this->blade('
         <x-tabs active="first">
             <x-slot name="tabs">

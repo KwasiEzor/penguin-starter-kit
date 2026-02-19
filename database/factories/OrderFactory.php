@@ -17,8 +17,8 @@ class OrderFactory extends Factory
         return [
             'user_id' => User::factory(),
             'product_id' => Product::factory(),
-            'stripe_checkout_session_id' => 'cs_' . fake()->unique()->bothify('??????????'),
-            'stripe_payment_intent_id' => 'pi_' . fake()->unique()->bothify('??????????'),
+            'stripe_checkout_session_id' => 'cs_'.fake()->unique()->bothify('??????????'),
+            'stripe_payment_intent_id' => 'pi_'.fake()->unique()->bothify('??????????'),
             'amount' => fake()->randomElement([999, 1999, 4999, 9999]),
             'currency' => 'usd',
             'status' => 'completed',

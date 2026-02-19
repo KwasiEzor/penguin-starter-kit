@@ -29,7 +29,13 @@
 
         <div>
             <x-input-label for="password" value="{{ __('Password') }}" />
-            <x-input id="password" type="password" wire:model="password" class="mt-1" placeholder="{{ __('Leave blank to keep current') }}" />
+            <x-input
+                id="password"
+                type="password"
+                wire:model="password"
+                class="mt-1"
+                placeholder="{{ __('Leave blank to keep current') }}"
+            />
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
@@ -42,7 +48,9 @@
             <x-input-label for="role" value="{{ __('Role') }}" />
             @if ($isSelf)
                 <x-input id="role" value="{{ ucfirst($role) }}" class="mt-1" disabled />
-                <p class="mt-1 text-xs text-on-surface dark:text-on-surface-dark">{{ __('You cannot change your own role.') }}</p>
+                <p class="mt-1 text-xs text-on-surface dark:text-on-surface-dark">
+                    {{ __('You cannot change your own role.') }}
+                </p>
             @else
                 <x-select id="role" wire:model="role" class="mt-1">
                     @foreach ($roles as $roleOption)
@@ -61,7 +69,13 @@
                 @elseif ($user->avatarUrl())
                     <div class="flex items-center gap-4">
                         <x-avatar :src="$user->avatarUrl()" :initials="$user->initials()" size="lg" />
-                        <x-button size="xs" variant="ghost" type="button" wire:click="removeAvatar" class="text-danger hover:text-danger">
+                        <x-button
+                            size="xs"
+                            variant="ghost"
+                            type="button"
+                            wire:click="removeAvatar"
+                            class="text-danger hover:text-danger"
+                        >
                             {{ __('Remove') }}
                         </x-button>
                     </div>

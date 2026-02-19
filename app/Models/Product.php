@@ -33,7 +33,7 @@ class Product extends Model
 
     protected static function booted(): void
     {
-        static::creating(function (Product $product) {
+        static::creating(function (Product $product): void {
             if (empty($product->slug)) {
                 $product->slug = Str::slug($product->name);
             }
@@ -42,6 +42,6 @@ class Product extends Model
 
     public function formattedPrice(): string
     {
-        return '$' . number_format($this->price / 100, 2);
+        return '$'.number_format($this->price / 100, 2);
     }
 }

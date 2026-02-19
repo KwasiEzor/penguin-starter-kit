@@ -19,6 +19,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
+        "larastan/larastan": "^3.0",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.24",
         "laravel/sail": "^1.41",
@@ -26,7 +27,9 @@
         "nunomaduro/collision": "^8.6",
         "pestphp/pest": "^3.8",
         "pestphp/pest-plugin-laravel": "^3.2",
-        "phpunit/phpunit": "^11.5.3"
+        "pestphp/pest-plugin-type-coverage": "^3.0",
+        "phpunit/phpunit": "^11.5.3",
+        "rector/rector": "^2.0"
     },
     "autoload": {
         "psr-4": {
@@ -55,7 +58,19 @@
         ],
         "test": [
             "@php artisan config:clear --ansi",
-            "@php artisan test"
+            "@php artisan test --parallel"
+        ],
+        "lint": "vendor/bin/pint --parallel",
+        "lint:check": "vendor/bin/pint --test --parallel",
+        "analyse": "vendor/bin/phpstan analyse --memory-limit=512M",
+        "rector": "vendor/bin/rector",
+        "rector:check": "vendor/bin/rector --dry-run",
+        "type-coverage": "vendor/bin/pest --type-coverage --memory-limit=512M --min=100",
+        "quality": "npx concurrently -g --names=pint,phpstan,rector,types \"vendor/bin/pint --test --parallel\" \"vendor/bin/phpstan analyse --memory-limit=512M\" \"vendor/bin/rector --dry-run\" \"vendor/bin/pest --type-coverage --memory-limit=512M --min=100\"",
+        "check-all": "npx concurrently -g --names=pint,phpstan,rector,types,prettier,tests \"vendor/bin/pint --test --parallel\" \"vendor/bin/phpstan analyse --memory-limit=512M\" \"vendor/bin/rector --dry-run\" \"vendor/bin/pest --type-coverage --memory-limit=512M --min=100\" \"npx prettier --check 'resources/**/*.blade.php' 'resources/**/*.js' 'resources/**/*.css'\" \"php artisan config:clear --ansi && php artisan test --parallel\"",
+        "fix": [
+            "@rector",
+            "@lint"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",

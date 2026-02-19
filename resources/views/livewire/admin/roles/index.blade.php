@@ -45,7 +45,12 @@
                                 {{ __('Edit') }}
                             </x-button>
                             @if ($role->name !== 'admin' && $role->users_count === 0)
-                                <x-button size="xs" variant="ghost" wire:click="confirmDelete({{ $role->id }})" class="text-danger hover:text-danger">
+                                <x-button
+                                    size="xs"
+                                    variant="ghost"
+                                    wire:click="confirmDelete({{ $role->id }})"
+                                    class="text-danger hover:text-danger"
+                                >
                                     {{ __('Delete') }}
                                 </x-button>
                             @endif
@@ -57,7 +62,8 @@
     @else
         <x-empty-state
             title="{{ __('No roles found') }}"
-            description="{{ __('Create your first role to get started.') }}">
+            description="{{ __('Create your first role to get started.') }}"
+        >
             <x-slot name="action">
                 <x-button href="{{ route('admin.roles.create') }}">{{ __('Create Role') }}</x-button>
             </x-slot>
@@ -75,7 +81,9 @@
                 {{ __('Are you sure you want to delete this role? This action cannot be undone.') }}
             </p>
         </div>
-        <div class="flex flex-col-reverse justify-between gap-2 border-t border-outline bg-surface-alt/60 p-4 dark:border-outline-dark dark:bg-surface-dark/20 sm:flex-row sm:items-center md:justify-end">
+        <div
+            class="flex flex-col-reverse justify-between gap-2 border-t border-outline bg-surface-alt/60 p-4 dark:border-outline-dark dark:bg-surface-dark/20 sm:flex-row sm:items-center md:justify-end"
+        >
             <x-button variant="ghost" type="button" wire:click="cancelDelete">{{ __('Cancel') }}</x-button>
             <x-button variant="danger" type="button" wire:click="deleteRole">{{ __('Delete Role') }}</x-button>
         </div>

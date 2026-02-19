@@ -4,7 +4,7 @@ use App\Models\Plan;
 use App\Models\User;
 use Livewire\Livewire;
 
-it('can create a plan', function () {
+it('can create a plan', function (): void {
     $admin = User::factory()->admin()->create();
 
     Livewire::actingAs($admin)
@@ -28,7 +28,7 @@ it('can create a plan', function () {
     expect($plan->features)->toBe(['Feature 1', 'Feature 2']);
 });
 
-it('can update a plan', function () {
+it('can update a plan', function (): void {
     $admin = User::factory()->admin()->create();
     $plan = Plan::factory()->create(['name' => 'Old Name']);
 
@@ -42,7 +42,7 @@ it('can update a plan', function () {
     expect($plan->fresh()->name)->toBe('New Name');
 });
 
-it('can delete a plan', function () {
+it('can delete a plan', function (): void {
     $admin = User::factory()->admin()->create();
     $plan = Plan::factory()->create();
 
@@ -54,7 +54,7 @@ it('can delete a plan', function () {
     expect(Plan::find($plan->id))->toBeNull();
 });
 
-it('can toggle plan active status', function () {
+it('can toggle plan active status', function (): void {
     $admin = User::factory()->admin()->create();
     $plan = Plan::factory()->create(['is_active' => true]);
 
@@ -65,7 +65,7 @@ it('can toggle plan active status', function () {
     expect($plan->fresh()->is_active)->toBeFalse();
 });
 
-it('auto-generates slug from name', function () {
+it('auto-generates slug from name', function (): void {
     $plan = Plan::create([
         'name' => 'Enterprise Plan',
         'price' => 9999,
@@ -74,7 +74,7 @@ it('auto-generates slug from name', function () {
     expect($plan->slug)->toBe('enterprise-plan');
 });
 
-it('validates required fields when creating plan', function () {
+it('validates required fields when creating plan', function (): void {
     $admin = User::factory()->admin()->create();
 
     Livewire::actingAs($admin)

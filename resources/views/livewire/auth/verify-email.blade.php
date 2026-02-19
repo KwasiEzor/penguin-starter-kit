@@ -1,5 +1,8 @@
 <div class="flex flex-col gap-6">
-    <x-auth-header title="Verify email" description="Please verify your email address by clicking on the link we just emailed to you." />
+    <x-auth-header
+        title="Verify email"
+        description="Please verify your email address by clicking on the link we just emailed to you."
+    />
 
     @if (session('status') == 'verification-link-sent')
         <div class="font-medium text-center text-sm text-success">

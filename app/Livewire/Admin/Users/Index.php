@@ -16,7 +16,8 @@ use Livewire\WithPagination;
 #[Layout('components.layouts.app')]
 final class Index extends Component
 {
-    use HasToast, WithPagination;
+    use HasToast;
+    use WithPagination;
 
     #[Url]
     public string $search = '';
@@ -87,15 +88,15 @@ final class Index extends Component
         $this->toastSuccess('User deleted successfully.');
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $users = User::query()
             ->with('roles')
-            ->when($this->search, fn ($q) => $q->where(function ($q) {
-                $q->where('name', 'like', "%{$this->search}%")
-                    ->orWhere('email', 'like', "%{$this->search}%");
+            ->when($this->search, fn (\Illuminate\Database\Eloquent\Builder $q) => $q->where(function (\Illuminate\Database\Eloquent\Builder $q): void {
+                $q->where('name', 'like', sprintf('%%%s%%', $this->search))
+                    ->orWhere('email', 'like', sprintf('%%%s%%', $this->search));
             }))
-            ->when($this->roleFilter, fn ($q) => $q->role($this->roleFilter))
+            ->when($this->roleFilter, fn (\Illuminate\Database\Eloquent\Builder $q) => $q->role($this->roleFilter))
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate(15);
 

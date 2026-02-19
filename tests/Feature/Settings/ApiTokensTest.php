@@ -3,7 +3,7 @@
 use App\Models\User;
 use Livewire\Livewire;
 
-it('renders the api tokens settings component', function () {
+it('renders the api tokens settings component', function (): void {
     $user = User::factory()->create();
 
     Livewire::actingAs($user)
@@ -11,7 +11,7 @@ it('renders the api tokens settings component', function () {
         ->assertSee('API Tokens');
 });
 
-it('creates a new api token', function () {
+it('creates a new api token', function (): void {
     $user = User::factory()->create();
 
     Livewire::actingAs($user)
@@ -24,7 +24,7 @@ it('creates a new api token', function () {
     expect($user->tokens()->first()->name)->toBe('Test Token');
 });
 
-it('shows the new token after creation', function () {
+it('shows the new token after creation', function (): void {
     $user = User::factory()->create();
 
     $component = Livewire::actingAs($user)
@@ -35,7 +35,7 @@ it('shows the new token after creation', function () {
     expect($component->get('newToken'))->not->toBeNull();
 });
 
-it('validates token name is required', function () {
+it('validates token name is required', function (): void {
     $user = User::factory()->create();
 
     Livewire::actingAs($user)
@@ -45,7 +45,7 @@ it('validates token name is required', function () {
         ->assertHasErrors(['tokenName']);
 });
 
-it('can revoke a token', function () {
+it('can revoke a token', function (): void {
     $user = User::factory()->create();
     $token = $user->createToken('Old Token');
 

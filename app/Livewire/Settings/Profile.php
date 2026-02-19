@@ -14,7 +14,8 @@ use Livewire\WithFileUploads;
 
 final class Profile extends Component
 {
-    use HasToast, WithFileUploads;
+    use HasToast;
+    use WithFileUploads;
 
     public string $name = '';
 
@@ -22,7 +23,7 @@ final class Profile extends Component
 
     public string $deletePassword = '';
 
-    public $avatar;
+    public ?\Livewire\Features\SupportFileUploads\TemporaryUploadedFile $avatar = null;
 
     public function mount(): void
     {
@@ -96,7 +97,7 @@ final class Profile extends Component
         $this->redirect(route('home'), navigate: true);
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         return view('livewire.settings.profile');
     }

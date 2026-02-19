@@ -41,6 +41,6 @@ class Order extends Model
 
     public function formattedAmount(): string
     {
-        return '$' . number_format($this->amount / 100, 2);
+        return '$'.number_format($this->amount / 100, 2);
     }
 }

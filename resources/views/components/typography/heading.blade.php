@@ -24,20 +24,20 @@
 @switch($level)
     @case(1)
         <h1 {{ $attributes->class($classes) }}>{{ $slot }}</h1>
-    @break
 
+        @break
     @case(2)
         <h2 {{ $attributes->class($classes) }}>{{ $slot }}</h2>
-    @break
 
+        @break
     @case(3)
         <h3 {{ $attributes->class($classes) }}>{{ $slot }}</h3>
-    @break
 
+        @break
     @case(4)
         <h4 {{ $attributes->class($classes) }}>{{ $slot }}</h4>
-    @break
 
+        @break
     @default
         <div {{ $attributes->class($classes) }}>{{ $slot }}</div>
 @endswitch

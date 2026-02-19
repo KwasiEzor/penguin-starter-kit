@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Logout
 {
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): \Illuminate\Http\RedirectResponse
     {
         Auth::logout();
 

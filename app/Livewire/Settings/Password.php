@@ -28,10 +28,10 @@ final class Password extends Component
                 'current_password' => ['required', 'string', 'current_password'],
                 'password' => ['required', 'string', 'confirmed', PasswordRule::defaults()],
             ]);
-        } catch (ValidationException $e) {
+        } catch (ValidationException $validationException) {
             $this->reset('current_password', 'password', 'password_confirmation');
 
-            throw $e;
+            throw $validationException;
         }
 
         Auth::user()->update([
@@ -43,7 +43,7 @@ final class Password extends Component
         $this->toastSuccess('Password updated successfully.');
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         return view('livewire.settings.password');
     }

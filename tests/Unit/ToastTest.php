@@ -2,7 +2,7 @@
 
 use App\Support\Toast;
 
-it('flashes a success toast to the session', function () {
+it('flashes a success toast to the session', function (): void {
     Toast::success('It worked!');
 
     expect(session('notify'))->toBe([
@@ -11,7 +11,7 @@ it('flashes a success toast to the session', function () {
     ]);
 });
 
-it('flashes an error toast to the session', function () {
+it('flashes an error toast to the session', function (): void {
     Toast::error('Something failed');
 
     expect(session('notify'))->toBe([
@@ -20,7 +20,7 @@ it('flashes an error toast to the session', function () {
     ]);
 });
 
-it('flashes a warning toast to the session', function () {
+it('flashes a warning toast to the session', function (): void {
     Toast::warning('Be careful');
 
     expect(session('notify'))->toBe([
@@ -29,7 +29,7 @@ it('flashes a warning toast to the session', function () {
     ]);
 });
 
-it('flashes an info toast to the session', function () {
+it('flashes an info toast to the session', function (): void {
     Toast::info('FYI');
 
     expect(session('notify'))->toBe([

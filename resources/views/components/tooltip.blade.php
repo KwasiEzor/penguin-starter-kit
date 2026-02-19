@@ -15,12 +15,21 @@
 @endphp
 
 <div x-data="{ show: false }" class="relative inline-flex" {{ $attributes }}>
-    <div x-on:mouseenter="show = true" x-on:mouseleave="show = false" x-on:focus="show = true" x-on:blur="show = false">
+    <div
+        x-on:mouseenter="show = true"
+        x-on:mouseleave="show = false"
+        x-on:focus="show = true"
+        x-on:blur="show = false"
+    >
         {{ $slot }}
     </div>
-    <div x-cloak x-show="show" x-transition.opacity.duration.150ms
+    <div
+        x-cloak
+        x-show="show"
+        x-transition.opacity.duration.150ms
         class="absolute z-50 {{ $positionClass }} pointer-events-none whitespace-nowrap rounded-md bg-on-surface-strong px-2 py-1 text-xs text-surface shadow-lg dark:bg-on-surface-dark-strong dark:text-surface-dark"
-        role="tooltip">
+        role="tooltip"
+    >
         {{ $text }}
     </div>
 </div>

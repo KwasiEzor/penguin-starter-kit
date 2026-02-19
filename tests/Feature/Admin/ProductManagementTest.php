@@ -4,7 +4,7 @@ use App\Models\Product;
 use App\Models\User;
 use Livewire\Livewire;
 
-it('can create a product', function () {
+it('can create a product', function (): void {
     $admin = User::factory()->admin()->create();
 
     Livewire::actingAs($admin)
@@ -24,7 +24,7 @@ it('can create a product', function () {
     expect($product->price)->toBe(4999);
 });
 
-it('can update a product', function () {
+it('can update a product', function (): void {
     $admin = User::factory()->admin()->create();
     $product = Product::factory()->create(['name' => 'Old Product']);
 
@@ -38,7 +38,7 @@ it('can update a product', function () {
     expect($product->fresh()->name)->toBe('Updated Product');
 });
 
-it('can delete a product', function () {
+it('can delete a product', function (): void {
     $admin = User::factory()->admin()->create();
     $product = Product::factory()->create();
 
@@ -50,7 +50,7 @@ it('can delete a product', function () {
     expect(Product::find($product->id))->toBeNull();
 });
 
-it('can toggle product active status', function () {
+it('can toggle product active status', function (): void {
     $admin = User::factory()->admin()->create();
     $product = Product::factory()->create(['is_active' => true]);
 

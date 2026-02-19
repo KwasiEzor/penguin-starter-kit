@@ -1,13 +1,13 @@
 <?php
 
-it('renders a default badge', function () {
+it('renders a default badge', function (): void {
     $view = $this->blade('<x-badge>New</x-badge>');
 
     $view->assertSee('New');
     $view->assertSee('rounded-full');
 });
 
-it('renders variant badges', function () {
+it('renders variant badges', function (): void {
     $view = $this->blade('<x-badge variant="success">Active</x-badge>');
 
     $view->assertSee('Active');

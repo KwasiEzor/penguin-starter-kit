@@ -6,7 +6,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 
-it('uploads an avatar', function () {
+it('uploads an avatar', function (): void {
     Storage::fake('public');
 
     $user = User::factory()->create();
@@ -23,7 +23,7 @@ it('uploads an avatar', function () {
     expect($user->getFirstMediaUrl('avatar'))->not->toBeEmpty();
 });
 
-it('validates avatar is an image', function () {
+it('validates avatar is an image', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);
@@ -35,7 +35,7 @@ it('validates avatar is an image', function () {
         ->assertHasErrors(['avatar']);
 });
 
-it('validates avatar max size', function () {
+it('validates avatar max size', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);
@@ -47,7 +47,7 @@ it('validates avatar max size', function () {
         ->assertHasErrors(['avatar']);
 });
 
-it('removes an avatar', function () {
+it('removes an avatar', function (): void {
     Storage::fake('public');
 
     $user = User::factory()->create();

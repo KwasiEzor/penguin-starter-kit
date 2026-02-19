@@ -2,7 +2,7 @@
 
 use App\Models\User;
 
-it('allows admin users to access admin dashboard', function () {
+it('allows admin users to access admin dashboard', function (): void {
     $admin = User::factory()->admin()->create();
 
     $this->actingAs($admin)
@@ -11,7 +11,7 @@ it('allows admin users to access admin dashboard', function () {
         ->assertSee('Admin Dashboard');
 });
 
-it('forbids non-admin users from accessing admin dashboard', function () {
+it('forbids non-admin users from accessing admin dashboard', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user)
@@ -19,12 +19,12 @@ it('forbids non-admin users from accessing admin dashboard', function () {
         ->assertForbidden();
 });
 
-it('redirects guests to login', function () {
+it('redirects guests to login', function (): void {
     $this->get(route('admin.dashboard'))
         ->assertRedirect(route('login'));
 });
 
-it('displays stats on admin dashboard', function () {
+it('displays stats on admin dashboard', function (): void {
     $admin = User::factory()->admin()->create();
     User::factory(3)->create();
     \App\Models\Post::factory(5)->create();

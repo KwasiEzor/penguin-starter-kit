@@ -17,7 +17,7 @@ final class PostController extends Controller
         $posts = $request->user()
             ->posts()
             ->with('tags')
-            ->when($request->query('status'), fn ($q, $status) => $q->where('status', $status))
+            ->when($request->query('status'), fn (\Illuminate\Database\Eloquent\Builder $q, string $status) => $q->where('status', $status))
             ->latest()
             ->paginate(15);
 
@@ -75,7 +75,7 @@ final class PostController extends Controller
             'title' => ['sometimes', 'string', 'max:255'],
             'body' => ['sometimes', 'string'],
             'status' => ['sometimes', 'in:draft,published'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:posts,slug,' . $post->id],
+            'slug' => ['nullable', 'string', 'max:255', 'unique:posts,slug,'.$post->id],
             'excerpt' => ['nullable', 'string', 'max:500'],
             'meta_title' => ['nullable', 'string', 'max:60'],
             'meta_description' => ['nullable', 'string', 'max:160'],

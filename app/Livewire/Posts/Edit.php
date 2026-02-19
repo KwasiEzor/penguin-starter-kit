@@ -20,7 +20,8 @@ use Livewire\WithFileUploads;
 #[Layout('components.layouts.app')]
 final class Edit extends Component
 {
-    use HasToast, WithFileUploads;
+    use HasToast;
+    use WithFileUploads;
 
     public Post $post;
 
@@ -40,7 +41,7 @@ final class Edit extends Component
 
     public string $tags_input = '';
 
-    public $featured_image;
+    public ?\Livewire\Features\SupportFileUploads\TemporaryUploadedFile $featured_image = null;
 
     public function mount(Post $post): void
     {
@@ -72,7 +73,7 @@ final class Edit extends Component
             'title' => ['required', 'string', 'max:255'],
             'body' => ['required', 'string'],
             'status' => ['required', 'in:draft,published'],
-            'slug' => ['required', 'string', 'max:255', 'unique:posts,slug,' . $this->post->id],
+            'slug' => ['required', 'string', 'max:255', 'unique:posts,slug,'.$this->post->id],
             'excerpt' => ['nullable', 'string', 'max:500'],
             'meta_title' => ['nullable', 'string', 'max:60'],
             'meta_description' => ['nullable', 'string', 'max:160'],
@@ -99,14 +100,14 @@ final class Edit extends Component
         }
 
         // Sync tags
-        if (! empty($this->tags_input)) {
-            $tags = array_filter(array_map('trim', explode(',', $this->tags_input)));
+        if ($this->tags_input !== '' && $this->tags_input !== '0') {
+            $tags = array_filter(array_map(trim(...), explode(',', $this->tags_input)));
             $this->post->syncTags($tags);
         } else {
             $this->post->syncTags([]);
         }
 
-        if ($this->featured_image) {
+        if ($this->featured_image instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile) {
             $this->post->addMedia($this->featured_image->getRealPath())
                 ->usingFileName($this->featured_image->hashName())
                 ->toMediaCollection('featured_image');
@@ -123,7 +124,7 @@ final class Edit extends Component
         $this->toastSuccess('Featured image removed.');
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         return view('livewire.posts.edit');
     }
