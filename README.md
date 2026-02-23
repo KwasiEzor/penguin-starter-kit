@@ -1,6 +1,6 @@
 # Penguin Starter Kit
 
-A production-ready Laravel starter kit built with **Livewire 4**, **Alpine.js 3**, **Tailwind CSS 4**, and the **PenguinUI** design system. It provides a complete authentication system, blog with posts and tags, admin dashboard with user/role management, Stripe payments, real-time notifications, API layer, and more -- everything you need to start building your next Laravel application.
+A production-ready Laravel starter kit built with **Livewire 4**, **Alpine.js 3**, **Tailwind CSS 4**, and the **PenguinUI** design system. It provides a complete authentication system, blog with posts, tags, and categories, AI agents with multi-provider support, admin dashboard with user/role management, Stripe payments, real-time notifications, API layer, and more -- everything you need to start building your next Laravel application.
 
 ## Tech Stack
 
@@ -20,6 +20,7 @@ A production-ready Laravel starter kit built with **Livewire 4**, **Alpine.js 3*
 | Laravel Sanctum | -- | API token authentication |
 | Laravel Cashier | -- | Stripe payments and subscriptions |
 | Laravel Reverb | -- | Real-time WebSocket broadcasting |
+| Rich Text Laravel | -- | Trix rich text editor integration |
 
 ## Features
 
@@ -34,20 +35,39 @@ A production-ready Laravel starter kit built with **Livewire 4**, **Alpine.js 3*
 
 ### Posts & Blog
 - **Full CRUD** -- create, read, update, and delete posts scoped to the authenticated user
+- **Rich text editor** -- Trix editor for composing post content with formatting
 - **Draft/Published status** with automatic `published_at` timestamp management
 - **Auto-generated slugs** from post titles with unique suffix handling
 - **Tag system** via Spatie Tags -- comma-separated input, filter by tag
-- **Featured images** via Spatie Media Library with upload and removal
+- **Category system** -- polymorphic categories with admin CRUD, filter posts by category
+- **Featured images** via Spatie Media Library with upload, replacement, and removal
 - **SEO fields** -- meta title, meta description, and excerpt per post
-- **Data table** with search, status filter, tag filter, sortable columns, and pagination
+- **Data table** with search, status filter, tag filter, category filter, sortable columns, and pagination
 - **Public blog** at `/blog/{slug}` with SEO meta tags and Open Graph image
 - **Authorization** via PostPolicy -- owners manage their posts; users with elevated permissions can act on any post
+
+### AI Agents
+- **Full CRUD** -- create, edit, and delete AI agents with name, description, system prompt, and model configuration
+- **Multi-provider support** -- OpenAI, Anthropic, and Gemini via the `AiProviderEnum`
+- **Execution tracking** -- each agent run creates an `AiExecution` record with input, output, and token usage
+- **API key management** -- per-user personal API keys and admin-configured global fallback keys, all encrypted at rest
+- **Visibility controls** -- public agents visible to all users, private agents restricted to their owner
+- **Authorization** via `AiAgentPolicy` -- owners manage their agents; admins can manage any agent
+- **Admin AI settings** -- toggle AI features and configure global API keys from the admin dashboard
+
+### Categories
+- **Admin CRUD** -- create, edit, and delete categories with auto-generated slugs
+- **Polymorphic relationship** -- categories can be attached to posts (and extensible to other models)
+- **Post integration** -- assign categories when creating/editing posts, filter posts by category on the index
+- **Safeguards** -- cannot delete a category that has posts attached
 
 ### Admin Dashboard
 - **Overview stats** -- total users, total posts, published posts, recent users, recent posts
 - **Payment stats** (conditional) -- active subscriptions and monthly revenue when payments are enabled
 - **User management** -- list, create, edit, and delete users with role assignment and avatar upload
 - **Role management** -- create, edit, and delete custom roles with granular permission checkboxes
+- **Category management** -- CRUD for post categories with slug auto-generation
+- **AI settings** -- toggle AI features, manage global API keys for each provider
 - **Payment settings** -- toggle payments, manage Stripe keys, CRUD for plans and products, transaction history
 
 ### Roles & Permissions
@@ -90,6 +110,7 @@ A production-ready Laravel starter kit built with **Livewire 4**, **Alpine.js 3*
 - **Profile** -- update name, email (resets email verification on change), and avatar upload/removal
 - **Password** -- change password with current password verification
 - **Appearance** -- light, dark, and system theme picker (persisted in localStorage)
+- **AI API Keys** -- manage personal API keys per provider (OpenAI, Anthropic, Gemini)
 - **API Tokens** -- create, view, and revoke personal access tokens
 - **Delete Account** -- modal confirmation with password verification
 
@@ -107,7 +128,7 @@ A production-ready Laravel starter kit built with **Livewire 4**, **Alpine.js 3*
   - **Code Style** -- Laravel Pint in check mode
 
 ### Developer Experience
-- **236 tests** with 503 assertions covering auth, posts, admin, payments, API, components, and settings
+- **290 tests** with 631 assertions covering auth, posts, admin, AI agents, categories, payments, API, components, and settings
 - **Pest PHP** testing with Livewire test helpers
 - **Livewire Form Objects** for clean validation and form handling
 - **Invokable actions** (e.g., `Logout`) for single-responsibility classes
@@ -164,6 +185,12 @@ REVERB_APP_KEY=your-app-key
 REVERB_APP_SECRET=your-app-secret
 REVERB_APP_ID=your-app-id
 REVERB_HOST=localhost
+
+# AI Providers (or configure via Admin → AI Settings / User Settings in the UI)
+# Keys can also be managed per-user from Settings → AI API Keys
+OPENAI_API_KEY=sk-...
+ANTHROPIC_API_KEY=sk-ant-...
+GEMINI_API_KEY=...
 ```
 
 ### Development Server
@@ -207,7 +234,11 @@ Visit `http://localhost:8000` to see the welcome page. Register an account at `/
 | GET | `/posts` | posts.index | Posts list |
 | GET | `/posts/create` | posts.create | Create post form |
 | GET | `/posts/{post}/edit` | posts.edit | Edit post form |
-| GET | `/settings` | settings | User settings (profile, password, appearance, API tokens) |
+| GET | `/agents` | agents.index | AI agents list |
+| GET | `/agents/create` | agents.create | Create AI agent form |
+| GET | `/agents/{aiAgent}` | agents.show | AI agent detail and execution |
+| GET | `/agents/{aiAgent}/edit` | agents.edit | Edit AI agent form |
+| GET | `/settings` | settings | User settings (profile, password, appearance, AI keys, API tokens) |
 | GET | `/verify-email` | verification.notice | Email verification notice |
 | GET | `/confirm-password` | password.confirm | Password confirmation |
 | POST | `/logout` | logout | Logout action |
@@ -223,6 +254,8 @@ Visit `http://localhost:8000` to see the welcome page. Register an account at `/
 | GET | `/admin/roles` | admin.roles.index | Role management |
 | GET | `/admin/roles/create` | admin.roles.create | Create role |
 | GET | `/admin/roles/{role}/edit` | admin.roles.edit | Edit role |
+| GET | `/admin/categories` | admin.categories.index | Category management |
+| GET | `/admin/ai-settings` | admin.ai-settings | AI feature settings and global API keys |
 | GET | `/admin/payments` | admin.payments | Payment settings, plans, products, transactions |
 
 ### Payments (requires payments to be enabled)
@@ -383,14 +416,16 @@ php artisan test tests/Feature/Auth/AuthFlowTest.php
 php artisan test --coverage
 ```
 
-The test suite includes **236 tests** with **503 assertions** covering:
+The test suite includes **290 tests** with **631 assertions** covering:
 - **Auth flows** -- register, login, logout, forgot/reset password, email verification, password confirmation
-- **Posts** -- CRUD, tags, featured images, SEO fields, data table filters
-- **Admin** -- dashboard stats, user management, role management, payment settings, plan/product CRUD
+- **Posts** -- CRUD, tags, categories, featured images, rich text, SEO fields, data table filters
+- **AI Agents** -- CRUD, execution tracking, API key management, visibility controls, authorization
+- **Categories** -- CRUD, polymorphic relationships, post integration, admin management
+- **Admin** -- dashboard stats, user management, role management, category management, AI settings, payment settings, plan/product CRUD
 - **Payments** -- pricing page visibility, billing page, feature flag behavior
 - **API** -- Sanctum-authenticated post endpoints
-- **Components** -- button, input, modal, separator, textarea, select, toggle, badge, card, avatar, alert, tabs, table
-- **Settings** -- profile update, password change, avatar upload, API tokens, account deletion
+- **Components** -- button, input, modal, separator, textarea, select, toggle, badge, card, avatar, alert, tabs, table, file upload
+- **Settings** -- profile update, password change, avatar upload, AI API keys, API tokens, account deletion
 - **Notifications** -- notification center, broadcasting events
 - **Spotlight search** -- post search, page search, keyboard shortcut
 
@@ -474,6 +509,8 @@ In any Livewire component, change the `#[Layout]` attribute:
 - **Payment system** is fully feature-flagged -- toggling payments off makes all payment routes return 404 and hides UI elements.
 - **Stripe secrets** are encrypted at rest using Laravel's `Crypt::encryptString()`.
 - **Real-time broadcasting** uses per-user private channels, not shared public channels, ensuring notifications reach only intended recipients.
+- **AI API keys** follow a layered resolution: per-user keys take priority over admin-configured global keys, all encrypted at rest.
+- **Categories** use a polymorphic `categorizables` table, making them attachable to any model beyond just posts.
 
 ## License
 
