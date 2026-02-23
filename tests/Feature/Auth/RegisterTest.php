@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Tests for the user registration page.
+ *
+ * Covers rendering the registration form, successfully registering a new
+ * user with valid data, and rejecting registration when a duplicate email
+ * address is provided.
+ */
+
 use App\Livewire\Auth\Register;
 use App\Models\User;
 use Livewire\Livewire;

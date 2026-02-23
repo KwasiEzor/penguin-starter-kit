@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Tests for the Separator blade component.
+ *
+ * Verifies rendering of horizontal and vertical separators with correct
+ * border classes, and separators with inline text content.
+ */
+
 it('renders a horizontal separator by default', function (): void {
     $view = $this->blade('<x-separator />');
 

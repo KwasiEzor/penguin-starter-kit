@@ -7,11 +7,21 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/** @extends Factory<Order> */
+/**
+ * Factory for generating Order test data.
+ *
+ * @extends Factory<Order>
+ */
 class OrderFactory extends Factory
 {
+    /** @var class-string<Order> The model class that this factory creates. */
     protected $model = Order::class;
 
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed> The default attribute values for an Order.
+     */
     public function definition(): array
     {
         return [
@@ -25,11 +35,21 @@ class OrderFactory extends Factory
         ];
     }
 
+    /**
+     * Indicate that the order should have a pending status.
+     *
+     * @return static The factory instance with pending state applied.
+     */
     public function pending(): static
     {
         return $this->state(['status' => 'pending']);
     }
 
+    /**
+     * Indicate that the order should have a failed status.
+     *
+     * @return static The factory instance with failed state applied.
+     */
     public function failed(): static
     {
         return $this->state(['status' => 'failed']);

@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         @include('partials.head')
+        <x-rich-text::styles theme="richtextlaravel" />
         @stack('meta')
     </head>
 

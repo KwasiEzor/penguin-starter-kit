@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Tests for the logout functionality.
+ *
+ * Verifies that an authenticated user can log out, is redirected to the
+ * home page, becomes a guest, and receives a success toast flash message.
+ */
+
 use App\Models\User;
 
 it('logs out an authenticated user', function (): void {

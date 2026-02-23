@@ -20,6 +20,7 @@
                         'password' => __('Password'),
                         'appearance' => __('Appearance'),
                         'api-tokens' => __('API Tokens'),
+                        'ai-keys' => __('AI Keys'),
                     ];
                 @endphp
 
@@ -71,6 +72,13 @@
             <div x-cloak x-show="selectedItem === 'api-tokens'">
                 <div class="w-full max-w-xl">
                     @livewire('settings.api-tokens')
+                </div>
+            </div>
+
+            <!-- AI Keys Section -->
+            <div x-cloak x-show="selectedItem === 'ai-keys'">
+                <div class="w-full max-w-xl">
+                    @livewire('settings.ai-api-keys')
                 </div>
             </div>
         </div>

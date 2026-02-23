@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Tests for the pricing page functionality.
+ *
+ * Verifies that the pricing page respects the payments enabled/disabled setting,
+ * displays correctly when enabled, and only shows active plans and products
+ * while hiding inactive ones.
+ */
+
 use App\Models\Plan;
 use App\Models\Product;
 use App\Models\Setting;

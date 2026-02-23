@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Tests for the post creation workflow.
+ *
+ * Verifies that the create post page renders, posts can be created with valid data,
+ * the published_at timestamp is set when status is published, and required field
+ * validation is enforced.
+ */
+
 use App\Models\User;
 use Livewire\Livewire;
 

@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Tests for the profile settings component.
+ *
+ * Verifies that the component renders correctly, user profile information
+ * (name and email) can be updated, email verification is reset when the
+ * email changes, and profile field validation is enforced.
+ */
+
 use App\Livewire\Settings\Profile;
 use App\Models\User;
 use Livewire\Livewire;

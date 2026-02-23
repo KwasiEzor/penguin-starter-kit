@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Architecture tests for the application.
+ *
+ * Enforces coding standards and architectural constraints across the codebase,
+ * including strict types usage, absence of debug functions, Livewire component
+ * conventions, invokable actions, string-backed enums, restricted env() usage,
+ * notification inheritance, and middleware method requirements.
+ */
+
 declare(strict_types=1);
 
 arch('all app files use strict types')

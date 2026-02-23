@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Tests for the Setting model.
+ *
+ * Covers the key-value get/set interface, default value fallback, caching
+ * behavior (population and invalidation), the paymentsEnabled helper,
+ * grouped settings storage, and upsert behavior preventing duplicate keys.
+ */
+
 use App\Models\Setting;
 use Illuminate\Support\Facades\Cache;
 

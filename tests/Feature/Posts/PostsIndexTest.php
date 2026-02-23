@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Tests for the posts index page.
+ *
+ * Verifies that the index renders for authenticated users, redirects guests,
+ * shows only the authenticated user's posts, supports search and status filtering,
+ * allows post deletion, and displays an empty state when no posts exist.
+ */
+
 use App\Models\Post;
 use App\Models\User;
 use Livewire\Livewire;

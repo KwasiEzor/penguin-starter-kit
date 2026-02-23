@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Tests for the Toast notification support class.
+ *
+ * Verifies that the Toast helper correctly flashes success, error,
+ * warning, and info notifications to the session with the expected
+ * content and type values.
+ */
+
 use App\Support\Toast;
 
 it('flashes a success toast to the session', function (): void {

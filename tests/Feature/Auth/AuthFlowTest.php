@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Tests for the end-to-end authentication flow.
+ *
+ * Covers the full registration-then-login lifecycle, password and input
+ * validation during registration (short passwords, mismatched confirmations,
+ * empty name, invalid email), and login scenarios including factory users,
+ * wrong credentials, and the "remember me" option.
+ */
+
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
 use App\Models\User;

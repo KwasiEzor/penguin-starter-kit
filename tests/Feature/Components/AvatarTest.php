@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Tests for the Avatar blade component.
+ *
+ * Verifies rendering of avatars with user initials as a fallback
+ * and with image sources including proper alt text attributes.
+ */
+
 it('renders an avatar with initials', function (): void {
     $view = $this->blade('<x-avatar initials="JD" />');
 

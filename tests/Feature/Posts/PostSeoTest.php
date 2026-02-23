@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Tests for post SEO functionality.
+ *
+ * Covers automatic slug generation from post titles, unique slug generation
+ * on collision, creating and updating posts with all SEO fields (slug, excerpt,
+ * meta_title, meta_description), automatic excerpt generation from body content,
+ * custom excerpt support, and validation of meta field length limits.
+ */
+
 use App\Models\Post;
 use App\Models\User;
 use Livewire\Livewire;

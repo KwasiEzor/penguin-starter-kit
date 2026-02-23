@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Tests for the post tagging functionality.
+ *
+ * Covers creating posts with comma-separated tags, automatic creation of new tags,
+ * syncing tags when editing a post, removing all tags, filtering posts by tag
+ * on the index page, and displaying tags as badges.
+ */
+
 use App\Models\Post;
 use App\Models\User;
 use Livewire\Livewire;

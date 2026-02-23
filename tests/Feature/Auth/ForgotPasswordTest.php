@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Tests for the forgot-password functionality.
+ *
+ * Ensures the forgot-password page renders correctly and that submitting
+ * a valid email address dispatches a password reset link notification.
+ */
+
 use App\Livewire\Auth\ForgotPassword;
 use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword;

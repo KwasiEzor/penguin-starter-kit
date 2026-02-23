@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Tests for the password confirmation screen.
+ *
+ * Verifies that the confirm-password page renders correctly, that a valid
+ * password is accepted and redirects to the dashboard, and that an invalid
+ * password produces a validation error.
+ */
+
 use App\Livewire\Auth\ConfirmPassword;
 use App\Models\User;
 use Livewire\Livewire;

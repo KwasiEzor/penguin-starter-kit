@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Tests for the API tokens settings component.
+ *
+ * Verifies that the component renders correctly, tokens can be created and
+ * displayed after creation, token name validation is enforced, and tokens
+ * can be revoked.
+ */
+
 use App\Models\User;
 use Livewire\Livewire;
 

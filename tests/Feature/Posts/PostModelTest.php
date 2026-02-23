@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Tests for the Post model.
+ *
+ * Verifies the user relationship and the ability to determine
+ * whether a post is published or in draft status.
+ */
+
 use App\Models\Post;
 use App\Models\User;
 

@@ -25,17 +25,16 @@
             <x-input-error :messages="$errors->get('title')" class="mt-2" />
         </div>
 
-        <div>
+        <div wire:ignore>
             <x-input-label for="body" value="{{ __('Content') }}" />
-            <x-textarea
-                id="body"
-                wire:model="body"
-                rows="8"
-                class="mt-1"
-                placeholder="{{ __('Write your post content...') }}"
-            />
-            <x-input-error :messages="$errors->get('body')" class="mt-2" />
+            <input id="body" type="hidden" name="body" value="{{ $body }}" />
+            <trix-editor
+                input="body"
+                class="trix-content mt-1 min-h-[200px] rounded-lg border border-outline bg-surface p-3 text-on-surface-strong dark:border-outline-dark dark:bg-surface-dark dark:text-on-surface-dark-strong"
+                x-on:trix-change="$wire.set('body', $event.target.value)"
+            ></trix-editor>
         </div>
+        <x-input-error :messages="$errors->get('body')" class="mt-2" />
 
         <div>
             <x-input-label for="featured_image" value="{{ __('Featured Image') }}" />
@@ -76,6 +75,26 @@
             <p class="mt-1 text-xs text-on-surface dark:text-on-surface-dark">{{ __('Separate tags with commas') }}</p>
             <x-input-error :messages="$errors->get('tags_input')" class="mt-2" />
         </div>
+
+        @if ($categories->isNotEmpty())
+            <div>
+                <x-input-label value="{{ __('Categories') }}" />
+                <div class="mt-2 flex flex-wrap gap-3">
+                    @foreach ($categories as $category)
+                        <label class="flex items-center gap-2 text-sm text-on-surface-strong dark:text-on-surface-dark-strong">
+                            <input
+                                type="checkbox"
+                                value="{{ $category->id }}"
+                                wire:model="category_ids"
+                                class="rounded border-outline text-primary focus:ring-primary dark:border-outline-dark dark:bg-surface-dark dark:text-primary-dark dark:focus:ring-primary-dark"
+                            />
+                            {{ $category->name }}
+                        </label>
+                    @endforeach
+                </div>
+                <x-input-error :messages="$errors->get('category_ids')" class="mt-2" />
+            </div>
+        @endif
 
         <!-- SEO Settings -->
         <details class="rounded-lg border border-outline p-4 dark:border-outline-dark">

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Posts;
 
 use App\Livewire\Concerns\HasToast;
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
@@ -32,6 +33,9 @@ final class Index extends Component
 
     #[Url]
     public string $tagFilter = '';
+
+    #[Url]
+    public string $categoryFilter = '';
 
     public ?int $deletingPostId = null;
 
@@ -62,6 +66,11 @@ final class Index extends Component
         $this->resetPage();
     }
 
+    public function updatedCategoryFilter(): void
+    {
+        $this->resetPage();
+    }
+
     public function confirmDelete(int $id): void
     {
         $this->deletingPostId = $id;
@@ -85,7 +94,7 @@ final class Index extends Component
     public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $posts = Post::query()
-            ->with('tags')
+            ->with(['tags', 'categories'])
             ->where('user_id', Auth::id())
             ->when($this->search, fn (\Illuminate\Database\Eloquent\Builder $q) => $q->where(function (\Illuminate\Database\Eloquent\Builder $q): void {
                 $q->where('title', 'like', sprintf('%%%s%%', $this->search))
@@ -93,6 +102,7 @@ final class Index extends Component
             }))
             ->when($this->statusFilter, fn (\Illuminate\Database\Eloquent\Builder $q) => $q->where('status', $this->statusFilter))
             ->when($this->tagFilter, fn (\Illuminate\Database\Eloquent\Builder $q) => $q->withAnyTags([$this->tagFilter]))
+            ->when($this->categoryFilter, fn (\Illuminate\Database\Eloquent\Builder $q) => $q->whereHas('categories', fn (\Illuminate\Database\Eloquent\Builder $q) => $q->where('categories.slug', $this->categoryFilter)))
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate(10);
 
@@ -110,6 +120,12 @@ final class Index extends Component
             ->pluck('name')
             ->toArray();
 
-        return view('livewire.posts.index', ['posts' => $posts, 'availableTags' => $availableTags]);
+        $availableCategories = Category::orderBy('name')->get();
+
+        return view('livewire.posts.index', [
+            'posts' => $posts,
+            'availableTags' => $availableTags,
+            'availableCategories' => $availableCategories,
+        ]);
     }
 }

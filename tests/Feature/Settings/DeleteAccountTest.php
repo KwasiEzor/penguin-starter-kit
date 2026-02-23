@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Tests for the account deletion functionality.
+ *
+ * Verifies that a user can delete their account when providing the correct
+ * password, and that deletion is rejected when the wrong password is supplied.
+ */
+
 use App\Livewire\Settings\Profile;
 use App\Models\User;
 use Livewire\Livewire;

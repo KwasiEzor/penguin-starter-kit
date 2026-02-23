@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Tests for the password update settings component.
+ *
+ * Verifies that the component renders correctly, passwords can be updated
+ * with the correct current password, updates fail with an incorrect current
+ * password, and updates fail when the confirmation does not match.
+ */
+
 use App\Livewire\Settings\Password;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;

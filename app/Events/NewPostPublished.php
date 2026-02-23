@@ -12,12 +12,25 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
+/**
+ * Event dispatched when a new post is published.
+ *
+ * This event is broadcast to all users (except the author) via private channels
+ * using Laravel Reverb, enabling real-time notifications in the UI when new
+ * content becomes available.
+ */
 final class NewPostPublished implements ShouldBroadcast
 {
     use Dispatchable;
     use InteractsWithSockets;
     use SerializesModels;
 
+    /**
+     * Create a new event instance.
+     *
+     * @param  Post  $post  The post that was published
+     * @param  User  $author  The user who published the post
+     */
     public function __construct(
         public readonly Post $post,
         public readonly User $author,
@@ -34,6 +47,11 @@ final class NewPostPublished implements ShouldBroadcast
             ->all();
     }
 
+    /**
+     * Get the broadcast event name.
+     *
+     * @return string The event name used on the client side
+     */
     public function broadcastAs(): string
     {
         return 'post.published';

@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Tests for the password reset flow.
+ *
+ * Verifies that the reset-password page renders, that a valid token allows
+ * the user to set a new password (dispatching the PasswordReset event), and
+ * that an invalid token is rejected with a validation error.
+ */
+
 use App\Livewire\Auth\ResetPassword;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;

@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Tests for the Alert blade component.
+ *
+ * Verifies rendering of alert messages with different variants (info, danger, etc.),
+ * correct ARIA role attributes, and dismissible alert functionality.
+ */
+
 it('renders an info alert by default', function (): void {
     $view = $this->blade('<x-alert>Something happened</x-alert>');
 

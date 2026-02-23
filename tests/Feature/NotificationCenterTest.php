@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Tests for the notification center Livewire component and notification dispatching.
+ *
+ * Covers rendering the notification center, displaying unread counts, marking
+ * individual and all notifications as read, showing an empty state, and
+ * verifying that notifications are sent to other users when a post is published
+ * (but not for drafts or when editing an already-published post).
+ */
+
 use App\Models\Post;
 use App\Models\User;
 use App\Notifications\PostPublished;

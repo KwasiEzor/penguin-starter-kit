@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Tests for the dashboard page.
+ *
+ * Ensures the dashboard renders for authenticated users and that
+ * unauthenticated guests are redirected to the login page.
+ */
+
 use App\Livewire\Dashboard;
 use App\Models\User;
 

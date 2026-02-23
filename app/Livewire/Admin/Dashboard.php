@@ -11,9 +11,24 @@ use App\Models\User;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+/**
+ * Livewire component for the admin dashboard overview.
+ *
+ * Displays key metrics including total users, posts, published posts,
+ * recent activity, and optionally subscription and revenue data when
+ * payments are enabled.
+ */
 #[Layout('components.layouts.app')]
 final class Dashboard extends Component
 {
+    /**
+     * Render the dashboard view with aggregated statistics and recent activity.
+     *
+     * Includes payment-related metrics (active subscriptions, monthly revenue)
+     * only when the payments feature is enabled.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         $data = [

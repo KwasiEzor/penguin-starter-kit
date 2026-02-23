@@ -7,10 +7,17 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
+ * Factory for generating Post test data.
+ *
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
  */
 class PostFactory extends Factory
 {
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed> The default attribute values for a Post.
+     */
     public function definition(): array
     {
         $title = fake()->sentence();
@@ -26,6 +33,11 @@ class PostFactory extends Factory
         ];
     }
 
+    /**
+     * Indicate that the post should be in a published state with a past publication date.
+     *
+     * @return static The factory instance with published state applied.
+     */
     public function published(): static
     {
         return $this->state(fn (): array => [
@@ -34,6 +46,11 @@ class PostFactory extends Factory
         ]);
     }
 
+    /**
+     * Indicate that the post should be in a draft state with no publication date.
+     *
+     * @return static The factory instance with draft state applied.
+     */
     public function draft(): static
     {
         return $this->state(fn (): array => [

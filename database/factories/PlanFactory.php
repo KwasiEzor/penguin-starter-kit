@@ -5,11 +5,21 @@ namespace Database\Factories;
 use App\Models\Plan;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/** @extends Factory<Plan> */
+/**
+ * Factory for generating Plan test data.
+ *
+ * @extends Factory<Plan>
+ */
 class PlanFactory extends Factory
 {
+    /** @var class-string<Plan> The model class that this factory creates. */
     protected $model = Plan::class;
 
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed> The default attribute values for a Plan.
+     */
     public function definition(): array
     {
         return [
@@ -25,11 +35,21 @@ class PlanFactory extends Factory
         ];
     }
 
+    /**
+     * Indicate that the plan should be inactive.
+     *
+     * @return static The factory instance with inactive state applied.
+     */
     public function inactive(): static
     {
         return $this->state(['is_active' => false]);
     }
 
+    /**
+     * Indicate that the plan should be marked as featured.
+     *
+     * @return static The factory instance with featured state applied.
+     */
     public function featured(): static
     {
         return $this->state(['is_featured' => true]);

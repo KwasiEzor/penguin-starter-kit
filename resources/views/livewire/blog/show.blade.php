@@ -60,12 +60,21 @@
                 @endforeach
             </div>
         @endif
+
+        <!-- Categories -->
+        @if ($post->categories->isNotEmpty())
+            <div class="mt-3 flex flex-wrap gap-2">
+                @foreach ($post->categories as $category)
+                    <x-badge size="sm" variant="default">{{ $category->name }}</x-badge>
+                @endforeach
+            </div>
+        @endif
     </header>
 
     <x-separator />
 
     <!-- Content -->
     <div class="prose dark:prose-invert mt-8 max-w-none text-on-surface-strong dark:text-on-surface-dark-strong">
-        {!! nl2br(e($post->body)) !!}
+        {!! $post->body !!}
     </div>
 </article>

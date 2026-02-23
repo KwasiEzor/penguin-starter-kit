@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Tests for the Input blade component.
+ *
+ * Verifies rendering of text inputs with proper name attributes and styling,
+ * as well as the password variant with its show/hide toggle functionality.
+ */
+
 it('renders a text input by default', function (): void {
     $view = $this->blade('<x-input name="email" />');
 

@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Tests for the post editing workflow.
+ *
+ * Verifies that the edit post page renders, posts can be updated with valid data,
+ * users are prevented from editing other users' posts, and required field
+ * validation is enforced.
+ */
+
 use App\Models\Post;
 use App\Models\User;
 use Livewire\Livewire;

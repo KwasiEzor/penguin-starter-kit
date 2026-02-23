@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
 use Livewire\Form;
 
+/**
+ * Livewire form object for handling user registration.
+ *
+ * Manages validation of registration fields, user creation,
+ * firing of the Registered event, and automatic login.
+ */
 final class RegisterForm extends Form
 {
     public string $name = '';
@@ -20,6 +26,15 @@ final class RegisterForm extends Form
 
     public string $password_confirmation = '';
 
+    /**
+     * Validate the registration data, create the user, and log them in.
+     *
+     * Validates name, email uniqueness, and password confirmation, then
+     * creates the user record, fires the Registered event, and
+     * authenticates the new user.
+     *
+     * @return void
+     */
     public function register(): void
     {
         $validated = $this->validate([

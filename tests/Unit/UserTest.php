@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Tests for the User model's initials generation.
+ *
+ * Verifies that initials are correctly derived from full names, single names,
+ * multi-word names (using the first two words), and that initials are always
+ * returned in uppercase.
+ */
+
 use App\Models\User;
 
 it('generates initials from full name', function (): void {

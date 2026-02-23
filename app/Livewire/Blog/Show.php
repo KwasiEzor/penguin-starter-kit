@@ -24,7 +24,7 @@ final class Show extends Component
         $this->post = Post::query()
             ->where('slug', $slug)
             ->where('status', 'published')
-            ->with(['user', 'tags', 'media'])
+            ->with(['user', 'tags', 'categories', 'media'])
             ->firstOrFail();
 
         $this->metaTitle = $this->post->meta_title ?: $this->post->title;

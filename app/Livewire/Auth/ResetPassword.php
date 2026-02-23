@@ -15,6 +15,12 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 
+/**
+ * Livewire component that handles resetting a user's password.
+ *
+ * Accepts a reset token and email, validates the new password,
+ * updates the user's credentials, and redirects to the login page.
+ */
 #[Layout('components.layouts.auth')]
 final class ResetPassword extends Component
 {
@@ -27,12 +33,23 @@ final class ResetPassword extends Component
 
     public string $password_confirmation = '';
 
+    /**
+     * Initialize the component with the password reset token and email from the request.
+     *
+     * @param  string  $token  The password reset token from the reset link.
+     * @return void
+     */
     public function mount(string $token): void
     {
         $this->token = $token;
         $this->email = request('email') ?? '';
     }
 
+    /**
+     * Validate the reset token and new password, then update the user's credentials.
+     *
+     * @return void
+     */
     public function resetPassword(): void
     {
         $this->validate([
@@ -65,6 +82,11 @@ final class ResetPassword extends Component
         $this->redirectRoute('login', navigate: true);
     }
 
+    /**
+     * Render the password reset view.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         return view('livewire.auth.reset-password');

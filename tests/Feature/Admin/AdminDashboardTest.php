@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Tests for the admin dashboard feature.
+ *
+ * Verifies that admin users can access the dashboard and view stats,
+ * non-admin users are forbidden, and unauthenticated guests are
+ * redirected to the login page.
+ */
+
 use App\Models\User;
 
 it('allows admin users to access admin dashboard', function (): void {

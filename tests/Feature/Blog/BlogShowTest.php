@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Tests for the public blog post show page.
+ *
+ * Verifies that published posts are viewable by slug, that draft and
+ * non-existent posts return 404 responses, that Open Graph meta tags are
+ * rendered correctly, that tags are displayed, and that the page is
+ * accessible without authentication.
+ */
+
 use App\Models\Post;
 use App\Models\User;
 

@@ -5,11 +5,21 @@ namespace Database\Factories;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/** @extends Factory<Product> */
+/**
+ * Factory for generating Product test data.
+ *
+ * @extends Factory<Product>
+ */
 class ProductFactory extends Factory
 {
+    /** @var class-string<Product> The model class that this factory creates. */
     protected $model = Product::class;
 
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed> The default attribute values for a Product.
+     */
     public function definition(): array
     {
         return [
@@ -22,6 +32,11 @@ class ProductFactory extends Factory
         ];
     }
 
+    /**
+     * Indicate that the product should be inactive.
+     *
+     * @return static The factory instance with inactive state applied.
+     */
     public function inactive(): static
     {
         return $this->state(['is_active' => false]);

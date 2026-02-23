@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Tests for the Tabs, Tab, and TabPanel blade components.
+ *
+ * Verifies rendering of the tabbed interface including tab labels, panel content,
+ * and proper ARIA role attributes for accessibility (tab and tabpanel roles).
+ */
+
 it('renders tabs component', function (): void {
     $view = $this->blade('
         <x-tabs active="first">

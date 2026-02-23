@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Tests for the Card blade component.
+ *
+ * Verifies rendering of cards with basic content, as well as cards
+ * that include optional header and footer slots.
+ */
+
 it('renders a card with content', function (): void {
     $view = $this->blade('<x-card>Card content</x-card>');
 

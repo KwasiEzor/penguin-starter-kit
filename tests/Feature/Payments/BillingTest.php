@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Tests for the billing page functionality.
+ *
+ * Verifies that the billing page respects the payments enabled/disabled setting,
+ * requires authentication, displays correctly when enabled, and shows appropriate
+ * subscription information for users without an active subscription.
+ */
+
 use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;

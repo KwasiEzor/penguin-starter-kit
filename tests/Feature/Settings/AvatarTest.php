@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Tests for the user avatar upload functionality.
+ *
+ * Covers uploading an avatar image, validating that the file is an image,
+ * enforcing maximum file size limits, and removing an existing avatar.
+ */
+
 use App\Livewire\Settings\Profile;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;

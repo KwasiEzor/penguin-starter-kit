@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Tests for the email verification workflow.
+ *
+ * Covers rendering the verification notice page, resending the verification
+ * email, verifying an email via a signed URL, and redirecting users who
+ * have already verified their email address.
+ */
+
 use App\Livewire\Auth\VerifyEmail;
 use App\Models\User;
 use Illuminate\Auth\Notifications\VerifyEmail as VerifyEmailNotification;

@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Tests for the spotlight search Livewire component.
+ *
+ * Verifies rendering, searching posts by title, displaying navigation pages,
+ * showing a "no results" message for unknown queries, scoping results to the
+ * current user's posts, and closing the search overlay.
+ */
+
 use App\Models\Post;
 use App\Models\User;
 use Livewire\Livewire;

@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Tests for the Post API endpoints.
+ *
+ * Verifies Sanctum token authentication, CRUD operations on posts via the
+ * JSON API, ownership-based authorization, and the authenticated user endpoint.
+ */
+
 use App\Models\Post;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;

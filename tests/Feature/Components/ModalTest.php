@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Tests for the Modal blade component.
+ *
+ * Verifies rendering of the modal dialog including its trigger slot,
+ * header slot, body content, and the Alpine.js open/close state binding.
+ */
+
 it('renders a modal with trigger and content', function (): void {
     $view = $this->blade('
         <x-modal>

@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Tests for the NewPostPublished broadcast event.
+ *
+ * Verifies that the event is dispatched when a post is published (and not
+ * for drafts), that it broadcasts to private channels for all users except
+ * the author, that the broadcast payload contains the expected data, and
+ * that the correct broadcast event name is used.
+ */
+
 use App\Events\NewPostPublished;
 use App\Models\Post;
 use App\Models\User;

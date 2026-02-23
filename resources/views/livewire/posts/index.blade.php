@@ -32,6 +32,16 @@
                 </x-select>
             </div>
         @endif
+        @if ($availableCategories->isNotEmpty())
+            <div class="w-full sm:w-40">
+                <x-select wire:model.live="categoryFilter">
+                    <option value="">{{ __('All Categories') }}</option>
+                    @foreach ($availableCategories as $category)
+                        <option value="{{ $category->slug }}">{{ $category->name }}</option>
+                    @endforeach
+                </x-select>
+            </div>
+        @endif
     </div>
 
     <!-- Table -->
@@ -47,6 +57,7 @@
                     {{ __('Title') }}
                 </x-table-heading>
                 <x-table-heading>{{ __('Tags') }}</x-table-heading>
+                <x-table-heading>{{ __('Categories') }}</x-table-heading>
                 <x-table-heading>{{ __('Status') }}</x-table-heading>
                 <x-table-heading
                     :sortable="true"
@@ -90,6 +101,13 @@
                         </div>
                     </x-table-cell>
                     <x-table-cell>
+                        <div class="flex flex-wrap gap-1">
+                            @foreach ($post->categories as $category)
+                                <x-badge size="sm" variant="default">{{ $category->name }}</x-badge>
+                            @endforeach
+                        </div>
+                    </x-table-cell>
+                    <x-table-cell>
                         <x-badge :variant="$post->status === 'published' ? 'success' : 'default'">
                             {{ ucfirst($post->status) }}
                         </x-badge>
@@ -122,9 +140,9 @@
     @else
         <x-empty-state
             title="{{ __('No posts found') }}"
-            description="{{ $search || $statusFilter || $tagFilter ? __('Try adjusting your search or filters.') : __('Create your first post to get started.') }}"
+            description="{{ $search || $statusFilter || $tagFilter || $categoryFilter || $categoryFilter ? __('Try adjusting your search or filters.') : __('Create your first post to get started.') }}"
         >
-            @unless ($search || $statusFilter || $tagFilter)
+            @unless ($search || $statusFilter || $tagFilter || $categoryFilter)
                 <x-slot name="action">
                     <x-button href="{{ route('posts.create') }}">{{ __('Create Post') }}</x-button>
                 </x-slot>

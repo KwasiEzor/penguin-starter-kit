@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Password;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+/**
+ * Livewire component that handles the "forgot password" flow.
+ *
+ * Accepts an email address, sends a password reset link to the user,
+ * and displays a success toast or validation error accordingly.
+ */
 #[Layout('components.layouts.auth')]
 final class ForgotPassword extends Component
 {
@@ -16,6 +22,11 @@ final class ForgotPassword extends Component
 
     public string $email = '';
 
+    /**
+     * Validate the email address and send a password reset link.
+     *
+     * @return void
+     */
     public function sendPasswordResetLink(): void
     {
         $this->validate([
@@ -39,6 +50,11 @@ final class ForgotPassword extends Component
         session()->flash('status', __($status));
     }
 
+    /**
+     * Render the forgot password view.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
         return view('livewire.auth.forgot-password');

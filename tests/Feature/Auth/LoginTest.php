@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Tests for the login page and authentication.
+ *
+ * Covers rendering the login page, authenticating with valid credentials,
+ * rejecting invalid credentials, and redirecting already-authenticated
+ * users away from the login route.
+ */
+
 use App\Livewire\Auth\Login;
 use App\Models\User;
 use Livewire\Livewire;
