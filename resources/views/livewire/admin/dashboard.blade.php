@@ -1,85 +1,64 @@
-<div class="flex flex-col gap-6">
+<div class="flex flex-col gap-10">
     <!-- Header -->
-    <div>
-        <x-typography.heading accent size="xl" level="1">{{ __('Admin Dashboard') }}</x-typography.heading>
-        <x-typography.subheading size="lg">{{ __('Overview of your application') }}</x-typography.subheading>
+    <div class="flex flex-col gap-2">
+        <h1 class="text-3xl font-black tracking-tight text-on-surface-strong dark:text-on-surface-dark-strong">
+            {{ __('Welcome back,') }} {{ auth()->user()->name }} 👋
+        </h1>
+        <p class="text-on-surface/60 dark:text-on-surface-dark/60 font-medium">
+            {{ __('Here is what is happening with your platform today.') }}
+        </p>
     </div>
 
-    <x-separator />
-
     <!-- Stats Cards -->
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         <x-stat-card
             :label="__('Total Users')"
-            :value="$totalUsers"
+            :value="number_format($totalUsers)"
             color="primary"
             :href="route('admin.users.index')"
+            change="+12%"
+            trend="up"
         >
             <x-slot:icon>
-                <svg
-                    class="size-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"
-                    />
-                </svg>
+                <x-icons.users variant="outline" size="md" />
             </x-slot>
         </x-stat-card>
 
-        <x-stat-card :label="__('Total Posts')" :value="$totalPosts" color="info">
+        <x-stat-card
+            :label="__('Total Posts')"
+            :value="number_format($totalPosts)"
+            color="info"
+            change="+5%"
+            trend="up"
+        >
             <x-slot:icon>
-                <x-icons.document-text class="size-6" />
+                <x-icons.document-text variant="outline" size="md" />
             </x-slot>
         </x-stat-card>
 
-        <x-stat-card :label="__('Published')" :value="$publishedPosts" color="success">
+        <x-stat-card
+            :label="__('Published')"
+            :value="number_format($publishedPosts)"
+            color="success"
+            change="Keep it up!"
+            trend="neutral"
+        >
             <x-slot:icon>
-                <svg
-                    class="size-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                    />
-                </svg>
+                <x-icons.check-circle variant="outline" size="md" />
             </x-slot>
         </x-stat-card>
 
         @if ($paymentsEnabled)
             <x-stat-card
-                :label="__('Active Subscriptions')"
-                :value="$activeSubscriptions"
+                :label="__('Subscriptions')"
+                :value="number_format($activeSubscriptions)"
                 color="primary"
                 :href="route('admin.payments')"
+                change="+3%"
+                trend="up"
             >
                 <x-slot:icon>
-                    <svg
-                        class="size-6"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"
-                        />
-                    </svg>
+                    <x-icons.credit-card variant="outline" size="md" />
                 </x-slot>
             </x-stat-card>
 
@@ -88,90 +67,193 @@
                 :value="'$' . number_format($monthlyRevenue / 100, 2)"
                 color="success"
                 :href="route('admin.payments')"
+                change="+24%"
+                trend="up"
             >
                 <x-slot:icon>
-                    <svg
-                        class="size-6"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                        />
-                    </svg>
+                    <x-icons.currency-dollar variant="outline" size="md" />
                 </x-slot>
             </x-stat-card>
         @endif
     </div>
 
+    <!-- Charts -->
+    <div class="grid gap-8 lg:grid-cols-2">
+        <x-card padding="false" class="overflow-hidden">
+            <x-slot name="header">
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold text-on-surface-strong dark:text-on-surface-dark-strong">{{ __('User Growth') }}</span>
+                    <span class="text-xs text-on-surface/50">{{ __('New registrations over the last 30 days') }}</span>
+                </div>
+            </x-slot>
+            <div class="p-6">
+                <div id="user-chart" class="min-h-[300px]"></div>
+            </div>
+        </x-card>
+
+        <x-card padding="false" class="overflow-hidden">
+            <x-slot name="header">
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold text-on-surface-strong dark:text-on-surface-dark-strong">{{ __('AI Token Usage') }}</span>
+                    <span class="text-xs text-on-surface/50">{{ __('Total output tokens generated by agents') }}</span>
+                </div>
+            </x-slot>
+            <div class="p-6">
+                <div id="token-chart" class="min-h-[300px]"></div>
+            </div>
+        </x-card>
+    </div>
+
     <!-- Recent Activity -->
-    <div class="grid gap-6 lg:grid-cols-2">
+    <div class="grid gap-8 lg:grid-cols-2">
         <!-- Recent Users -->
-        <x-card>
+        <x-card padding="false">
             <x-slot name="header">
                 <div class="flex items-center justify-between">
-                    <x-typography.heading accent>{{ __('Recent Users') }}</x-typography.heading>
+                    <span class="text-sm font-bold text-on-surface-strong dark:text-on-surface-dark-strong">{{ __('Newest Members') }}</span>
                     <x-button size="xs" variant="ghost" href="{{ route('admin.users.index') }}">
                         {{ __('View all') }}
                     </x-button>
                 </div>
             </x-slot>
-            @forelse ($recentUsers as $user)
-                <div
-                    class="flex items-center gap-3 {{ ! $loop->last ? 'mb-3 pb-3 border-b border-outline dark:border-outline-dark' : '' }}"
-                >
-                    <x-avatar :src="$user->avatarUrl()" :initials="$user->initials()" size="sm" />
-                    <div class="flex-1 min-w-0">
-                        <p class="text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong truncate">
-                            {{ $user->name }}
-                        </p>
-                        <p class="text-xs text-on-surface dark:text-on-surface-dark truncate">{{ $user->email }}</p>
+            <div class="divide-y divide-outline dark:divide-outline-dark">
+                @forelse ($recentUsers as $user)
+                    <div class="flex items-center gap-4 px-6 py-4 transition-colors hover:bg-surface-alt/30 dark:hover:bg-surface-dark/30">
+                        <x-avatar :src="$user->avatarUrl()" :initials="$user->initials()" size="md" />
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-semibold text-on-surface-strong dark:text-on-surface-dark-strong truncate">
+                                {{ $user->name }}
+                            </p>
+                            <p class="text-xs text-on-surface/60 dark:text-on-surface-dark/60 truncate">{{ $user->email }}</p>
+                        </div>
+                        @php
+                            $roleName = $user->roles->first()?->name ?? 'user';
+                        @endphp
+                        <x-badge
+                            :variant="$roleName === 'admin' ? 'primary' : ($roleName === 'editor' ? 'info' : 'default')"
+                            size="sm"
+                        >
+                            {{ ucfirst($roleName) }}
+                        </x-badge>
                     </div>
-                    @php
-                        $roleName = $user->roles->first()?->name ?? 'user';
-                    @endphp
-
-                    <x-badge
-                        :variant="$roleName === 'admin' ? 'primary' : ($roleName === 'editor' ? 'info' : 'default')"
-                        size="sm"
-                    >
-                        {{ ucfirst($roleName) }}
-                    </x-badge>
-                </div>
-            @empty
-                <p class="text-sm text-on-surface dark:text-on-surface-dark">{{ __('No users yet.') }}</p>
-            @endforelse
+                @empty
+                    <div class="p-6 text-center text-sm text-on-surface/50">{{ __('No users yet.') }}</div>
+                @endforelse
+            </div>
         </x-card>
 
         <!-- Recent Posts -->
-        <x-card>
+        <x-card padding="false">
             <x-slot name="header">
-                <x-typography.heading accent>{{ __('Recent Posts') }}</x-typography.heading>
-            </x-slot>
-            @forelse ($recentPosts as $post)
-                <div
-                    class="flex items-center gap-3 {{ ! $loop->last ? 'mb-3 pb-3 border-b border-outline dark:border-outline-dark' : '' }}"
-                >
-                    <div class="flex-1 min-w-0">
-                        <p class="text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong truncate">
-                            {{ $post->title }}
-                        </p>
-                        <p class="text-xs text-on-surface dark:text-on-surface-dark">
-                            {{ __('by') }} {{ $post->user->name }} &middot; {{ $post->created_at->diffForHumans() }}
-                        </p>
-                    </div>
-                    <x-badge :variant="$post->status === 'published' ? 'success' : 'default'" size="sm">
-                        {{ ucfirst($post->status) }}
-                    </x-badge>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-bold text-on-surface-strong dark:text-on-surface-dark-strong">{{ __('Latest Posts') }}</span>
                 </div>
-            @empty
-                <p class="text-sm text-on-surface dark:text-on-surface-dark">{{ __('No posts yet.') }}</p>
-            @endforelse
+            </x-slot>
+            <div class="divide-y divide-outline dark:divide-outline-dark">
+                @forelse ($recentPosts as $post)
+                    <div class="flex items-center gap-4 px-6 py-4 transition-colors hover:bg-surface-alt/30 dark:hover:bg-surface-dark/30">
+                        <div class="flex size-10 items-center justify-center rounded-xl bg-surface-alt dark:bg-surface-dark">
+                            <x-icons.document-text size="sm" class="text-on-surface/40" />
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-semibold text-on-surface-strong dark:text-on-surface-dark-strong truncate">
+                                {{ $post->title }}
+                            </p>
+                            <p class="text-xs text-on-surface/60 dark:text-on-surface-dark/60">
+                                {{ __('by') }} {{ $post->user->name }} &middot; {{ $post->created_at->diffForHumans() }}
+                            </p>
+                        </div>
+                        <x-badge :variant="$post->status === 'published' ? 'success' : 'default'" size="sm">
+                            {{ ucfirst($post->status) }}
+                        </x-badge>
+                    </div>
+                @empty
+                    <div class="p-6 text-center text-sm text-on-surface/50">{{ __('No posts yet.') }}</div>
+                @endforelse
+            </div>
         </x-card>
     </div>
+
+    @once
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    @endonce
+
+    <script>
+        function initDashboardCharts() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const textColor = isDark ? '#94a3b8' : '#64748b';
+            const gridColor = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+
+            const chartOptions = {
+                chart: {
+                    type: 'area',
+                    height: 300,
+                    toolbar: { show: false },
+                    fontFamily: 'Instrument Sans, sans-serif',
+                    animations: { enabled: true, easing: 'easeinout', speed: 800 }
+                },
+                stroke: { curve: 'smooth', width: 3, lineCap: 'round' },
+                fill: {
+                    type: 'gradient',
+                    gradient: { 
+                        shadeIntensity: 1, 
+                        opacityFrom: 0.4, 
+                        opacityTo: 0, 
+                        stops: [0, 90, 100] 
+                    }
+                },
+                dataLabels: { enabled: false },
+                grid: { borderColor: gridColor, strokeDashArray: 4 },
+                xaxis: {
+                    type: 'datetime',
+                    labels: { style: { colors: textColor, fontWeight: 600, fontSize: '11px' } },
+                    axisBorder: { show: false },
+                    axisTicks: { show: false }
+                },
+                yaxis: {
+                    labels: { style: { colors: textColor, fontWeight: 600, fontSize: '11px' } }
+                },
+                tooltip: {
+                    theme: isDark ? 'dark' : 'light',
+                    x: { format: 'dd MMM yyyy' }
+                }
+            };
+
+            const userEl = document.querySelector("#user-chart");
+            if (userEl) {
+                userEl.innerHTML = '';
+                new ApexCharts(userEl, {
+                    ...chartOptions,
+                    series: [{ name: 'New Users', data: @json(array_combine($userTrend['labels'], $userTrend['data'])) }],
+                    colors: ['#6366f1'],
+                }).render();
+            }
+
+            const tokenEl = document.querySelector("#token-chart");
+            if (tokenEl) {
+                tokenEl.innerHTML = '';
+                new ApexCharts(tokenEl, {
+                    ...chartOptions,
+                    series: [{ name: 'Tokens', data: @json(array_combine($tokenTrend['labels'], $tokenTrend['data'])) }],
+                    colors: ['#10b981'],
+                }).render();
+            }
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', initDashboardCharts);
+        
+        // Initialize on Livewire navigation
+        document.addEventListener('livewire:navigated', initDashboardCharts);
+
+        // Re-initialize when theme changes
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'class') {
+                    initDashboardCharts();
+                }
+            });
+        });
+        observer.observe(document.documentElement, { attributes: true });
+    </script>
 </div>

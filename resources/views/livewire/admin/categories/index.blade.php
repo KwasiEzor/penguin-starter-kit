@@ -1,132 +1,142 @@
-<div class="flex flex-col gap-6">
+<div class="flex flex-col gap-8">
     <!-- Header -->
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-            <x-breadcrumbs class="mb-4">
-                <x-breadcrumb-item href="{{ route('admin.dashboard') }}">{{ __('Admin') }}</x-breadcrumb-item>
-                <x-breadcrumb-item :active="true">{{ __('Categories') }}</x-breadcrumb-item>
-            </x-breadcrumbs>
-
-            <x-typography.heading accent size="xl" level="1">{{ __('Categories') }}</x-typography.heading>
-            <x-typography.subheading size="lg">{{ __('Manage post categories') }}</x-typography.subheading>
+            <h1 class="text-3xl font-black tracking-tight text-on-surface-strong dark:text-on-surface-dark-strong">
+                {{ __('Category Manager') }}
+            </h1>
+            <p class="text-on-surface/60 dark:text-on-surface-dark/60 font-medium mt-1">
+                {{ __('Organize your posts and content with polymorphic categories.') }}
+            </p>
         </div>
-        <x-button wire:click="createCategory">{{ __('Add Category') }}</x-button>
+        <x-button wire:click="createCategory" class="shadow-lg shadow-primary/20">
+            <x-icons.plus variant="outline" size="sm" class="mr-1" />
+            {{ __('New Category') }}
+        </x-button>
     </div>
 
-    <x-separator />
+    <!-- Main Card -->
+    <x-card padding="false">
+        @if ($categories->count())
+            <x-table>
+                <x-slot name="head">
+                    <x-table-heading>{{ __('Name') }}</x-table-heading>
+                    <x-table-heading>{{ __('Slug') }}</x-table-heading>
+                    <x-table-heading>{{ __('Post Count') }}</x-table-heading>
+                    <x-table-heading class="text-right">{{ __('Actions') }}</x-table-heading>
+                </x-slot>
 
-    <!-- Table -->
-    @if ($categories->count())
-        <x-table>
-            <x-slot name="head">
-                <x-table-heading>{{ __('Name') }}</x-table-heading>
-                <x-table-heading>{{ __('Slug') }}</x-table-heading>
-                <x-table-heading>{{ __('Posts') }}</x-table-heading>
-                <x-table-heading>{{ __('Actions') }}</x-table-heading>
-            </x-slot>
-
-            @foreach ($categories as $category)
-                <tr class="hover:bg-surface-alt/50 dark:hover:bg-surface-dark/50" wire:key="category-{{ $category->id }}">
-                    <x-table-cell class="font-medium text-on-surface-strong dark:text-on-surface-dark-strong">
-                        {{ $category->name }}
-                    </x-table-cell>
-                    <x-table-cell class="text-xs">{{ $category->slug }}</x-table-cell>
-                    <x-table-cell>
-                        <x-badge variant="default">{{ $category->posts_count }}</x-badge>
-                    </x-table-cell>
-                    <x-table-cell>
-                        <div class="flex items-center gap-2">
-                            <x-button size="xs" variant="ghost" wire:click="editCategory({{ $category->id }})">
-                                {{ __('Edit') }}
-                            </x-button>
-                            <x-button
-                                size="xs"
-                                variant="ghost"
-                                wire:click="confirmDelete({{ $category->id }})"
-                                class="text-danger hover:text-danger"
-                            >
-                                {{ __('Delete') }}
-                            </x-button>
-                        </div>
-                    </x-table-cell>
-                </tr>
-            @endforeach
-        </x-table>
-    @else
-        <x-empty-state
-            title="{{ __('No categories yet') }}"
-            description="{{ __('Create your first category to organize posts.') }}"
-        >
-            <x-slot name="action">
-                <x-button wire:click="createCategory">{{ __('Add Category') }}</x-button>
-            </x-slot>
-        </x-empty-state>
-    @endif
+                @foreach ($categories as $category)
+                    <tr class="group hover:bg-surface-alt/30 dark:hover:bg-surface-dark/30 transition-colors" wire:key="category-{{ $category->id }}">
+                        <x-table-cell>
+                            <span class="font-bold text-on-surface-strong dark:text-on-surface-dark-strong">
+                                {{ $category->name }}
+                            </span>
+                        </x-table-cell>
+                        <x-table-cell>
+                            <code class="text-xs bg-surface-alt dark:bg-surface-dark px-2 py-1 rounded border border-outline dark:border-outline-dark text-on-surface/70">
+                                {{ $category->slug }}
+                            </code>
+                        </x-table-cell>
+                        <x-table-cell>
+                            <div class="flex items-center gap-2">
+                                <x-icons.document-text variant="outline" size="xs" class="text-on-surface/40" />
+                                <span class="text-sm font-semibold text-on-surface/70">{{ number_format($category->posts_count) }}</span>
+                            </div>
+                        </x-table-cell>
+                        <x-table-cell>
+                            <div class="flex items-center justify-end gap-1">
+                                <button
+                                    wire:click="editCategory({{ $category->id }})"
+                                    class="inline-flex items-center justify-center rounded-lg p-2 text-on-surface/60 transition-all hover:bg-primary/10 hover:text-primary dark:hover:bg-primary-dark/10 dark:hover:text-primary-dark"
+                                    title="{{ __('Edit Category') }}"
+                                >
+                                    <x-icons.pencil-square variant="outline" size="sm" />
+                                </button>
+                                @if ($category->posts_count === 0)
+                                    <button
+                                        type="button"
+                                        wire:click="confirmDelete({{ $category->id }})"
+                                        class="inline-flex items-center justify-center rounded-lg p-2 text-on-surface/60 transition-all hover:bg-danger/10 hover:text-danger"
+                                        title="{{ __('Delete Category') }}"
+                                    >
+                                        <x-icons.trash variant="outline" size="sm" />
+                                    </button>
+                                @endif
+                            </div>
+                        </x-table-cell>
+                    </tr>
+                @endforeach
+            </x-table>
+        @else
+            <div class="flex flex-col items-center justify-center py-20">
+                <div class="bg-surface-alt dark:bg-surface-dark rounded-full p-6 mb-4">
+                    <x-icons.tag variant="outline" size="xl" class="text-on-surface/20" />
+                </div>
+                <h3 class="text-lg font-bold text-on-surface-strong dark:text-on-surface-dark-strong">
+                    {{ __('No categories yet') }}
+                </h3>
+                <p class="text-on-surface/60 max-w-xs text-center mt-1">
+                    {{ __('Organize your blog and agents by creating your first category.') }}
+                </p>
+                <x-button wire:click="createCategory" class="mt-6 shadow-lg shadow-primary/20">
+                    {{ __('Create Category') }}
+                </x-button>
+            </div>
+        @endif
+    </x-card>
 
     <!-- Create/Edit Modal -->
-    @if ($showModal)
-        <div
-            class="fixed inset-0 z-99 flex items-start justify-center bg-surface-dark/20 p-4 pb-8 backdrop-blur-sm sm:items-center lg:p-8"
-            role="dialog"
-            aria-modal="true"
-        >
-            <div
-                class="flex sm:max-w-xl w-full flex-col gap-4 overflow-hidden rounded-radius border border-outline bg-surface text-on-surface dark:border-outline-dark dark:bg-surface-dark-alt dark:text-on-surface-dark"
-            >
-                <div
-                    class="flex items-center justify-between border-b border-outline bg-surface-alt/60 p-4 dark:border-outline-dark dark:bg-surface-dark-alt/20"
-                >
-                    <x-typography.heading accent>
-                        {{ $editingCategoryId ? __('Edit Category') : __('Create Category') }}
-                    </x-typography.heading>
-                    <button wire:click="$set('showModal', false)" class="ml-auto" aria-label="close modal">
-                        <x-icons.x-mark />
-                    </button>
+    <x-modal :show="$showingModal" maxWidth="md">
+        <form wire:submit="save" class="p-8">
+            <h3 class="text-xl font-bold text-on-surface-strong dark:text-on-surface-dark-strong mb-6">
+                {{ $editingCategoryId ? __('Edit Category') : __('New Category') }}
+            </h3>
+
+            <div class="space-y-6">
+                <div>
+                    <x-input-label for="name" :value="__('Name')" />
+                    <x-input id="name" type="text" class="mt-1" wire:model="name" required autofocus placeholder="e.g. Technology" />
+                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
                 </div>
-                <form wire:submit="saveCategory" class="p-4 flex flex-col gap-4">
-                    <div>
-                        <x-input-label value="{{ __('Name') }}" for="category-name" />
-                        <x-input id="category-name" type="text" wire:model.live="name" class="mt-1" />
-                        <x-input-error :messages="$errors->get('name')" class="mt-1" />
-                    </div>
 
-                    <div>
-                        <x-input-label value="{{ __('Slug') }}" for="category-slug" />
-                        <x-input id="category-slug" type="text" wire:model="slug" class="mt-1" />
-                        <x-input-error :messages="$errors->get('slug')" class="mt-1" />
-                    </div>
-
-                    <div class="flex justify-end gap-2">
-                        <x-button variant="ghost" type="button" wire:click="$set('showModal', false)">
-                            {{ __('Cancel') }}
-                        </x-button>
-                        <x-button type="submit">
-                            {{ $editingCategoryId ? __('Update Category') : __('Create Category') }}
-                        </x-button>
-                    </div>
-                </form>
+                <div>
+                    <x-input-label for="slug" :value="__('Slug (Optional)')" />
+                    <x-input id="slug" type="text" class="mt-1" wire:model="slug" placeholder="e.g. technology" />
+                    <x-input-error :messages="$errors->get('slug')" class="mt-2" />
+                </div>
             </div>
-        </div>
-    @endif
+
+            <div class="mt-8 flex items-center justify-end gap-3">
+                <x-button variant="ghost" type="button" wire:click="cancelModal">{{ __('Cancel') }}</x-button>
+                <x-button type="submit">{{ __('Save Category') }}</x-button>
+            </div>
+        </form>
+    </x-modal>
 
     <!-- Delete Confirmation Modal -->
     <x-modal :show="$deletingCategoryId !== null" maxWidth="md">
-        <x-slot name="trigger"><span></span></x-slot>
-        <x-slot name="header">
-            <x-typography.subheading accent size="lg">{{ __('Delete Category') }}</x-typography.subheading>
-        </x-slot>
-        <div class="p-4">
-            <p class="text-sm text-on-surface dark:text-on-surface-dark">
-                {{ __('Are you sure you want to delete this category? This action cannot be undone.') }}
+        <div class="p-8">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="flex size-12 items-center justify-center rounded-full bg-danger/10 text-danger">
+                    <x-icons.trash variant="outline" size="md" />
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-on-surface-strong dark:text-on-surface-dark-strong">
+                        {{ __('Delete Category') }}
+                    </h3>
+                    <p class="text-sm text-on-surface/60">{{ __('This action cannot be undone.') }}</p>
+                </div>
+            </div>
+            
+            <p class="text-on-surface dark:text-on-surface-dark mb-8 leading-relaxed">
+                {{ __('Are you sure you want to delete this category? It will be removed from all associated content.') }}
             </p>
-        </div>
-        <div
-            class="flex flex-col-reverse justify-between gap-2 border-t border-outline bg-surface-alt/60 p-4 dark:border-outline-dark dark:bg-surface-dark/20 sm:flex-row sm:items-center md:justify-end"
-        >
-            <x-button variant="ghost" type="button" wire:click="cancelDelete">{{ __('Cancel') }}</x-button>
-            <x-button variant="danger" type="button" wire:click="deleteCategory">
-                {{ __('Delete Category') }}
-            </x-button>
+
+            <div class="flex items-center justify-end gap-3">
+                <x-button variant="ghost" type="button" wire:click="cancelDelete">{{ __('Cancel') }}</x-button>
+                <x-button variant="danger" type="button" wire:click="deleteCategory">{{ __('Delete Category') }}</x-button>
+            </div>
         </div>
     </x-modal>
 </div>

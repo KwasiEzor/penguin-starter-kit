@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1727de397f9f9d29b45260e8292bc906",
+    "content-hash": "04d51e0d844c8b9bbb4e7d55f5c7d01f",
     "packages": [
         {
             "name": "brick/math",
@@ -341,6 +341,86 @@
                 }
             ],
             "time": "2025-08-20T19:15:30+00:00"
+        },
+        {
+            "name": "dedoc/scramble",
+            "version": "v0.13.14",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dedoc/scramble.git",
+                "reference": "8f0c1bba364e4916f3f2ff23b7f4ca002e586b75"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dedoc/scramble/zipball/8f0c1bba364e4916f3f2ff23b7f4ca002e586b75",
+                "reference": "8f0c1bba364e4916f3f2ff23b7f4ca002e586b75",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^10.0|^11.0|^12.0",
+                "myclabs/deep-copy": "^1.12",
+                "nikic/php-parser": "^5.0",
+                "php": "^8.1",
+                "phpstan/phpdoc-parser": "^1.0|^2.0",
+                "spatie/laravel-package-tools": "^1.9.2"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.3",
+                "laravel/pint": "^v1.1.0",
+                "nunomaduro/collision": "^7.0|^8.0",
+                "orchestra/testbench": "^8.0|^9.0|^10.0",
+                "pestphp/pest": "^2.34|^3.7",
+                "pestphp/pest-plugin-laravel": "^2.3|^3.1",
+                "phpstan/extension-installer": "^1.4",
+                "phpstan/phpstan-deprecation-rules": "^2.0",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpunit/phpunit": "^10.5|^11.5.3",
+                "spatie/laravel-permission": "^6.10",
+                "spatie/pest-plugin-snapshots": "^2.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Dedoc\\Scramble\\ScrambleServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Dedoc\\Scramble\\": "src",
+                    "Dedoc\\Scramble\\Database\\Factories\\": "database/factories"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roman Lytvynenko",
+                    "email": "litvinenko95@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Automatic generation of API documentation for Laravel applications.",
+            "homepage": "https://github.com/dedoc/scramble",
+            "keywords": [
+                "documentation",
+                "laravel",
+                "openapi"
+            ],
+            "support": {
+                "issues": "https://github.com/dedoc/scramble/issues",
+                "source": "https://github.com/dedoc/scramble/tree/v0.13.14"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/romalytvynenko",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-02-15T13:14:31+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -761,6 +841,80 @@
                 "source": "https://github.com/igorw/evenement/tree/v3.0.2"
             },
             "time": "2023-08-08T05:53:35+00:00"
+        },
+        {
+            "name": "flowframe/laravel-trend",
+            "version": "v0.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Flowframe/laravel-trend.git",
+                "reference": "5ace11d3075932652dc48963faa732c043aeb14d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Flowframe/laravel-trend/zipball/5ace11d3075932652dc48963faa732c043aeb14d",
+                "reference": "5ace11d3075932652dc48963faa732c043aeb14d",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^8.37|^9|^10.0|^11.0|^12.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.4.3"
+            },
+            "require-dev": {
+                "nunomaduro/collision": "^5.3|^6.1|^8.0",
+                "orchestra/testbench": "^6.15|^7.0|^8.0|^9.0|^10.0",
+                "pestphp/pest": "^1.18|^2.34|^3.7",
+                "pestphp/pest-plugin-laravel": "^1.1|^2.3|^3.1",
+                "spatie/laravel-ray": "^1.23",
+                "vimeo/psalm": "^4.8|^5.6|^6.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Trend": "Flowframe\\Trend\\TrendFacade"
+                    },
+                    "providers": [
+                        "Flowframe\\Trend\\TrendServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Flowframe\\Trend\\": "src",
+                    "Flowframe\\Trend\\Database\\Factories\\": "database/factories"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lars Klopstra",
+                    "email": "lars@flowframe.nl",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Easily generate model trends",
+            "homepage": "https://github.com/flowframe/laravel-trend",
+            "keywords": [
+                "Flowframe",
+                "laravel",
+                "laravel-trend"
+            ],
+            "support": {
+                "issues": "https://github.com/Flowframe/laravel-trend/issues",
+                "source": "https://github.com/Flowframe/laravel-trend/tree/v0.4.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/larsklopstra",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-02-25T11:13:23+00:00"
         },
         {
             "name": "fruitcake/php-cors",
@@ -3006,6 +3160,66 @@
             "time": "2026-01-02T08:56:05+00:00"
         },
         {
+            "name": "myclabs/deep-copy",
+            "version": "1.13.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/myclabs/DeepCopy.git",
+                "reference": "07d290f0c47959fd5eed98c95ee5602db07e0b6a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/07d290f0c47959fd5eed98c95ee5602db07e0b6a",
+                "reference": "07d290f0c47959fd5eed98c95ee5602db07e0b6a",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1 || ^8.0"
+            },
+            "conflict": {
+                "doctrine/collections": "<1.6.8",
+                "doctrine/common": "<2.13.3 || >=3 <3.2.2"
+            },
+            "require-dev": {
+                "doctrine/collections": "^1.6.8",
+                "doctrine/common": "^2.13.3 || ^3.2.2",
+                "phpspec/prophecy": "^1.10",
+                "phpunit/phpunit": "^7.5.20 || ^8.5.23 || ^9.5.13"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/DeepCopy/deep_copy.php"
+                ],
+                "psr-4": {
+                    "DeepCopy\\": "src/DeepCopy/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Create deep copies (clones) of your objects",
+            "keywords": [
+                "clone",
+                "copy",
+                "duplicate",
+                "object",
+                "object graph"
+            ],
+            "support": {
+                "issues": "https://github.com/myclabs/DeepCopy/issues",
+                "source": "https://github.com/myclabs/DeepCopy/tree/1.13.4"
+            },
+            "funding": [
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/myclabs/deep-copy",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2025-08-01T08:46:24+00:00"
+        },
+        {
             "name": "nesbot/carbon",
             "version": "3.11.1",
             "source": {
@@ -3581,6 +3795,53 @@
                 }
             ],
             "time": "2025-12-27T19:41:33+00:00"
+        },
+        {
+            "name": "phpstan/phpdoc-parser",
+            "version": "2.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpstan/phpdoc-parser.git",
+                "reference": "a004701b11273a26cd7955a61d67a7f1e525a45a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/a004701b11273a26cd7955a61d67a7f1e525a45a",
+                "reference": "a004701b11273a26cd7955a61d67a7f1e525a45a",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4 || ^8.0"
+            },
+            "require-dev": {
+                "doctrine/annotations": "^2.0",
+                "nikic/php-parser": "^5.3.0",
+                "php-parallel-lint/php-parallel-lint": "^1.2",
+                "phpstan/extension-installer": "^1.0",
+                "phpstan/phpstan": "^2.0",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpstan/phpstan-strict-rules": "^2.0",
+                "phpunit/phpunit": "^9.6",
+                "symfony/process": "^5.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PHPStan\\PhpDocParser\\": [
+                        "src/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHPDoc parser with support for nullable, intersection and generic types",
+            "support": {
+                "issues": "https://github.com/phpstan/phpdoc-parser/issues",
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/2.3.2"
+            },
+            "time": "2026-01-25T14:56:51+00:00"
         },
         {
             "name": "prism-php/prism",
@@ -5001,6 +5262,71 @@
             "time": "2024-06-11T12:45:25+00:00"
         },
         {
+            "name": "spatie/cpu-load-health-check",
+            "version": "1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/cpu-load-health-check.git",
+                "reference": "d2b89e406bd5e158bf9e3f5e9688b6d4afbf6ff1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/cpu-load-health-check/zipball/d2b89e406bd5e158bf9e3f5e9688b6d4afbf6ff1",
+                "reference": "d2b89e406bd5e158bf9e3f5e9688b6d4afbf6ff1",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "nunomaduro/collision": "^5.10|^6.1|^7.0|^8.0",
+                "pestphp/pest": "^1.21|^2.3|^3.0|4.0",
+                "pestphp/pest-plugin-laravel": "^1.21|^2.3|^3.0|^4.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0|^2.0",
+                "phpstan/phpstan-phpunit": "^1.0|^2.0",
+                "phpunit/phpunit": "^9.5|^10.5|^11.0|^12.0",
+                "spatie/laravel-health": "^1.2",
+                "spatie/laravel-ray": "^1.26"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\CpuLoadHealthCheck\\": "src",
+                    "Spatie\\CpuLoadHealthCheck\\Database\\Factories\\": "database/factories"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A Laravel Health check to monitor CPU load",
+            "homepage": "https://github.com/spatie/cpu-load-health-check",
+            "keywords": [
+                "cpu-load-health-check",
+                "laravel",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/cpu-load-health-check/issues",
+                "source": "https://github.com/spatie/cpu-load-health-check/tree/1.0.5"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-11-12T10:37:29+00:00"
+        },
+        {
             "name": "spatie/eloquent-sortable",
             "version": "5.0.0",
             "source": {
@@ -5073,6 +5399,82 @@
                 }
             ],
             "time": "2026-02-12T10:06:29+00:00"
+        },
+        {
+            "name": "spatie/enum",
+            "version": "3.13.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/enum.git",
+                "reference": "f1a0f464ba909491a53e60a955ce84ad7cd93a2c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/enum/zipball/f1a0f464ba909491a53e60a955ce84ad7cd93a2c",
+                "reference": "f1a0f464ba909491a53e60a955ce84ad7cd93a2c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "fakerphp/faker": "^1.9.1",
+                "larapack/dd": "^1.1",
+                "phpunit/phpunit": "^9.0",
+                "vimeo/psalm": "^4.3"
+            },
+            "suggest": {
+                "fakerphp/faker": "To use the enum faker provider",
+                "phpunit/phpunit": "To use the enum assertions"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Enum\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brent Roose",
+                    "email": "brent@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Tom Witkowski",
+                    "email": "dev@gummibeer.de",
+                    "homepage": "https://gummibeer.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP Enums",
+            "homepage": "https://github.com/spatie/enum",
+            "keywords": [
+                "enum",
+                "enumerable",
+                "spatie"
+            ],
+            "support": {
+                "docs": "https://docs.spatie.be/enum",
+                "issues": "https://github.com/spatie/enum/issues",
+                "source": "https://github.com/spatie/enum"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-04-22T08:51:55+00:00"
         },
         {
             "name": "spatie/image",
@@ -5201,6 +5603,98 @@
                 "source": "https://github.com/spatie/image-optimizer/tree/1.8.1"
             },
             "time": "2025-11-26T10:57:19+00:00"
+        },
+        {
+            "name": "spatie/laravel-health",
+            "version": "1.39.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-health.git",
+                "reference": "ef13e7249adee21e42d71b05f93c61ecf49326df"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-health/zipball/ef13e7249adee21e42d71b05f93c61ecf49326df",
+                "reference": "ef13e7249adee21e42d71b05f93c61ecf49326df",
+                "shasum": ""
+            },
+            "require": {
+                "dragonmantank/cron-expression": "^3.3.1",
+                "guzzlehttp/guzzle": "^6.5|^7.4.5|^7.2",
+                "illuminate/console": "^11.0|^12.0|^13.0",
+                "illuminate/contracts": "^11.0|^12.0|^13.0",
+                "illuminate/database": "^11.0|^12.0|^13.0",
+                "illuminate/notifications": "^11.0|^12.0|^13.0",
+                "illuminate/support": "^11.0|^12.0|^13.0",
+                "laravel/serializable-closure": "^1.3|^2.0",
+                "nunomaduro/termwind": "^1.0|^2.0",
+                "php": "^8.2",
+                "spatie/enum": "^3.13",
+                "spatie/laravel-package-tools": "^1.12.1",
+                "spatie/regex": "^3.1.1|^3.1",
+                "spatie/temporary-directory": "^2.2",
+                "symfony/process": "^5.4|^6.0|^7.0|^8.0"
+            },
+            "require-dev": {
+                "laravel/horizon": "^5.9.10",
+                "nunomaduro/collision": "^5.10|^6.2.1|^6.1|^8.0",
+                "orchestra/testbench": "^9.0|^10.0|^11.0",
+                "pestphp/pest": "^2.34|^3.0|^4.0",
+                "pestphp/pest-plugin-laravel": "^2.3|^3.0|^4.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0|^2.0",
+                "phpstan/phpstan-phpunit": "^1.1.1|^2.0",
+                "phpunit/phpunit": "^9.5.21|^9.5.10|^10.5|^11.0|^12.0",
+                "spatie/laravel-ray": "^1.30",
+                "spatie/pest-plugin-snapshots": "^1.1|^2.3|^3.0",
+                "spatie/pest-plugin-test-time": "^1.1.1|^1.1|^2.0|^3.0",
+                "spatie/test-time": "^1.3|^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Health": "Spatie\\Health\\Facades\\Health"
+                    },
+                    "providers": [
+                        "Spatie\\Health\\HealthServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Health\\": "src",
+                    "Spatie\\Health\\Database\\Factories\\": "database/factories"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Monitor the health of a Laravel application",
+            "homepage": "https://github.com/spatie/laravel-health",
+            "keywords": [
+                "laravel",
+                "laravel-health",
+                "spatie"
+            ],
+            "support": {
+                "source": "https://github.com/spatie/laravel-health/tree/1.39.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-03-01T12:56:10+00:00"
         },
         {
             "name": "spatie/laravel-markdown-response",
@@ -5693,6 +6187,206 @@
                 }
             ],
             "time": "2025-11-24T15:57:48+00:00"
+        },
+        {
+            "name": "spatie/packagist-api",
+            "version": "2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/packagist-api.git",
+                "reference": "0ce5b849df19338f44902008ebc1f9e9e166a1b6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/packagist-api/zipball/0ce5b849df19338f44902008ebc1f9e9e166a1b6",
+                "reference": "0ce5b849df19338f44902008ebc1f9e9e166a1b6",
+                "shasum": ""
+            },
+            "require": {
+                "composer/semver": "^3.0",
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^7.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.17.3",
+                "phpunit/phpunit": "^11.5 || ^12.0",
+                "spatie/phpunit-snapshot-assertions": "^5.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Packagist\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Jolita Grazyte",
+                    "email": "jolita@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Mark Walet",
+                    "homepage": "https://markwalet.me",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Fetch package info from Packagist",
+            "homepage": "https://github.com/spatie/packagist-api",
+            "keywords": [
+                "api",
+                "packagist",
+                "spatie"
+            ],
+            "support": {
+                "source": "https://github.com/spatie/packagist-api/tree/2.1.1"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-03-21T09:22:04+00:00"
+        },
+        {
+            "name": "spatie/regex",
+            "version": "3.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/regex.git",
+                "reference": "d543de2019a0068e7b80da0ba24f1c51c7469303"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/regex/zipball/d543de2019a0068e7b80da0ba24f1c51c7469303",
+                "reference": "d543de2019a0068e7b80da0ba24f1c51c7469303",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0|^8.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Regex\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian De Deyne",
+                    "email": "sebastian@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A sane interface for php's built in preg_* functions",
+            "homepage": "https://github.com/spatie/regex",
+            "keywords": [
+                "expression",
+                "expressions",
+                "regex",
+                "regular",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/regex/issues",
+                "source": "https://github.com/spatie/regex/tree/3.1.1"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-11-30T21:13:59+00:00"
+        },
+        {
+            "name": "spatie/security-advisories-health-check",
+            "version": "1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/security-advisories-health-check.git",
+                "reference": "150a9ef1f90cedc7289bc34e6f2fa181d0d74765"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/security-advisories-health-check/zipball/150a9ef1f90cedc7289bc34e6f2fa181d0d74765",
+                "reference": "150a9ef1f90cedc7289bc34e6f2fa181d0d74765",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.3",
+                "spatie/packagist-api": "^2.1"
+            },
+            "require-dev": {
+                "nunomaduro/collision": "^8.0",
+                "pestphp/pest": "^4.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "spatie/laravel-health": "^1.22.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\SecurityAdvisoriesHealthCheck\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A Laravel Health check to security advisories for PHP packages",
+            "homepage": "https://github.com/spatie/security-advisories-health-check",
+            "keywords": [
+                "laravel",
+                "security-advisories-health-check",
+                "spatie"
+            ],
+            "support": {
+                "source": "https://github.com/spatie/security-advisories-health-check/tree/1.3.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-10-02T14:36:02+00:00"
         },
         {
             "name": "spatie/temporary-directory",
@@ -9614,66 +10308,6 @@
             "time": "2024-05-16T03:13:13+00:00"
         },
         {
-            "name": "myclabs/deep-copy",
-            "version": "1.13.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "07d290f0c47959fd5eed98c95ee5602db07e0b6a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/07d290f0c47959fd5eed98c95ee5602db07e0b6a",
-                "reference": "07d290f0c47959fd5eed98c95ee5602db07e0b6a",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1 || ^8.0"
-            },
-            "conflict": {
-                "doctrine/collections": "<1.6.8",
-                "doctrine/common": "<2.13.3 || >=3 <3.2.2"
-            },
-            "require-dev": {
-                "doctrine/collections": "^1.6.8",
-                "doctrine/common": "^2.13.3 || ^3.2.2",
-                "phpspec/prophecy": "^1.10",
-                "phpunit/phpunit": "^7.5.20 || ^8.5.23 || ^9.5.13"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "src/DeepCopy/deep_copy.php"
-                ],
-                "psr-4": {
-                    "DeepCopy\\": "src/DeepCopy/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Create deep copies (clones) of your objects",
-            "keywords": [
-                "clone",
-                "copy",
-                "duplicate",
-                "object",
-                "object graph"
-            ],
-            "support": {
-                "issues": "https://github.com/myclabs/DeepCopy/issues",
-                "source": "https://github.com/myclabs/DeepCopy/tree/1.13.4"
-            },
-            "funding": [
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/myclabs/deep-copy",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2025-08-01T08:46:24+00:00"
-        },
-        {
             "name": "nunomaduro/collision",
             "version": "v8.8.3",
             "source": {
@@ -10530,53 +11164,6 @@
                 "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.12.0"
             },
             "time": "2025-11-21T15:09:14+00:00"
-        },
-        {
-            "name": "phpstan/phpdoc-parser",
-            "version": "2.3.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "a004701b11273a26cd7955a61d67a7f1e525a45a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/a004701b11273a26cd7955a61d67a7f1e525a45a",
-                "reference": "a004701b11273a26cd7955a61d67a7f1e525a45a",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.4 || ^8.0"
-            },
-            "require-dev": {
-                "doctrine/annotations": "^2.0",
-                "nikic/php-parser": "^5.3.0",
-                "php-parallel-lint/php-parallel-lint": "^1.2",
-                "phpstan/extension-installer": "^1.0",
-                "phpstan/phpstan": "^2.0",
-                "phpstan/phpstan-phpunit": "^2.0",
-                "phpstan/phpstan-strict-rules": "^2.0",
-                "phpunit/phpunit": "^9.6",
-                "symfony/process": "^5.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "PHPStan\\PhpDocParser\\": [
-                        "src/"
-                    ]
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "PHPDoc parser with support for nullable, intersection and generic types",
-            "support": {
-                "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/2.3.2"
-            },
-            "time": "2026-01-25T14:56:51+00:00"
         },
         {
             "name": "phpstan/phpstan",

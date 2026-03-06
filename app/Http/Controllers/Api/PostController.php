@@ -20,10 +20,12 @@ use Illuminate\Http\Resources\Json\JsonResource;
 final class PostController extends Controller
 {
     /**
-     * List the authenticated user's posts with optional status filtering.
+     * List the authenticated user's posts.
      *
      * Returns a paginated collection of posts belonging to the authenticated user,
-     * eager-loaded with tags and categories. Supports filtering by status via query parameter.
+     * eager-loaded with tags and categories.
+     *
+     * @queryParam status string Filter by status (draft or published). Example: published
      *
      * @param  Request  $request  The incoming HTTP request (may include 'status' query param)
      * @return JsonResource A paginated JSON resource collection of posts
@@ -41,10 +43,16 @@ final class PostController extends Controller
     }
 
     /**
-     * Create a new post for the authenticated user.
+     * Create a new post.
      *
      * Validates the request data, creates the post, syncs tags and categories
      * if provided, and sets the published_at timestamp if the status is 'published'.
+     *
+     * @bodyParam title string required The title of the post. Example: My First Post
+     * @bodyParam body string required The content of the post. Example: This is the body.
+     * @bodyParam status string Filter by status (draft or published). Example: published
+     * @bodyParam tags string[] List of tags to sync. Example: ["tech", "laravel"]
+     * @bodyParam category_ids integer[] List of category IDs to sync. Example: [1, 2]
      *
      * @param  Request  $request  The incoming HTTP request with post data
      * @return JsonResponse A JSON response with the created post and 201 status code
@@ -91,7 +99,7 @@ final class PostController extends Controller
     }
 
     /**
-     * Display a single post with its tags and categories.
+     * Display a single post.
      *
      * Authorizes the request against the PostPolicy before returning the post.
      *
@@ -114,6 +122,12 @@ final class PostController extends Controller
      * Authorizes the request, validates the input, updates the post fields,
      * and syncs tags and categories if provided. Manages the published_at
      * timestamp when the status changes between draft and published.
+     *
+     * @bodyParam title string The title of the post. Example: Updated Title
+     * @bodyParam body string The content of the post. Example: Updated body.
+     * @bodyParam status string Filter by status (draft or published). Example: draft
+     * @bodyParam tags string[] List of tags to sync. Example: ["php"]
+     * @bodyParam category_ids integer[] List of category IDs to sync. Example: [1]
      *
      * @param  Request  $request  The incoming HTTP request with updated post data
      * @param  Post  $post  The post to update (resolved via route model binding)

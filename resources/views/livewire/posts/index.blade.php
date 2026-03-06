@@ -1,253 +1,214 @@
-<div class="flex flex-col gap-6">
+<div class="flex flex-col gap-8">
     <!-- Header -->
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-            <x-typography.heading accent size="xl" level="1">{{ __('Posts') }}</x-typography.heading>
-            <x-typography.subheading size="lg">{{ __('Manage your blog posts') }}</x-typography.subheading>
+            <h1 class="text-3xl font-black tracking-tight text-on-surface-strong dark:text-on-surface-dark-strong">
+                {{ __('Your Content') }}
+            </h1>
+            <p class="text-on-surface/60 dark:text-on-surface-dark/60 font-medium mt-1">
+                {{ __('Manage your blog posts, articles, and announcements.') }}
+            </p>
         </div>
-        <x-button href="{{ route('posts.create') }}">{{ __('Create Post') }}</x-button>
+        <x-button href="{{ route('posts.create') }}" class="shadow-lg shadow-primary/20">
+            <x-icons.plus variant="outline" size="sm" class="mr-1" />
+            {{ __('New Publication') }}
+        </x-button>
     </div>
 
-    <x-separator />
+    <!-- Toolbar: Search & Filters -->
+    <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-4 md:flex-row md:items-center">
+            <div class="relative flex-1">
+                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+                    <x-icons.magnifying-glass variant="outline" size="sm" class="text-on-surface/40" />
+                </div>
+                <x-input 
+                    type="search" 
+                    wire:model.live.debounce.300ms="search" 
+                    placeholder="{{ __('Search by title or excerpt...') }}" 
+                    class="pl-11 !bg-surface border-transparent shadow-sm focus:!bg-surface"
+                />
+            </div>
+            
+            <div class="flex flex-wrap items-center gap-3">
+                <div class="w-40">
+                    <x-select wire:model.live="statusFilter" class="!bg-surface border-transparent shadow-sm">
+                        <option value="">{{ __('Any Status') }}</option>
+                        <option value="draft">{{ __('Drafts') }}</option>
+                        <option value="published">{{ __('Published') }}</option>
+                    </x-select>
+                </div>
 
-    <!-- Filters -->
-    <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
-        <div class="flex-1">
-            <x-input type="search" wire:model.live.debounce.300ms="search" placeholder="{{ __('Search posts...') }}" />
+                @if ($availableCategories->isNotEmpty())
+                    <div class="w-48">
+                        <x-select wire:model.live="categoryFilter" class="!bg-surface border-transparent shadow-sm">
+                            <option value="">{{ __('All Categories') }}</option>
+                            @foreach ($availableCategories as $category)
+                                <option value="{{ $category->slug }}">{{ $category->name }}</option>
+                            @endforeach
+                        </x-select>
+                    </div>
+                @endif
+            </div>
         </div>
-        <div class="w-full sm:w-40">
-            <x-select wire:model.live="statusFilter">
-                <option value="">{{ __('All Status') }}</option>
-                <option value="draft">{{ __('Draft') }}</option>
-                <option value="published">{{ __('Published') }}</option>
-            </x-select>
-        </div>
+
         @if (! empty($availableTags))
-            <div class="w-full sm:w-40">
-                <x-select wire:model.live="tagFilter">
-                    <option value="">{{ __('All Tags') }}</option>
-                    @foreach ($availableTags as $tag)
-                        <option value="{{ $tag }}">{{ $tag }}</option>
-                    @endforeach
-                </x-select>
-            </div>
-        @endif
-        @if ($availableCategories->isNotEmpty())
-            <div class="w-full sm:w-40">
-                <x-select wire:model.live="categoryFilter">
-                    <option value="">{{ __('All Categories') }}</option>
-                    @foreach ($availableCategories as $category)
-                        <option value="{{ $category->slug }}">{{ $category->name }}</option>
-                    @endforeach
-                </x-select>
+            <div class="flex items-center gap-2 overflow-x-auto pb-2 -mb-2 no-scrollbar">
+                <span class="text-[10px] font-black uppercase tracking-widest text-on-surface/40 mr-2 whitespace-nowrap">{{ __('Popular Tags') }}:</span>
+                <button 
+                    wire:click="$set('tagFilter', '')"
+                    @class([
+                        'px-3 py-1 rounded-full text-xs font-bold transition-all whitespace-nowrap',
+                        'bg-primary text-white shadow-md shadow-primary/20' => $tagFilter === '',
+                        'bg-surface text-on-surface/60 hover:bg-surface-alt' => $tagFilter !== '',
+                    ])
+                >
+                    {{ __('All') }}
+                </button>
+                @foreach (array_slice($availableTags, 0, 8) as $tag)
+                    <button 
+                        wire:click="$set('tagFilter', '{{ $tag }}')"
+                        @class([
+                            'px-3 py-1 rounded-full text-xs font-bold transition-all whitespace-nowrap',
+                            'bg-primary text-white shadow-md shadow-primary/20' => $tagFilter === $tag,
+                            'bg-surface text-on-surface/60 hover:bg-surface-alt' => $tagFilter !== $tag,
+                        ])
+                    >
+                        #{{ $tag }}
+                    </button>
+                @endforeach
             </div>
         @endif
     </div>
 
-    <!-- Table -->
+    <!-- Posts Grid -->
     @if ($posts->count())
-        <x-table>
-            <x-slot name="head">
-                <x-table-heading>{{ __('Image') }}</x-table-heading>
-                <x-table-heading
-                    :sortable="true"
-                    :direction="$sortBy === 'title' ? $sortDirection : null"
-                    wire:click="sortBy('title')"
-                >
-                    {{ __('Title') }}
-                </x-table-heading>
-                <x-table-heading>{{ __('Tags') }}</x-table-heading>
-                <x-table-heading>{{ __('Categories') }}</x-table-heading>
-                <x-table-heading>{{ __('Status') }}</x-table-heading>
-                <x-table-heading
-                    :sortable="true"
-                    :direction="$sortBy === 'created_at' ? $sortDirection : null"
-                    wire:click="sortBy('created_at')"
-                >
-                    {{ __('Created') }}
-                </x-table-heading>
-                <x-table-heading>{{ __('Actions') }}</x-table-heading>
-            </x-slot>
-
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             @foreach ($posts as $post)
-                <tr class="hover:bg-surface-alt/50 dark:hover:bg-surface-dark/50" wire:key="post-{{ $post->id }}">
-                    <x-table-cell>
+                <div class="group flex flex-col overflow-hidden rounded-3xl border border-outline bg-surface shadow-premium transition-all duration-300 hover:shadow-xl hover:-translate-y-1 dark:border-outline-dark dark:bg-surface-dark-alt" wire:key="post-{{ $post->id }}">
+                    <!-- Featured Image Area -->
+                    <div class="relative aspect-video overflow-hidden bg-surface-alt dark:bg-surface-dark">
                         @if ($post->featuredImageUrl())
-                            <img
-                                src="{{ $post->featuredImageUrl() }}"
-                                alt=""
-                                class="size-10 rounded-radius object-cover"
-                            />
+                            <img src="{{ $post->featuredImageUrl() }}" class="size-full object-cover transition-transform duration-500 group-hover:scale-110" />
                         @else
-                            <div
-                                class="flex size-10 items-center justify-center rounded-radius bg-surface-alt dark:bg-surface-dark-alt"
-                            >
-                                <x-icons.document-text
-                                    variant="outline"
-                                    size="sm"
-                                    class="text-on-surface/40 dark:text-on-surface-dark/40"
-                                />
+                            <div class="flex size-full items-center justify-center text-on-surface/10">
+                                <x-icons.document-text variant="outline" size="xl" />
                             </div>
                         @endif
-                    </x-table-cell>
-                    <x-table-cell class="font-medium text-on-surface-strong dark:text-on-surface-dark-strong">
-                        {{ $post->title }}
-                    </x-table-cell>
-                    <x-table-cell>
-                        <div class="flex flex-wrap gap-1">
-                            @foreach ($post->tags as $tag)
-                                <x-badge size="sm" variant="info">{{ $tag->name }}</x-badge>
-                            @endforeach
-                        </div>
-                    </x-table-cell>
-                    <x-table-cell>
-                        <div class="flex flex-wrap gap-1">
-                            @foreach ($post->categories as $category)
-                                <x-badge size="sm" variant="default">{{ $category->name }}</x-badge>
-                            @endforeach
-                        </div>
-                    </x-table-cell>
-                    <x-table-cell>
-                        <x-badge :variant="$post->status === 'published' ? 'success' : 'default'">
-                            {{ ucfirst($post->status) }}
-                        </x-badge>
-                    </x-table-cell>
-                    <x-table-cell>
-                        {{ $post->created_at->format('M d, Y') }}
-                    </x-table-cell>
-                    <x-table-cell>
-                        <div class="flex items-center gap-1">
-                            <a
-                                href="{{ route('posts.edit', $post) }}"
-                                class="inline-flex items-center justify-center rounded-radius p-1.5 text-on-surface transition-colors hover:bg-surface-alt hover:text-on-surface-strong dark:text-on-surface-dark dark:hover:bg-surface-dark-alt dark:hover:text-on-surface-dark-strong"
-                                title="{{ __('Edit') }}"
+                        
+                        <!-- Status Badge Overlay -->
+                        <div class="absolute left-4 top-4">
+                            <x-badge 
+                                :variant="$post->status === 'published' ? 'success' : 'default'" 
+                                size="sm"
+                                class="!bg-white/90 !backdrop-blur dark:!bg-black/60 shadow-sm"
                             >
-                                <x-icons.pencil-square variant="outline" size="sm" />
+                                {{ ucfirst($post->status) }}
+                            </x-badge>
+                        </div>
+
+                        <!-- Action Overlay -->
+                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <a href="{{ route('posts.edit', $post) }}" class="size-10 flex items-center justify-center rounded-xl bg-white text-black hover:bg-primary hover:text-white transition-colors">
+                                <x-icons.pencil-square size="sm" />
                             </a>
-                            <button
-                                type="button"
-                                wire:click="confirmDelete({{ $post->id }})"
-                                class="inline-flex items-center justify-center rounded-radius p-1.5 text-danger transition-colors hover:bg-danger/10"
-                                title="{{ __('Delete') }}"
-                            >
-                                <x-icons.trash variant="outline" size="sm" />
-                            </button>
-                        </div>
-                    </x-table-cell>
-                </tr>
-            @endforeach
-
-            <x-slot name="mobile">
-                @foreach ($posts as $post)
-                    <div
-                        class="rounded-radius border border-outline bg-surface p-4 dark:border-outline-dark dark:bg-surface-dark"
-                        wire:key="post-mobile-{{ $post->id }}"
-                    >
-                        <div class="flex items-start gap-3">
-                            @if ($post->featuredImageUrl())
-                                <img
-                                    src="{{ $post->featuredImageUrl() }}"
-                                    alt=""
-                                    class="size-12 shrink-0 rounded-radius object-cover"
-                                />
-                            @else
-                                <div
-                                    class="flex size-12 shrink-0 items-center justify-center rounded-radius bg-surface-alt dark:bg-surface-dark-alt"
-                                >
-                                    <x-icons.document-text
-                                        variant="outline"
-                                        size="sm"
-                                        class="text-on-surface/40 dark:text-on-surface-dark/40"
-                                    />
-                                </div>
-                            @endif
-                            <div class="min-w-0 flex-1">
-                                <div class="flex items-start justify-between gap-2">
-                                    <h3
-                                        class="truncate text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong"
-                                    >
-                                        {{ $post->title }}
-                                    </h3>
-                                    <x-badge
-                                        :variant="$post->status === 'published' ? 'success' : 'default'"
-                                        size="sm"
-                                    >
-                                        {{ ucfirst($post->status) }}
-                                    </x-badge>
-                                </div>
-                                <p class="mt-0.5 text-xs text-on-surface dark:text-on-surface-dark">
-                                    {{ $post->created_at->format('M d, Y') }}
-                                </p>
-                            </div>
-                        </div>
-
-                        @if ($post->tags->isNotEmpty() || $post->categories->isNotEmpty())
-                            <div class="mt-3 flex flex-wrap gap-1">
-                                @foreach ($post->tags as $tag)
-                                    <x-badge size="sm" variant="info">{{ $tag->name }}</x-badge>
-                                @endforeach
-                                @foreach ($post->categories as $category)
-                                    <x-badge size="sm" variant="default">{{ $category->name }}</x-badge>
-                                @endforeach
-                            </div>
-                        @endif
-
-                        <div
-                            class="mt-3 flex items-center gap-1 border-t border-outline pt-3 dark:border-outline-dark"
-                        >
-                            <a
-                                href="{{ route('posts.edit', $post) }}"
-                                class="inline-flex items-center gap-1.5 rounded-radius px-2.5 py-1.5 text-xs font-medium text-on-surface transition-colors hover:bg-surface-alt hover:text-on-surface-strong dark:text-on-surface-dark dark:hover:bg-surface-dark-alt dark:hover:text-on-surface-dark-strong"
-                            >
-                                <x-icons.pencil-square variant="outline" size="xs" />
-                                {{ __('Edit') }}
-                            </a>
-                            <button
-                                type="button"
-                                wire:click="confirmDelete({{ $post->id }})"
-                                class="inline-flex items-center gap-1.5 rounded-radius px-2.5 py-1.5 text-xs font-medium text-danger transition-colors hover:bg-danger/10"
-                            >
-                                <x-icons.trash variant="outline" size="xs" />
-                                {{ __('Delete') }}
+                            <button wire:click="confirmDelete({{ $post->id }})" class="size-10 flex items-center justify-center rounded-xl bg-white text-danger hover:bg-danger hover:text-white transition-colors">
+                                <x-icons.trash size="sm" />
                             </button>
                         </div>
                     </div>
-                @endforeach
-            </x-slot>
-        </x-table>
 
-        <div>
+                    <!-- Content -->
+                    <div class="flex flex-1 flex-col p-6">
+                        <div class="flex items-center gap-2 mb-3">
+                            @foreach($post->categories->take(1) as $category)
+                                <span class="text-[10px] font-black uppercase tracking-widest text-primary">{{ $category->name }}</span>
+                            @endforeach
+                            <span class="text-[10px] font-bold text-on-surface/30">&bull;</span>
+                            <span class="text-[10px] font-bold text-on-surface/40 uppercase tracking-widest">{{ $post->created_at->format('M d') }}</span>
+                        </div>
+
+                        <h3 class="mb-2 line-clamp-2 text-lg font-black leading-tight text-on-surface-strong dark:text-on-surface-dark-strong group-hover:text-primary transition-colors">
+                            {{ $post->title }}
+                        </h3>
+                        
+                        @if($post->excerpt)
+                            <p class="mb-4 line-clamp-2 text-sm text-on-surface/60 leading-relaxed">
+                                {{ $post->excerpt }}
+                            </p>
+                        @endif
+
+                        <div class="mt-auto flex items-center justify-between pt-4 border-t border-outline/50 dark:border-outline-dark/50">
+                            <div class="flex -space-x-2">
+                                @foreach($post->tags->take(3) as $tag)
+                                    <div class="size-6 rounded-full bg-surface-alt border-2 border-surface dark:bg-surface-dark dark:border-surface-dark-alt flex items-center justify-center text-[8px] font-bold text-on-surface/60" title="#{{ $tag->name }}">
+                                        {{ substr($tag->name, 0, 1) }}
+                                    </div>
+                                @endforeach
+                            </div>
+                            
+                            <a href="{{ route('posts.edit', $post) }}" class="text-xs font-bold text-on-surface/40 hover:text-primary transition-colors flex items-center gap-1">
+                                {{ __('Edit') }}
+                                <x-icons.chevron-right size="xs" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+        <div class="mt-10">
             {{ $posts->links() }}
         </div>
     @else
-        <x-empty-state
-            title="{{ __('No posts found') }}"
-            description="{{ $search || $statusFilter || $tagFilter || $categoryFilter || $categoryFilter ? __('Try adjusting your search or filters.') : __('Create your first post to get started.') }}"
-        >
-            @unless ($search || $statusFilter || $tagFilter || $categoryFilter)
-                <x-slot name="action">
-                    <x-button href="{{ route('posts.create') }}">{{ __('Create Post') }}</x-button>
-                </x-slot>
-            @endunless
-        </x-empty-state>
+        <x-card class="py-20">
+            <div class="flex flex-col items-center justify-center text-center">
+                <div class="bg-surface-alt dark:bg-surface-dark rounded-full p-8 mb-6">
+                    <x-icons.document-text variant="outline" size="xl" class="text-on-surface/20" />
+                </div>
+                <h3 class="text-xl font-bold text-on-surface-strong dark:text-on-surface-dark-strong">
+                    {{ __('No publications found') }}
+                </h3>
+                <p class="text-on-surface/60 max-w-sm mt-2 leading-relaxed">
+                    {{ $search || $statusFilter || $tagFilter || $categoryFilter ? __('We couldn\'t find any posts matching your current filters.') : __('Start your journey by creating your first blog post or article.') }}
+                </p>
+                <div class="mt-8 flex gap-3">
+                    @if($search || $statusFilter || $tagFilter || $categoryFilter)
+                        <x-button variant="ghost" wire:click="$set('search', ''); $set('statusFilter', ''); $set('tagFilter', ''); $set('categoryFilter', '');">
+                            {{ __('Clear All Filters') }}
+                        </x-button>
+                    @endif
+                    <x-button href="{{ route('posts.create') }}" class="shadow-lg shadow-primary/20">
+                        {{ __('Create First Post') }}
+                    </x-button>
+                </div>
+            </div>
+        </x-card>
     @endif
 
-    <!-- Delete Confirmation Modal -->
+    <!-- Delete Modal -->
     <x-modal :show="$deletingPostId !== null" maxWidth="md">
-        <x-slot name="trigger"><span></span></x-slot>
-        <x-slot name="header">
-            <x-typography.subheading accent size="lg">{{ __('Delete Post') }}</x-typography.subheading>
-        </x-slot>
-        <div class="p-4">
-            <p class="text-sm text-on-surface dark:text-on-surface-dark">
-                {{ __('Are you sure you want to delete this post? This action cannot be undone.') }}
+        <div class="p-8">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="flex size-12 items-center justify-center rounded-full bg-danger/10 text-danger">
+                    <x-icons.trash variant="outline" size="md" />
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-on-surface-strong dark:text-on-surface-dark-strong">
+                        {{ __('Delete Publication') }}
+                    </h3>
+                    <p class="text-sm text-on-surface/60">{{ __('This action is permanent.') }}</p>
+                </div>
+            </div>
+            
+            <p class="text-on-surface dark:text-on-surface-dark mb-8 leading-relaxed">
+                {{ __('Are you sure you want to delete this post? It will be removed from your public blog and all associated media will be deleted.') }}
             </p>
-        </div>
-        <div
-            class="flex flex-col-reverse justify-between gap-2 border-t border-outline bg-surface-alt/60 p-4 dark:border-outline-dark dark:bg-surface-dark/20 sm:flex-row sm:items-center md:justify-end"
-        >
-            <x-button variant="ghost" type="button" wire:click="cancelDelete">{{ __('Cancel') }}</x-button>
-            <x-button variant="danger" type="button" wire:click="deletePost">{{ __('Delete Post') }}</x-button>
+
+            <div class="flex items-center justify-end gap-3">
+                <x-button variant="ghost" type="button" wire:click="cancelDelete">{{ __('Cancel') }}</x-button>
+                <x-button variant="danger" type="button" wire:click="deletePost">{{ __('Delete Permanently') }}</x-button>
+            </div>
         </div>
     </x-modal>
 </div>

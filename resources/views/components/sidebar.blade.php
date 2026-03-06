@@ -4,321 +4,159 @@
     x-show="showSidebar"
     x-on:click="showSidebar = false"
     x-transition.opacity
-    class="fixed inset-0 z-10 bg-surface-dark/10 backdrop-blur-xs lg:hidden"
+    class="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden"
     aria-hidden="true"
 ></div>
 
 <!-- Sidebar Navigation -->
 <nav
     x-cloak
-    x-bind:class="showSidebar ? 'translate-x-0' : '-translate-x-60'"
-    class="fixed left-0 z-20 flex h-svh w-60 shrink-0 flex-col border-r border-outline bg-surface p-4 transition-transform duration-300 lg:w-64 lg:translate-x-0 lg:relative dark:border-outline-dark dark:bg-surface-dark"
+    x-bind:class="showSidebar ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
+    class="fixed left-0 z-50 flex h-screen w-72 shrink-0 flex-col border-r border-outline bg-surface-alt p-6 transition-transform duration-300 lg:sticky lg:top-0 dark:border-outline-dark dark:bg-surface-dark"
     aria-label="sidebar navigation"
 >
     <!-- Mobile close button -->
     <button
         x-cloak
         x-on:click="showSidebar = false"
-        class="block lg:hidden whitespace-nowrap w-fit mb-4 rounded-radius p-2 text-sm font-medium tracking-wide text-on-surface text-center hover:bg-primary/10 hover:opacity-75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-surface-alt active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:hover:bg-primary-dark/10 dark:text-on-surface-dark-strong dark:focus-visible:outline-surface-dark-alt"
+        class="absolute right-4 top-4 block lg:hidden rounded-full p-2 text-on-surface hover:bg-black/5 dark:text-on-surface-dark dark:hover:bg-white/5"
     >
         <x-icons.x-mark variant="outline" size="md" />
     </button>
 
-    <!-- Brand Logo -->
-    <a href="{{ route('dashboard') }}" class="mb-4 flex items-center space-x-2 lg:ml-0">
-        <x-app-logo class="size-8" />
-    </a>
-
-    <!-- Platform Label -->
-    <div class="px-1 py-2">
-        <div class="text-xs leading-none text-on-surface dark:text-on-surface-dark">{{ __('Platform') }}</div>
+    <!-- Brand Header -->
+    <div class="mb-8 flex items-center gap-3">
+        <div class="flex size-10 items-center justify-center rounded-xl bg-primary shadow-lg shadow-primary/20">
+            <x-app-logo class="size-6 text-white" />
+        </div>
+        <div class="flex flex-col">
+            <span class="text-lg font-bold tracking-tight text-on-surface-strong dark:text-on-surface-dark-strong">Penguin</span>
+            <span class="text-[10px] font-bold uppercase tracking-widest text-on-surface/50 dark:text-on-surface-dark/50">Starter Kit</span>
+        </div>
     </div>
 
     <!-- Navigation Links -->
-    <div class="flex flex-col gap-2 overflow-y-auto pb-6 h-full">
-        <!-- Main Navigation -->
-        <ul class="flex flex-col gap-2">
-            <li>
-                <x-sidebar-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                    <x-icons.home variant="outline" />
-                    <span>{{ __('Dashboard') }}</span>
-                </x-sidebar-link>
-            </li>
-            <li>
-                <x-sidebar-link href="{{ route('posts.index') }}" :active="request()->routeIs('posts.*')">
-                    <x-icons.document-text variant="outline" />
-                    <span>{{ __('Posts') }}</span>
-                </x-sidebar-link>
-            </li>
-            <li>
-                <x-sidebar-link href="{{ route('agents.index') }}" :active="request()->routeIs('agents.*')">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        class="size-5"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 0 0-2.455 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"
-                        />
-                    </svg>
-                    <span>{{ __('AI Agents') }}</span>
-                </x-sidebar-link>
-            </li>
-        </ul>
-
-        @can('admin.access')
-            <!-- Admin Section -->
-            <div class="px-1 py-2 mt-4">
-                <div class="text-xs leading-none text-on-surface dark:text-on-surface-dark">{{ __('Admin') }}</div>
-            </div>
-            <ul class="flex flex-col gap-2">
+    <div class="flex flex-col gap-8 overflow-y-auto h-full pr-2 -mr-2">
+        <!-- Section: Main -->
+        <div class="flex flex-col gap-3">
+            <h3 class="px-3 text-[11px] font-bold uppercase tracking-widest text-on-surface/40 dark:text-on-surface-dark/40">
+                {{ __('Platform') }}
+            </h3>
+            <ul class="flex flex-col gap-1">
                 <li>
-                    <x-sidebar-link
-                        href="{{ route('admin.dashboard') }}"
-                        :active="request()->routeIs('admin.dashboard')"
-                    >
-                        <x-icons.shield variant="outline" />
+                    <x-sidebar-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                        <x-icons.home variant="outline" size="sm" />
                         <span>{{ __('Dashboard') }}</span>
                     </x-sidebar-link>
                 </li>
                 <li>
-                    <x-sidebar-link
-                        href="{{ route('admin.users.index') }}"
-                        :active="request()->routeIs('admin.users.*')"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="size-5"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"
-                            />
-                        </svg>
-                        <span>{{ __('Users') }}</span>
+                    <x-sidebar-link href="{{ route('posts.index') }}" :active="request()->routeIs('posts.*')">
+                        <x-icons.document-text variant="outline" size="sm" />
+                        <span>{{ __('Posts') }}</span>
                     </x-sidebar-link>
                 </li>
                 <li>
-                    <x-sidebar-link
-                        href="{{ route('admin.roles.index') }}"
-                        :active="request()->routeIs('admin.roles.*')"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="size-5"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z"
-                            />
-                        </svg>
-                        <span>{{ __('Roles') }}</span>
-                    </x-sidebar-link>
-                </li>
-                <li>
-                    <x-sidebar-link
-                        href="{{ route('admin.categories.index') }}"
-                        :active="request()->routeIs('admin.categories.*')"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="size-5"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z"
-                            />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
-                        </svg>
-                        <span>{{ __('Categories') }}</span>
-                    </x-sidebar-link>
-                </li>
-                <li>
-                    <x-sidebar-link
-                        href="{{ route('admin.payments') }}"
-                        :active="request()->routeIs('admin.payments')"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="size-5"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"
-                            />
-                        </svg>
-                        <span>{{ __('Payments') }}</span>
-                    </x-sidebar-link>
-                </li>
-                <li>
-                    <x-sidebar-link
-                        href="{{ route('admin.ai-settings') }}"
-                        :active="request()->routeIs('admin.ai-settings')"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="size-5"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 0 0-2.455 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"
-                            />
-                        </svg>
-                        <span>{{ __('AI Settings') }}</span>
-                    </x-sidebar-link>
-                </li>
-                <li>
-                    <x-sidebar-link
-                        href="{{ route('admin.theme') }}"
-                        :active="request()->routeIs('admin.theme')"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="size-5"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M4.098 19.902a3.75 3.75 0 0 0 5.304 0l6.401-6.402M6.75 21A3.75 3.75 0 0 1 3 17.25V4.125C3 3.504 3.504 3 4.125 3h1.5c.621 0 1.125.504 1.125 1.125v4.072M6.75 21a3.75 3.75 0 0 0 3.75-3.75V8.197M6.75 21h13.125c.621 0 1.125-.504 1.125-1.125v-5.25c0-.621-.504-1.125-1.125-1.125h-4.072M10.5 8.197l2.88-2.88c.438-.439 1.15-.439 1.59 0l3.712 3.713c.44.44.44 1.152 0 1.59l-2.879 2.88M6.75 17.25h.008v.008H6.75v-.008Z"
-                            />
-                        </svg>
-                        <span>{{ __('Theme') }}</span>
+                    <x-sidebar-link href="{{ route('agents.index') }}" :active="request()->routeIs('agents.*')">
+                        <x-icons.sparkles variant="outline" size="sm" />
+                        <span>{{ __('AI Agents') }}</span>
                     </x-sidebar-link>
                 </li>
             </ul>
+        </div>
+
+        @can('admin.access')
+            <!-- Section: Admin -->
+            <div class="flex flex-col gap-3">
+                <h3 class="px-3 text-[11px] font-bold uppercase tracking-widest text-on-surface/40 dark:text-on-surface-dark/40">
+                    {{ __('Management') }}
+                </h3>
+                <ul class="flex flex-col gap-1">
+                    <li>
+                        <x-sidebar-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')">
+                            <x-icons.shield variant="outline" size="sm" />
+                            <span>{{ __('Admin Panel') }}</span>
+                        </x-sidebar-link>
+                    </li>
+                    <li>
+                        <x-sidebar-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.*')">
+                            <x-icons.users variant="outline" size="sm" />
+                            <span>{{ __('User Manager') }}</span>
+                        </x-sidebar-link>
+                    </li>
+                    <li>
+                        <x-sidebar-link href="{{ route('admin.health') }}" :active="request()->routeIs('admin.health')">
+                            <x-icons.heart variant="outline" size="sm" />
+                            <span>{{ __('System Health') }}</span>
+                        </x-sidebar-link>
+                    </li>
+                </ul>
+            </div>
         @endcan
 
         @if (\App\Models\Setting::paymentsEnabled())
-            <!-- Billing -->
-            <ul class="flex flex-col gap-2 mt-4">
-                <li>
-                    <x-sidebar-link href="{{ route('billing') }}" :active="request()->routeIs('billing')">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="size-5"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z"
-                            />
-                        </svg>
-                        <span>{{ __('Billing') }}</span>
-                    </x-sidebar-link>
-                </li>
-            </ul>
+            <!-- Section: Sales -->
+            <div class="flex flex-col gap-3">
+                <h3 class="px-3 text-[11px] font-bold uppercase tracking-widest text-on-surface/40 dark:text-on-surface-dark/40">
+                    {{ __('Billing') }}
+                </h3>
+                <ul class="flex flex-col gap-1">
+                    <li>
+                        <x-sidebar-link href="{{ route('billing') }}" :active="request()->routeIs('billing')">
+                            <x-icons.credit-card variant="outline" size="sm" />
+                            <span>{{ __('My Subscriptions') }}</span>
+                        </x-sidebar-link>
+                    </li>
+                </ul>
+            </div>
         @endif
 
-        <!-- Bottom Navigation -->
-        <ul class="flex flex-col gap-2 mt-auto">
-            <li>
-                <x-sidebar-link href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                    <x-icons.folder-git-2 />
-                    <span>{{ __('Repository') }}</span>
-                </x-sidebar-link>
-            </li>
-            <li>
-                <x-sidebar-link href="https://laravel.com/docs/starter-kits" target="_blank">
-                    <x-icons.book-open-text />
-                    <span>{{ __('Documentation') }}</span>
-                </x-sidebar-link>
-            </li>
-        </ul>
+        <!-- Section: Support -->
+        <div class="mt-auto flex flex-col gap-1 border-t border-outline pt-6 dark:border-outline-dark">
+            <x-sidebar-link href="https://github.com/KwasiEzor/penguin-starter-kit" target="_blank">
+                <x-icons.folder-git-2 size="sm" />
+                <span>{{ __('GitHub Repo') }}</span>
+            </x-sidebar-link>
+            <x-sidebar-link href="{{ url('/docs/api') }}">
+                <x-icons.book-open-text size="sm" />
+                <span>{{ __('API Reference') }}</span>
+            </x-sidebar-link>
+        </div>
     </div>
 
-    <!-- Notification Center -->
-    <div class="mb-2">
-        @livewire('notification-center')
-    </div>
-
-    <!-- User Dropdown -->
-    <x-dropdown align="bottom-14 left-0 lg:left-full lg:ml-2 lg:bottom-0">
-        <x-slot:trigger>
-            <button
-                type="button"
-                x-bind:class="dropDownIsOpen ? 'bg-primary/10 dark:bg-primary-dark/10' : ''"
-                class="flex w-full items-center gap-2 rounded-radius p-2 text-left text-on-surface hover:bg-primary/5 hover:text-on-surface-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary dark:text-on-surface-dark dark:hover:bg-primary-dark/5 dark:hover:text-on-surface-dark-strong dark:focus-visible:outline-primary-dark"
-            >
-                <div class="flex items-center gap-3">
+    <!-- User Profile Footer -->
+    <div class="mt-6 border-t border-outline pt-6 dark:border-outline-dark">
+        <x-dropdown align="bottom-14 left-0 lg:left-0 lg:bottom-16">
+            <x-slot:trigger>
+                <button type="button" class="group flex w-full items-center gap-3 rounded-xl p-2 transition-all hover:bg-black/5 dark:hover:bg-white/5 text-left">
                     <x-avatar :src="auth()->user()->avatarUrl()" :initials="auth()->user()->initials()" size="sm" />
-                    <span class="text-sm text-on-surface-strong dark:text-on-surface-dark-strong">
-                        {{ auth()->user()->name }}
-                    </span>
-                </div>
-                <x-icons.chevron-right strokeWidth="2" size="sm" class="ml-auto shrink-0 -rotate-90 lg:rotate-0" />
-            </button>
-        </x-slot>
-
-        <x-slot:content>
-            <ul>
-                <li class="border-b border-outline dark:border-outline-dark">
-                    <div class="flex flex-col px-4 py-2">
-                        <span class="text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong">
+                    <div class="flex flex-col overflow-hidden">
+                        <span class="truncate text-sm font-semibold text-on-surface-strong dark:text-on-surface-dark-strong">
                             {{ auth()->user()->name }}
                         </span>
-                        <p class="text-xs text-on-surface dark:text-on-surface-dark">{{ auth()->user()->email }}</p>
+                        <span class="truncate text-xs text-on-surface/60 dark:text-on-surface-dark/60">
+                            {{ auth()->user()->email }}
+                        </span>
                     </div>
-                </li>
-                <li>
+                    <x-icons.chevron-up-down size="sm" class="ml-auto text-on-surface/40 group-hover:text-on-surface/70" />
+                </button>
+            </x-slot>
+
+            <x-slot:content>
+                <div class="w-56 p-1">
                     <x-dropdown-link href="{{ route('settings') }}">
                         <x-icons.cog variant="mini" />
-                        {{ __('Settings') }}
+                        {{ __('Personal Settings') }}
                     </x-dropdown-link>
-                </li>
-                <li>
+                    <div class="my-1 border-t border-outline dark:border-outline-dark"></div>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <x-dropdown-link
-                            :href="route('logout')"
-                            onclick="
-                                event.preventDefault();
-                                this.closest('form').submit();
-                            "
-                        >
-                            <x-icons.arrow-right-start-on-rectangle variant="mini" />
-                            {{ __('Log Out') }}
+                        <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
+                            <x-icons.arrow-right-start-on-rectangle variant="mini" class="text-danger" />
+                            <span class="text-danger">{{ __('Log Out') }}</span>
                         </x-dropdown-link>
                     </form>
-                </li>
-            </ul>
-        </x-slot>
-    </x-dropdown>
+                </div>
+            </x-slot>
+        </x-dropdown>
+    </div>
 </nav>

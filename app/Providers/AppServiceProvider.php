@@ -11,6 +11,15 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Cashier\Events\WebhookReceived;
 
+use Spatie\Health\Checks\Checks\DatabaseCheck;
+use Dedoc\Scramble\Scramble;
+use Dedoc\Scramble\Support\Generator\OpenApi;
+use Dedoc\Scramble\Support\Generator\SecurityScheme;
+use Spatie\Health\Checks\Checks\DebugModeCheck;
+use Spatie\Health\Checks\Checks\EnvironmentCheck;
+use Spatie\Health\Checks\Checks\OptimizedAppCheck;
+use Spatie\Health\Facades\Health;
+
 /**
  * Application service provider responsible for bootstrapping core services.
  *
@@ -44,5 +53,18 @@ class AppServiceProvider extends ServiceProvider
         }
 
         Event::listen(WebhookReceived::class, StripeEventListener::class);
+
+        Health::checks([
+            OptimizedAppCheck::new(),
+            DebugModeCheck::new(),
+            EnvironmentCheck::new(),
+            DatabaseCheck::new(),
+        ]);
+
+        Scramble::afterOpenApiGenerated(function (OpenApi $openApi) {
+            $openApi->secure(
+                SecurityScheme::http('bearer')
+            );
+        });
     }
 }

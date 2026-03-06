@@ -59,6 +59,9 @@ Route::middleware(ProvideMarkdownResponse::class)->group(function () {
             Route::get('/categories', Admin\Categories\Index::class)->name('categories.index');
             Route::get('/ai-settings', Admin\AiSettings::class)->name('ai-settings');
             Route::get('/theme', Admin\ThemeSettings::class)->name('theme');
+
+            // Health monitoring
+            Route::get('/health', \Spatie\Health\Http\Controllers\HealthCheckResultsController::class)->name('health');
         });
 
         // Payment routes (only when payments are enabled)

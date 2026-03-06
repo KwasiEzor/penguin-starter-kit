@@ -1,164 +1,181 @@
-<div class="flex flex-col gap-6">
+<div class="flex flex-col gap-8">
     <!-- Header -->
-    <div>
-        <x-breadcrumbs class="mb-4">
-            <x-breadcrumb-item href="{{ route('posts.index') }}">{{ __('Posts') }}</x-breadcrumb-item>
-            <x-breadcrumb-item :active="true">{{ __('Create') }}</x-breadcrumb-item>
-        </x-breadcrumbs>
-
-        <x-typography.heading accent size="xl" level="1">{{ __('Create Post') }}</x-typography.heading>
-        <x-typography.subheading size="lg">{{ __('Write a new blog post') }}</x-typography.subheading>
+    <div class="flex flex-col gap-2">
+        <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-on-surface/40 mb-2">
+            <a href="{{ route('posts.index') }}" class="hover:text-primary transition-colors">{{ __('Publications') }}</a>
+            <x-icons.chevron-right size="xs" />
+            <span class="text-on-surface/60">{{ __('New Post') }}</span>
+        </div>
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <h1 class="text-3xl font-black tracking-tight text-on-surface-strong dark:text-on-surface-dark-strong">
+                {{ __('Create Publication') }}
+            </h1>
+            <div class="flex items-center gap-3">
+                <x-button variant="ghost" href="{{ route('posts.index') }}">{{ __('Discard') }}</x-button>
+                <x-button wire:click="save" class="shadow-lg shadow-primary/20">
+                    <x-icons.plus variant="outline" size="xs" class="mr-1" />
+                    {{ __('Publish Story') }}
+                </x-button>
+            </div>
+        </div>
     </div>
 
-    <x-separator />
+    <!-- Main Editor Area -->
+    <div class="grid gap-8 lg:grid-cols-3">
+        <!-- Left: Content -->
+        <div class="lg:col-span-2 flex flex-col gap-8">
+            <x-card padding="false">
+                <div class="p-8 space-y-8">
+                    <!-- Title -->
+                    <div class="space-y-2">
+                        <x-input-label for="title" value="{{ __('Publication Title') }}" class="text-[10px] uppercase font-black tracking-widest text-on-surface/40" />
+                        <input 
+                            id="title" 
+                            wire:model.live.debounce.300ms="title" 
+                            class="w-full bg-transparent border-none p-0 text-4xl font-black tracking-tight text-on-surface-strong dark:text-on-surface-dark-strong placeholder:text-on-surface/10 focus:ring-0" 
+                            placeholder="{{ __('Enter a catchy title...') }}"
+                            autofocus
+                        />
+                        <x-input-error :messages="$errors->get('title')" />
+                    </div>
 
-    <!-- Form -->
-    <form wire:submit="save" class="max-w-2xl space-y-6">
-        <div>
-            <x-input-label for="title" value="{{ __('Title') }}" />
-            <x-input
-                id="title"
-                wire:model.live.debounce.300ms="title"
-                class="mt-1"
-                placeholder="{{ __('Post title') }}"
-            />
-            <x-input-error :messages="$errors->get('title')" class="mt-2" />
-        </div>
-
-        <div wire:ignore>
-            <x-input-label for="body" value="{{ __('Content') }}" />
-            <input id="body" type="hidden" name="body" value="{{ $body }}" />
-            <trix-editor
-                input="body"
-                class="trix-content mt-1 min-h-[200px] rounded-lg border border-outline bg-surface p-3 text-on-surface-strong dark:border-outline-dark dark:bg-surface-dark dark:text-on-surface-dark-strong"
-                x-on:trix-change="$wire.set('body', $event.target.value)"
-            ></trix-editor>
-        </div>
-        <x-input-error :messages="$errors->get('body')" class="mt-2" />
-
-        <div>
-            <x-input-label for="featured_image" value="{{ __('Featured Image') }}" />
-            <div class="mt-1">
-                @if ($featured_image && method_exists($featured_image, 'isPreviewable') && $featured_image->isPreviewable())
-                    <x-file-upload :preview="$featured_image->temporaryUrl()" />
-                @elseif (! $featured_image)
-                    <x-file-upload wire="featured_image" :label="__('Upload featured image')" />
-                @endif
-            </div>
-            <x-input-error :messages="$errors->get('featured_image')" class="mt-2" />
-            <div
-                wire:loading
-                wire:target="featured_image"
-                class="mt-2 text-sm text-on-surface dark:text-on-surface-dark"
-            >
-                {{ __('Uploading...') }}
-            </div>
-        </div>
-
-        <div>
-            <x-input-label for="status" value="{{ __('Status') }}" />
-            <x-select id="status" wire:model="status" class="mt-1">
-                <option value="draft">{{ __('Draft') }}</option>
-                <option value="published">{{ __('Published') }}</option>
-            </x-select>
-            <x-input-error :messages="$errors->get('status')" class="mt-2" />
-        </div>
-
-        <div>
-            <x-input-label for="tags_input" value="{{ __('Tags') }}" />
-            <x-input
-                id="tags_input"
-                wire:model="tags_input"
-                class="mt-1"
-                placeholder="{{ __('Laravel, PHP, Tutorial') }}"
-            />
-            <p class="mt-1 text-xs text-on-surface dark:text-on-surface-dark">{{ __('Separate tags with commas') }}</p>
-            <x-input-error :messages="$errors->get('tags_input')" class="mt-2" />
-        </div>
-
-        @if ($categories->isNotEmpty())
-            <div>
-                <x-input-label value="{{ __('Categories') }}" />
-                <div class="mt-2 flex flex-wrap gap-3">
-                    @foreach ($categories as $category)
-                        <label class="flex items-center gap-2 text-sm text-on-surface-strong dark:text-on-surface-dark-strong">
-                            <input
-                                type="checkbox"
-                                value="{{ $category->id }}"
-                                wire:model="category_ids"
-                                class="rounded border-outline text-primary focus:ring-primary dark:border-outline-dark dark:bg-surface-dark dark:text-primary-dark dark:focus:ring-primary-dark"
-                            />
-                            {{ $category->name }}
-                        </label>
-                    @endforeach
+                    <!-- Content (Trix) -->
+                    <div class="space-y-2" wire:ignore>
+                        <x-input-label for="body" value="{{ __('Story Content') }}" class="text-[10px] uppercase font-black tracking-widest text-on-surface/40" />
+                        <input id="body" type="hidden" name="body" value="{{ $body }}" />
+                        <trix-editor 
+                            input="body"
+                            class="trix-content prose dark:prose-invert max-w-none mt-1 min-h-[500px] rounded-2xl border border-outline bg-surface-alt/30 p-6 text-on-surface-strong dark:border-outline-dark dark:bg-surface-dark/30 dark:text-on-surface-dark-strong focus:bg-surface transition-colors"
+                            placeholder="{{ __('Tell your story...') }}"
+                            x-on:trix-change="$wire.set('body', $event.target.value)"
+                        ></trix-editor>
+                    </div>
+                    <x-input-error :messages="$errors->get('body')" />
                 </div>
-                <x-input-error :messages="$errors->get('category_ids')" class="mt-2" />
-            </div>
-        @endif
+            </x-card>
 
-        <!-- SEO Settings -->
-        <details class="rounded-lg border border-outline p-4 dark:border-outline-dark">
-            <summary class="cursor-pointer text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong">
-                {{ __('SEO Settings') }}
-            </summary>
-            <div class="mt-4 space-y-4">
-                <div>
-                    <x-input-label for="slug" value="{{ __('Slug') }}" />
-                    <x-input id="slug" wire:model="slug" class="mt-1" placeholder="{{ __('post-url-slug') }}" />
-                    <x-input-error :messages="$errors->get('slug')" class="mt-2" />
+            <!-- SEO Card -->
+            <x-card padding="false">
+                <x-slot name="header">
+                    <div class="flex items-center gap-2">
+                        <x-icons.sparkles variant="outline" size="xs" class="text-primary" />
+                        <span class="text-sm font-bold text-on-surface-strong dark:text-on-surface-dark-strong">{{ __('Search Engine Optimization') }}</span>
+                    </div>
+                </x-slot>
+                
+                <div class="p-8 space-y-8">
+                    <div class="grid gap-6 sm:grid-cols-2">
+                        <div class="flex flex-col gap-2">
+                            <x-input-label for="slug" value="{{ __('URL Slug') }}" />
+                            <x-input id="slug" wire:model="slug" placeholder="{{ __('post-url-handle') }}" />
+                            <x-input-error :messages="$errors->get('slug')" />
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <x-input-label for="meta_title" value="{{ __('Meta Title') }}" />
+                            <x-input id="meta_title" wire:model="meta_title" placeholder="{{ __('SEO Title') }}" maxlength="60" />
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <x-input-label for="excerpt" value="{{ __('Excerpt') }}" />
+                        <x-textarea id="excerpt" wire:model="excerpt" rows="3" placeholder="{{ __('Brief summary for previews...') }}" />
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <x-input-label for="meta_description" value="{{ __('Meta Description') }}" />
+                        <x-textarea id="meta_description" wire:model="meta_description" rows="3" placeholder="{{ __('SEO Description') }}" maxlength="160" />
+                    </div>
                 </div>
-
-                <div>
-                    <x-input-label for="excerpt" value="{{ __('Excerpt') }}" />
-                    <x-textarea
-                        id="excerpt"
-                        wire:model="excerpt"
-                        rows="2"
-                        class="mt-1"
-                        placeholder="{{ __('Brief summary of the post...') }}"
-                    />
-                    <p class="mt-1 text-xs text-on-surface dark:text-on-surface-dark">
-                        {{ __('Leave empty to auto-generate from content') }}
-                    </p>
-                    <x-input-error :messages="$errors->get('excerpt')" class="mt-2" />
-                </div>
-
-                <div>
-                    <x-input-label for="meta_title" value="{{ __('Meta Title') }}" />
-                    <x-input
-                        id="meta_title"
-                        wire:model="meta_title"
-                        class="mt-1"
-                        placeholder="{{ __('SEO title (max 60 characters)') }}"
-                        maxlength="60"
-                    />
-                    <p class="mt-1 text-xs text-on-surface dark:text-on-surface-dark">
-                        {{ strlen($meta_title) }}/60 {{ __('characters') }}
-                    </p>
-                    <x-input-error :messages="$errors->get('meta_title')" class="mt-2" />
-                </div>
-
-                <div>
-                    <x-input-label for="meta_description" value="{{ __('Meta Description') }}" />
-                    <x-textarea
-                        id="meta_description"
-                        wire:model="meta_description"
-                        rows="2"
-                        class="mt-1"
-                        placeholder="{{ __('SEO description (max 160 characters)') }}"
-                        maxlength="160"
-                    />
-                    <p class="mt-1 text-xs text-on-surface dark:text-on-surface-dark">
-                        {{ strlen($meta_description) }}/160 {{ __('characters') }}
-                    </p>
-                    <x-input-error :messages="$errors->get('meta_description')" class="mt-2" />
-                </div>
-            </div>
-        </details>
-
-        <div class="flex items-center gap-3">
-            <x-button type="submit">{{ __('Create Post') }}</x-button>
-            <x-button variant="ghost" href="{{ route('posts.index') }}">{{ __('Cancel') }}</x-button>
+            </x-card>
         </div>
-    </form>
+
+        <!-- Right: Settings & Metadata -->
+        <div class="lg:col-span-1 flex flex-col gap-8">
+            <!-- Publishing Controls -->
+            <x-card>
+                <x-slot name="header">
+                    <span class="text-sm font-bold text-on-surface-strong dark:text-on-surface-dark-strong">{{ __('Publication State') }}</span>
+                </x-slot>
+                
+                <div class="space-y-6">
+                    <div>
+                        <x-input-label for="status" value="{{ __('Initial Status') }}" />
+                        <x-select id="status" wire:model="status" class="mt-1">
+                            <option value="draft">{{ __('Draft') }}</option>
+                            <option value="published">{{ __('Published') }}</option>
+                        </x-select>
+                    </div>
+
+                    <div class="pt-4 border-t border-outline dark:border-outline-dark">
+                        <x-button wire:click="save" class="w-full">
+                            {{ __('Save & Continue') }}
+                        </x-button>
+                    </div>
+                </div>
+            </x-card>
+
+            <!-- Featured Image -->
+            <x-card>
+                <x-slot name="header">
+                    <span class="text-sm font-bold text-on-surface-strong dark:text-on-surface-dark-strong">{{ __('Featured Image') }}</span>
+                </x-slot>
+                
+                <div class="space-y-4">
+                    <div class="relative aspect-video rounded-2xl bg-surface-alt dark:bg-surface-dark overflow-hidden border border-outline dark:border-outline-dark group">
+                        @if ($featured_image && method_exists($featured_image, 'isPreviewable') && $featured_image->isPreviewable())
+                            <img src="{{ $featured_image->temporaryUrl() }}" class="size-full object-cover" />
+                            <button wire:click="clearUploadedImage" class="absolute top-2 right-2 size-8 flex items-center justify-center rounded-full bg-black/60 text-white backdrop-blur hover:bg-danger transition-colors">
+                                <x-icons.x-mark size="xs" />
+                            </button>
+                        @else
+                            <div class="flex size-full items-center justify-center text-on-surface/10">
+                                <x-icons.document-text variant="outline" size="xl" />
+                            </div>
+                        @endif
+                    </div>
+                    
+                    <x-file-upload wire:model="featured_image" :label="__('Choose Cover Image')" />
+                    <x-input-error :messages="$errors->get('featured_image')" />
+                </div>
+            </x-card>
+
+            <!-- Organization -->
+            <x-card>
+                <x-slot name="header">
+                    <span class="text-sm font-bold text-on-surface-strong dark:text-on-surface-dark-strong">{{ __('Organization') }}</span>
+                </x-slot>
+                
+                <div class="space-y-6">
+                    <!-- Categories -->
+                    @if ($categories->isNotEmpty())
+                        <div class="space-y-3">
+                            <x-input-label value="{{ __('Categories') }}" class="text-[10px] uppercase font-black text-on-surface/40 tracking-widest" />
+                            <div class="grid grid-cols-1 gap-2">
+                                @foreach ($categories as $category)
+                                    <label class="flex items-center gap-3 p-2 rounded-xl hover:bg-surface-alt transition-colors cursor-pointer border border-transparent hover:border-outline dark:hover:bg-surface-dark dark:hover:border-outline-dark">
+                                        <input 
+                                            type="checkbox" 
+                                            value="{{ $category->id }}" 
+                                            wire:model="category_ids"
+                                            class="size-4 rounded-md border-outline-strong text-primary focus:ring-4 focus:ring-primary/10 dark:border-outline-dark-strong dark:bg-surface-dark" 
+                                        />
+                                        <span class="text-sm font-bold text-on-surface-strong dark:text-on-surface-dark-strong">{{ $category->name }}</span>
+                                    </label>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
+                    <!-- Tags -->
+                    <div class="space-y-2 pt-4 border-t border-outline dark:border-outline-dark">
+                        <x-input-label for="tags_input" value="{{ __('Tags') }}" class="text-[10px] uppercase font-black text-on-surface/40 tracking-widest" />
+                        <x-input id="tags_input" wire:model="tags_input" placeholder="{{ __('Enter tags...') }}" />
+                        <p class="text-[10px] text-on-surface/40 font-medium italic">{{ __('Comma separated values') }}</p>
+                        <x-input-error :messages="$errors->get('tags_input')" />
+                    </div>
+                </div>
+            </x-card>
+        </div>
+    </div>
 </div>

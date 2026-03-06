@@ -10,8 +10,19 @@
     ][$maxWidth];
 @endphp
 
-<div x-data="{ modalIsOpen: @js($show ?? false) }">
-    {{ $trigger }}
+<div 
+    x-data="{ modalIsOpen: @js($show ?? false) }"
+    x-init="$watch('modalIsOpen', value => {
+        if (!value) {
+            // When closing internally (ESC, click outside), we should notify Livewire
+            // This is optional but good for keeping state in sync
+        }
+    })"
+    x-effect="modalIsOpen = @js($show ?? false)"
+>
+    @isset($trigger)
+        {{ $trigger }}
+    @endisset
     <div
         x-cloak
         x-show="modalIsOpen"
