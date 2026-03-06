@@ -116,22 +116,104 @@
                         {{ $post->created_at->format('M d, Y') }}
                     </x-table-cell>
                     <x-table-cell>
-                        <div class="flex items-center gap-2">
-                            <x-button size="xs" variant="ghost" href="{{ route('posts.edit', $post) }}">
-                                {{ __('Edit') }}
-                            </x-button>
-                            <x-button
-                                size="xs"
-                                variant="ghost"
-                                wire:click="confirmDelete({{ $post->id }})"
-                                class="text-danger hover:text-danger"
+                        <div class="flex items-center gap-1">
+                            <a
+                                href="{{ route('posts.edit', $post) }}"
+                                class="inline-flex items-center justify-center rounded-radius p-1.5 text-on-surface transition-colors hover:bg-surface-alt hover:text-on-surface-strong dark:text-on-surface-dark dark:hover:bg-surface-dark-alt dark:hover:text-on-surface-dark-strong"
+                                title="{{ __('Edit') }}"
                             >
-                                {{ __('Delete') }}
-                            </x-button>
+                                <x-icons.pencil-square variant="outline" size="sm" />
+                            </a>
+                            <button
+                                type="button"
+                                wire:click="confirmDelete({{ $post->id }})"
+                                class="inline-flex items-center justify-center rounded-radius p-1.5 text-danger transition-colors hover:bg-danger/10"
+                                title="{{ __('Delete') }}"
+                            >
+                                <x-icons.trash variant="outline" size="sm" />
+                            </button>
                         </div>
                     </x-table-cell>
                 </tr>
             @endforeach
+
+            <x-slot name="mobile">
+                @foreach ($posts as $post)
+                    <div
+                        class="rounded-radius border border-outline bg-surface p-4 dark:border-outline-dark dark:bg-surface-dark"
+                        wire:key="post-mobile-{{ $post->id }}"
+                    >
+                        <div class="flex items-start gap-3">
+                            @if ($post->featuredImageUrl())
+                                <img
+                                    src="{{ $post->featuredImageUrl() }}"
+                                    alt=""
+                                    class="size-12 shrink-0 rounded-radius object-cover"
+                                />
+                            @else
+                                <div
+                                    class="flex size-12 shrink-0 items-center justify-center rounded-radius bg-surface-alt dark:bg-surface-dark-alt"
+                                >
+                                    <x-icons.document-text
+                                        variant="outline"
+                                        size="sm"
+                                        class="text-on-surface/40 dark:text-on-surface-dark/40"
+                                    />
+                                </div>
+                            @endif
+                            <div class="min-w-0 flex-1">
+                                <div class="flex items-start justify-between gap-2">
+                                    <h3
+                                        class="truncate text-sm font-medium text-on-surface-strong dark:text-on-surface-dark-strong"
+                                    >
+                                        {{ $post->title }}
+                                    </h3>
+                                    <x-badge
+                                        :variant="$post->status === 'published' ? 'success' : 'default'"
+                                        size="sm"
+                                    >
+                                        {{ ucfirst($post->status) }}
+                                    </x-badge>
+                                </div>
+                                <p class="mt-0.5 text-xs text-on-surface dark:text-on-surface-dark">
+                                    {{ $post->created_at->format('M d, Y') }}
+                                </p>
+                            </div>
+                        </div>
+
+                        @if ($post->tags->isNotEmpty() || $post->categories->isNotEmpty())
+                            <div class="mt-3 flex flex-wrap gap-1">
+                                @foreach ($post->tags as $tag)
+                                    <x-badge size="sm" variant="info">{{ $tag->name }}</x-badge>
+                                @endforeach
+                                @foreach ($post->categories as $category)
+                                    <x-badge size="sm" variant="default">{{ $category->name }}</x-badge>
+                                @endforeach
+                            </div>
+                        @endif
+
+                        <div
+                            class="mt-3 flex items-center gap-1 border-t border-outline pt-3 dark:border-outline-dark"
+                        >
+                            <a
+                                href="{{ route('posts.edit', $post) }}"
+                                class="inline-flex items-center gap-1.5 rounded-radius px-2.5 py-1.5 text-xs font-medium text-on-surface transition-colors hover:bg-surface-alt hover:text-on-surface-strong dark:text-on-surface-dark dark:hover:bg-surface-dark-alt dark:hover:text-on-surface-dark-strong"
+                            >
+                                <x-icons.pencil-square variant="outline" size="xs" />
+                                {{ __('Edit') }}
+                            </a>
+                            <button
+                                type="button"
+                                wire:click="confirmDelete({{ $post->id }})"
+                                class="inline-flex items-center gap-1.5 rounded-radius px-2.5 py-1.5 text-xs font-medium text-danger transition-colors hover:bg-danger/10"
+                            >
+                                <x-icons.trash variant="outline" size="xs" />
+                                {{ __('Delete') }}
+                            </button>
+                        </div>
+                    </div>
+                @endforeach
+            </x-slot>
         </x-table>
 
         <div>

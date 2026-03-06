@@ -58,6 +58,7 @@ Route::middleware(ProvideMarkdownResponse::class)->group(function () {
             Route::get('/payments', Admin\Payments\Settings::class)->name('payments');
             Route::get('/categories', Admin\Categories\Index::class)->name('categories.index');
             Route::get('/ai-settings', Admin\AiSettings::class)->name('ai-settings');
+            Route::get('/theme', Admin\ThemeSettings::class)->name('theme');
         });
 
         // Payment routes (only when payments are enabled)

@@ -2,10 +2,15 @@
     "$schema": "https://getcomposer.org/schema.json",
     "name": "kwasiezor/penguin-starter-kit",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "A premium Laravel 12 starter kit with Livewire 4, Tailwind 4, AI Agent system, and Stripe integration.",
     "keywords": [
         "laravel",
-        "framework"
+        "starter-kit",
+        "saas-boilerplate",
+        "livewire",
+        "tailwind-css",
+        "ai-agents",
+        "stripe-cashier"
     ],
     "license": "MIT",
     "require": {
@@ -50,13 +55,28 @@
         }
     },
     "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi",
+            "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
+            "php artisan migrate --graceful --ansi",
+            "@php artisan about"
+        ],
         "setup": [
             "composer install",
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
-            "@php artisan key:generate",
-            "@php artisan migrate --force",
             "npm install",
-            "npm run build"
+            "npm run build",
+            "@php artisan key:generate",
+            "php artisan migrate"
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",

@@ -96,13 +96,13 @@ final class Index extends Component
         $posts = Post::query()
             ->with(['tags', 'categories'])
             ->where('user_id', Auth::id())
-            ->when($this->search, fn (\Illuminate\Database\Eloquent\Builder $q) => $q->where(function (\Illuminate\Database\Eloquent\Builder $q): void {
+            ->when($this->search, fn(\Illuminate\Database\Eloquent\Builder $q) => $q->where(function (\Illuminate\Database\Eloquent\Builder $q): void {
                 $q->where('title', 'like', sprintf('%%%s%%', $this->search))
                     ->orWhere('body', 'like', sprintf('%%%s%%', $this->search));
             }))
-            ->when($this->statusFilter, fn (\Illuminate\Database\Eloquent\Builder $q) => $q->where('status', $this->statusFilter))
-            ->when($this->tagFilter, fn (\Illuminate\Database\Eloquent\Builder $q) => $q->withAnyTags([$this->tagFilter]))
-            ->when($this->categoryFilter, fn (\Illuminate\Database\Eloquent\Builder $q) => $q->whereHas('categories', fn (\Illuminate\Database\Eloquent\Builder $q) => $q->where('categories.slug', $this->categoryFilter)))
+            ->when($this->statusFilter, fn(\Illuminate\Database\Eloquent\Builder $q) => $q->where('status', $this->statusFilter))
+            ->when($this->tagFilter, fn(\Illuminate\Database\Eloquent\Builder $q) => $q->withAnyTags([$this->tagFilter]))
+            ->when($this->categoryFilter, fn(\Illuminate\Database\Eloquent\Builder $q) => $q->whereHas('categories', fn(\Illuminate\Database\Eloquent\Builder $q) => $q->where('categories.slug', $this->categoryFilter)))
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate(10);
 
@@ -116,11 +116,12 @@ final class Index extends Component
                     ->where('taggables.taggable_type', Post::class)
                     ->whereIn('taggables.taggable_id', $userPostIds);
             })
+            ->distinct()
             ->orderBy('name')
             ->pluck('name')
             ->toArray();
 
-        $availableCategories = Category::orderBy('name')->get();
+        $availableCategories = Category::distinct()->orderBy('name')->get();
 
         return view('livewire.posts.index', [
             'posts' => $posts,

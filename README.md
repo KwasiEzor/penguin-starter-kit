@@ -4,27 +4,28 @@ A production-ready Laravel starter kit built with **Livewire 4**, **Alpine.js 3*
 
 ## Tech Stack
 
-| Technology | Version | Role |
-|---|---|---|
-| PHP | 8.4 | Runtime |
-| Laravel | 12 | Backend framework |
-| Livewire | 4 | Reactive server-side components |
-| Alpine.js | 3 | Lightweight client-side interactivity |
-| Tailwind CSS | 4 | Utility-first CSS framework |
-| PenguinUI | -- | Design system (CSS custom properties) |
-| Pest | 3 | Testing framework |
-| SQLite | -- | Default database |
-| Spatie Permission | -- | Roles and permissions |
-| Spatie Media Library | -- | File/image uploads (avatars, featured images) |
-| Spatie Tags | -- | Post tagging |
-| Laravel Sanctum | -- | API token authentication |
-| Laravel Cashier | -- | Stripe payments and subscriptions |
-| Laravel Reverb | -- | Real-time WebSocket broadcasting |
-| Rich Text Laravel | -- | Trix rich text editor integration |
+| Technology           | Version | Role                                          |
+| -------------------- | ------- | --------------------------------------------- |
+| PHP                  | 8.4     | Runtime                                       |
+| Laravel              | 12      | Backend framework                             |
+| Livewire             | 4       | Reactive server-side components               |
+| Alpine.js            | 3       | Lightweight client-side interactivity         |
+| Tailwind CSS         | 4       | Utility-first CSS framework                   |
+| PenguinUI            | --      | Design system (CSS custom properties)         |
+| Pest                 | 3       | Testing framework                             |
+| SQLite               | --      | Default database                              |
+| Spatie Permission    | --      | Roles and permissions                         |
+| Spatie Media Library | --      | File/image uploads (avatars, featured images) |
+| Spatie Tags          | --      | Post tagging                                  |
+| Laravel Sanctum      | --      | API token authentication                      |
+| Laravel Cashier      | --      | Stripe payments and subscriptions             |
+| Laravel Reverb       | --      | Real-time WebSocket broadcasting              |
+| Rich Text Laravel    | --      | Trix rich text editor integration             |
 
 ## Features
 
 ### Authentication
+
 - **Login** with email/password, "remember me" option, and rate limiting
 - **Registration** with name, email, password, and password confirmation
 - **Forgot Password** sends a reset link via email
@@ -34,6 +35,7 @@ A production-ready Laravel starter kit built with **Livewire 4**, **Alpine.js 3*
 - **Logout** with session invalidation and toast notification
 
 ### Posts & Blog
+
 - **Full CRUD** -- create, read, update, and delete posts scoped to the authenticated user
 - **Rich text editor** -- Trix editor for composing post content with formatting
 - **Draft/Published status** with automatic `published_at` timestamp management
@@ -47,6 +49,7 @@ A production-ready Laravel starter kit built with **Livewire 4**, **Alpine.js 3*
 - **Authorization** via PostPolicy -- owners manage their posts; users with elevated permissions can act on any post
 
 ### AI Agents
+
 - **Full CRUD** -- create, edit, and delete AI agents with name, description, system prompt, and model configuration
 - **Multi-provider support** -- OpenAI, Anthropic, and Gemini via the `AiProviderEnum`
 - **Execution tracking** -- each agent run creates an `AiExecution` record with input, output, and token usage
@@ -56,12 +59,14 @@ A production-ready Laravel starter kit built with **Livewire 4**, **Alpine.js 3*
 - **Admin AI settings** -- toggle AI features and configure global API keys from the admin dashboard
 
 ### Categories
+
 - **Admin CRUD** -- create, edit, and delete categories with auto-generated slugs
 - **Polymorphic relationship** -- categories can be attached to posts (and extensible to other models)
 - **Post integration** -- assign categories when creating/editing posts, filter posts by category on the index
 - **Safeguards** -- cannot delete a category that has posts attached
 
 ### Admin Dashboard
+
 - **Overview stats** -- total users, total posts, published posts, recent users, recent posts
 - **Payment stats** (conditional) -- active subscriptions and monthly revenue when payments are enabled
 - **User management** -- list, create, edit, and delete users with role assignment and avatar upload
@@ -71,6 +76,7 @@ A production-ready Laravel starter kit built with **Livewire 4**, **Alpine.js 3*
 - **Payment settings** -- toggle payments, manage Stripe keys, CRUD for plans and products, transaction history
 
 ### Roles & Permissions
+
 - **Three built-in roles**: Administrator, Editor, User
 - **13 granular permissions** across 5 groups: Users, Posts, Admin, Roles, Payments
 - **Custom roles** -- create new roles with any combination of permissions
@@ -78,6 +84,7 @@ A production-ready Laravel starter kit built with **Livewire 4**, **Alpine.js 3*
 - Powered by **Spatie Laravel Permission**
 
 ### Stripe Payments
+
 - **Feature-flagged** -- admin toggles payments on/off from the dashboard; all payment routes return 404 when disabled
 - **Stripe key management** -- publishable key, secret key (encrypted at rest), webhook secret, and currency stored in the database
 - **Subscription plans** -- name, description, price, billing interval (monthly/yearly), feature list, Stripe price ID, active/featured toggles
@@ -89,24 +96,28 @@ A production-ready Laravel starter kit built with **Livewire 4**, **Alpine.js 3*
 - Powered by **Laravel Cashier**
 
 ### Notifications & Real-time
+
 - **Database notifications** -- when a post is published, all other users receive a notification
 - **Real-time push** via Laravel Reverb WebSockets on private per-user channels
 - **Notification center** in the sidebar -- bell icon with unread count, last 10 notifications, mark as read
 - **Instant toast** on push -- new post notifications appear as a toast without a page refresh
 
 ### API Layer
+
 - **Sanctum-authenticated** REST API for posts (`/api/posts`)
 - **Full CRUD** -- list (with status filter), create (with tags array), show, update, delete
 - **Token management UI** in settings -- create named tokens, view existing tokens, revoke tokens
 - Token shown once on creation, never displayed again
 
 ### Spotlight Search
+
 - **Cmd+K / Ctrl+K** opens a search overlay from anywhere in the app
 - **Post search** -- queries the user's posts by title or body (top 5 results)
 - **Page search** -- filters navigation pages (Dashboard, Posts, Create Post, Settings)
 - Closes on Escape or click outside
 
 ### User Settings
+
 - **Profile** -- update name, email (resets email verification on change), and avatar upload/removal
 - **Password** -- change password with current password verification
 - **Appearance** -- light, dark, and system theme picker (persisted in localStorage)
@@ -115,6 +126,7 @@ A production-ready Laravel starter kit built with **Livewire 4**, **Alpine.js 3*
 - **Delete Account** -- modal confirmation with password verification
 
 ### UI System
+
 - **25+ Blade components** styled with PenguinUI design tokens
 - **Two layout options** -- sidebar (`<x-layouts.app>`) and top navbar (`<x-layouts.app-navbar>`)
 - **Toast notifications** -- success, error, warning, info variants with auto-dismiss
@@ -123,11 +135,13 @@ A production-ready Laravel starter kit built with **Livewire 4**, **Alpine.js 3*
 - **Responsive** -- mobile-friendly sidebar collapse and hamburger menu
 
 ### CI/CD
+
 - **GitHub Actions** workflow with two parallel jobs on push/PR to `main`:
-  - **Tests** -- PHP 8.4, SQLite, runs full Pest test suite
-  - **Code Style** -- Laravel Pint in check mode
+    - **Tests** -- PHP 8.4, SQLite, runs full Pest test suite
+    - **Code Style** -- Laravel Pint in check mode
 
 ### Developer Experience
+
 - **290 tests** with 631 assertions covering auth, posts, admin, AI agents, categories, payments, API, components, and settings
 - **Pest PHP** testing with Livewire test helpers
 - **Livewire Form Objects** for clean validation and form handling
@@ -141,32 +155,57 @@ A production-ready Laravel starter kit built with **Livewire 4**, **Alpine.js 3*
 - Node.js >= 18
 - npm
 
-## Installation
+## 🚀 Getting Started
+
+### Installation via Packagist (Recommended)
+
+The easiest way to start a new project is using `composer create-project`:
 
 ```bash
-# Clone the repository
-git clone <your-repo-url> my-project
-cd my-project
-
-# Install PHP dependencies
-composer install
-
-# Install Node.js dependencies
-npm install
-
-# Copy environment file and generate app key
-cp .env.example .env
-php artisan key:generate
-
-# Run database migrations
-php artisan migrate
-
-# Seed roles and permissions
-php artisan db:seed --class=RolesAndPermissionsSeeder
-
-# Build front-end assets
-npm run build
+composer create-project kwasiezor/penguin-starter-kit my-app
 ```
+
+This will automatically:
+1.  Download the latest stable version.
+2.  Install all PHP and NPM dependencies.
+3.  Create your `.env` file and generate an app key.
+4.  Setup a local SQLite database and run migrations.
+
+### Manual Installation
+
+If you prefer to clone the repository:
+
+```bash
+git clone https://github.com/kwasiezor/penguin-starter-kit.git my-app
+cd my-app
+composer setup
+npm run dev
+```
+
+## 🔄 Staying Updated
+
+As a starter kit, this project is meant to be the *beginning* of your application. However, we've included tools to help you stay current:
+
+1.  **Dependabot:** Pre-configured to keep your Composer and NPM packages updated weekly via automated PRs.
+2.  **Release Drafter:** Automatically handles versioning and changelogs when you merge PRs to `main`.
+3.  **Upstream Sync:** You can pull in new features or security fixes from the source:
+    ```bash
+    git remote add upstream https://github.com/kwasiezor/penguin-starter-kit.git
+    git fetch upstream
+    git merge upstream/main --allow-unrelated-histories
+    ```
+
+## 🛠 Features
+
+- **Laravel 12 + Livewire 4 + AlpineJS 3**
+- **Tailwind CSS 4** with modern utility-first styling.
+- **AI Agent System:** Built on `laravel/ai` with provider-switching and per-user API key support.
+- **Stripe Integration:** Pre-configured with Laravel Cashier for subscriptions and one-time payments.
+- **Admin Dashboard:** Full RBAC (Spatie Permission), user management, and AI settings.
+- **SEO & Blog:** Markdown-based blog with SEO tag support out of the box.
+- **Real-time:** Integrated with Laravel Reverb for websockets.
+- **Quality Tooling:** Pre-configured with Pest 3, PHPStan, Pint, and Rector.
+
 
 ### Environment Variables
 
@@ -212,71 +251,71 @@ Visit `http://localhost:8000` to see the welcome page. Register an account at `/
 
 ### Public
 
-| Method | URI | Name | Description |
-|---|---|---|---|
-| GET | `/` | home | Welcome page |
-| GET | `/blog/{slug}` | blog.show | Public blog post |
+| Method | URI            | Name      | Description      |
+| ------ | -------------- | --------- | ---------------- |
+| GET    | `/`            | home      | Welcome page     |
+| GET    | `/blog/{slug}` | blog.show | Public blog post |
 
 ### Guest Only
 
-| Method | URI | Name | Description |
-|---|---|---|---|
-| GET | `/login` | login | Login form |
-| GET | `/register` | register | Registration form |
-| GET | `/forgot-password` | password.request | Forgot password form |
-| GET | `/reset-password/{token}` | password.reset | Reset password form |
+| Method | URI                       | Name             | Description          |
+| ------ | ------------------------- | ---------------- | -------------------- |
+| GET    | `/login`                  | login            | Login form           |
+| GET    | `/register`               | register         | Registration form    |
+| GET    | `/forgot-password`        | password.request | Forgot password form |
+| GET    | `/reset-password/{token}` | password.reset   | Reset password form  |
 
 ### Authenticated
 
-| Method | URI | Name | Description |
-|---|---|---|---|
-| GET | `/dashboard` | dashboard | User dashboard |
-| GET | `/posts` | posts.index | Posts list |
-| GET | `/posts/create` | posts.create | Create post form |
-| GET | `/posts/{post}/edit` | posts.edit | Edit post form |
-| GET | `/agents` | agents.index | AI agents list |
-| GET | `/agents/create` | agents.create | Create AI agent form |
-| GET | `/agents/{aiAgent}` | agents.show | AI agent detail and execution |
-| GET | `/agents/{aiAgent}/edit` | agents.edit | Edit AI agent form |
-| GET | `/settings` | settings | User settings (profile, password, appearance, AI keys, API tokens) |
-| GET | `/verify-email` | verification.notice | Email verification notice |
-| GET | `/confirm-password` | password.confirm | Password confirmation |
-| POST | `/logout` | logout | Logout action |
+| Method | URI                      | Name                | Description                                                        |
+| ------ | ------------------------ | ------------------- | ------------------------------------------------------------------ |
+| GET    | `/dashboard`             | dashboard           | User dashboard                                                     |
+| GET    | `/posts`                 | posts.index         | Posts list                                                         |
+| GET    | `/posts/create`          | posts.create        | Create post form                                                   |
+| GET    | `/posts/{post}/edit`     | posts.edit          | Edit post form                                                     |
+| GET    | `/agents`                | agents.index        | AI agents list                                                     |
+| GET    | `/agents/create`         | agents.create       | Create AI agent form                                               |
+| GET    | `/agents/{aiAgent}`      | agents.show         | AI agent detail and execution                                      |
+| GET    | `/agents/{aiAgent}/edit` | agents.edit         | Edit AI agent form                                                 |
+| GET    | `/settings`              | settings            | User settings (profile, password, appearance, AI keys, API tokens) |
+| GET    | `/verify-email`          | verification.notice | Email verification notice                                          |
+| GET    | `/confirm-password`      | password.confirm    | Password confirmation                                              |
+| POST   | `/logout`                | logout              | Logout action                                                      |
 
 ### Admin (requires `admin.access` permission)
 
-| Method | URI | Name | Description |
-|---|---|---|---|
-| GET | `/admin/dashboard` | admin.dashboard | Admin overview with stats |
-| GET | `/admin/users` | admin.users.index | User management |
-| GET | `/admin/users/create` | admin.users.create | Create user |
-| GET | `/admin/users/{user}/edit` | admin.users.edit | Edit user |
-| GET | `/admin/roles` | admin.roles.index | Role management |
-| GET | `/admin/roles/create` | admin.roles.create | Create role |
-| GET | `/admin/roles/{role}/edit` | admin.roles.edit | Edit role |
-| GET | `/admin/categories` | admin.categories.index | Category management |
-| GET | `/admin/ai-settings` | admin.ai-settings | AI feature settings and global API keys |
-| GET | `/admin/payments` | admin.payments | Payment settings, plans, products, transactions |
+| Method | URI                        | Name                   | Description                                     |
+| ------ | -------------------------- | ---------------------- | ----------------------------------------------- |
+| GET    | `/admin/dashboard`         | admin.dashboard        | Admin overview with stats                       |
+| GET    | `/admin/users`             | admin.users.index      | User management                                 |
+| GET    | `/admin/users/create`      | admin.users.create     | Create user                                     |
+| GET    | `/admin/users/{user}/edit` | admin.users.edit       | Edit user                                       |
+| GET    | `/admin/roles`             | admin.roles.index      | Role management                                 |
+| GET    | `/admin/roles/create`      | admin.roles.create     | Create role                                     |
+| GET    | `/admin/roles/{role}/edit` | admin.roles.edit       | Edit role                                       |
+| GET    | `/admin/categories`        | admin.categories.index | Category management                             |
+| GET    | `/admin/ai-settings`       | admin.ai-settings      | AI feature settings and global API keys         |
+| GET    | `/admin/payments`          | admin.payments         | Payment settings, plans, products, transactions |
 
 ### Payments (requires payments to be enabled)
 
-| Method | URI | Name | Description |
-|---|---|---|---|
-| GET | `/pricing` | pricing | Pricing page with plans and products |
-| GET | `/billing` | billing | User billing and subscription management |
-| GET | `/checkout/success` | checkout.success | Post-checkout success page |
-| GET | `/checkout/cancel` | checkout.cancel | Post-checkout cancellation page |
+| Method | URI                 | Name             | Description                              |
+| ------ | ------------------- | ---------------- | ---------------------------------------- |
+| GET    | `/pricing`          | pricing          | Pricing page with plans and products     |
+| GET    | `/billing`          | billing          | User billing and subscription management |
+| GET    | `/checkout/success` | checkout.success | Post-checkout success page               |
+| GET    | `/checkout/cancel`  | checkout.cancel  | Post-checkout cancellation page          |
 
 ### API (Sanctum-authenticated)
 
-| Method | URI | Description |
-|---|---|---|
-| GET | `/api/user` | Authenticated user info |
-| GET | `/api/posts` | List own posts (supports `?status=` filter) |
-| POST | `/api/posts` | Create post |
-| GET | `/api/posts/{post}` | Show post |
-| PUT/PATCH | `/api/posts/{post}` | Update post |
-| DELETE | `/api/posts/{post}` | Delete post |
+| Method    | URI                 | Description                                 |
+| --------- | ------------------- | ------------------------------------------- |
+| GET       | `/api/user`         | Authenticated user info                     |
+| GET       | `/api/posts`        | List own posts (supports `?status=` filter) |
+| POST      | `/api/posts`        | Create post                                 |
+| GET       | `/api/posts/{post}` | Show post                                   |
+| PUT/PATCH | `/api/posts/{post}` | Update post                                 |
+| DELETE    | `/api/posts/{post}` | Delete post                                 |
 
 ## Layouts
 
@@ -331,7 +370,7 @@ All components use PenguinUI's semantic design tokens for consistent theming.
 <x-modal name="confirm-delete">
     <x-slot:trigger>
         <x-button variant="danger">Delete Account</x-button>
-    </x-slot:trigger>
+    </x-slot>
 
     <div class="p-6">
         <h2>Are you sure?</h2>
@@ -370,33 +409,34 @@ Toast::info('Check your inbox.');
 
 ### Other Components
 
-| Component | Usage |
-|---|---|
-| `<x-input-label>` | Form labels |
-| `<x-input-error>` | Validation error messages |
-| `<x-checkbox>` | Styled checkbox |
-| `<x-dropdown>` | Alpine.js dropdown with keyboard navigation |
-| `<x-dropdown-link>` | Dropdown menu item |
-| `<x-link>` | Styled anchor link |
-| `<x-separator>` | Horizontal/vertical divider with optional text |
-| `<x-typography.heading>` | Page headings |
-| `<x-typography.subheading>` | Secondary text |
-| `<x-toggle>` | Toggle switch |
-| `<x-badge>` | Status badges |
-| `<x-card>` | Content card |
-| `<x-avatar>` | User avatar with initials fallback |
-| `<x-alert>` | Alert messages |
-| `<x-tabs>` | Tabbed navigation |
-| `<x-table>` | Data table with headers and rows |
-| `<x-stat-card>` | Dashboard statistic card |
-| `<x-select>` | Dropdown select input |
-| `<x-textarea>` | Multi-line text input |
+| Component                   | Usage                                          |
+| --------------------------- | ---------------------------------------------- |
+| `<x-input-label>`           | Form labels                                    |
+| `<x-input-error>`           | Validation error messages                      |
+| `<x-checkbox>`              | Styled checkbox                                |
+| `<x-dropdown>`              | Alpine.js dropdown with keyboard navigation    |
+| `<x-dropdown-link>`         | Dropdown menu item                             |
+| `<x-link>`                  | Styled anchor link                             |
+| `<x-separator>`             | Horizontal/vertical divider with optional text |
+| `<x-typography.heading>`    | Page headings                                  |
+| `<x-typography.subheading>` | Secondary text                                 |
+| `<x-toggle>`                | Toggle switch                                  |
+| `<x-badge>`                 | Status badges                                  |
+| `<x-card>`                  | Content card                                   |
+| `<x-avatar>`                | User avatar with initials fallback             |
+| `<x-alert>`                 | Alert messages                                 |
+| `<x-tabs>`                  | Tabbed navigation                              |
+| `<x-table>`                 | Data table with headers and rows               |
+| `<x-stat-card>`             | Dashboard statistic card                       |
+| `<x-select>`                | Dropdown select input                          |
+| `<x-textarea>`              | Multi-line text input                          |
 
 ## Dark Mode
 
 The starter kit supports three theme modes: **Light**, **Dark**, and **System** (follows OS preference).
 
 The theme is managed by:
+
 1. **CSS custom properties** in `resources/css/app.css` -- PenguinUI design tokens for both light and dark palettes
 2. **ThemeManager JS** in `partials/scripts.blade.php` -- reads from `localStorage` and applies the `dark` class to `<html>`
 3. **Appearance settings** -- an Alpine.js component in the settings page that lets users pick their preferred theme
@@ -417,6 +457,7 @@ php artisan test --coverage
 ```
 
 The test suite includes **290 tests** with **631 assertions** covering:
+
 - **Auth flows** -- register, login, logout, forgot/reset password, email verification, password confirmation
 - **Posts** -- CRUD, tags, categories, featured images, rich text, SEO fields, data table filters
 - **AI Agents** -- CRUD, execution tracking, API key management, visibility controls, authorization
@@ -474,28 +515,31 @@ In any Livewire component, change the `#[Layout]` attribute:
 ### Adding New Pages
 
 1. Create a Livewire component:
-   ```bash
-   php artisan make:livewire MyPage
-   ```
+
+    ```bash
+    php artisan make:livewire MyPage
+    ```
 
 2. Set the layout in the component class:
-   ```php
-   #[Layout('components.layouts.app')]
-   final class MyPage extends Component { }
-   ```
+
+    ```php
+    #[Layout('components.layouts.app')]
+    final class MyPage extends Component { }
+    ```
 
 3. Add a route in `routes/web.php`:
-   ```php
-   Route::get('/my-page', MyPage::class)->name('my-page');
-   ```
+
+    ```php
+    Route::get('/my-page', MyPage::class)->name('my-page');
+    ```
 
 4. Add a navigation link in `components/sidebar.blade.php`:
-   ```blade
-   <x-sidebar-link :href="route('my-page')" :active="request()->routeIs('my-page')" wire:navigate>
-       <x-icons.home class="size-5" />
-       My Page
-   </x-sidebar-link>
-   ```
+    ```blade
+    <x-sidebar-link :href="route('my-page')" :active="request()->routeIs('my-page')" wire:navigate>
+        <x-icons.home class="size-5" />
+        My Page
+    </x-sidebar-link>
+    ```
 
 ## Architecture Notes
 
@@ -511,6 +555,61 @@ In any Livewire component, change the `#[Layout]` attribute:
 - **Real-time broadcasting** uses per-user private channels, not shared public channels, ensuring notifications reach only intended recipients.
 - **AI API keys** follow a layered resolution: per-user keys take priority over admin-configured global keys, all encrypted at rest.
 - **Categories** use a polymorphic `categorizables` table, making them attachable to any model beyond just posts.
+
+## Rate Limiting
+
+The application uses Laravel's built-in rate limiting for API and authentication routes:
+
+| Route Group    | Max Requests | Decay (minutes) |
+| -------------- | ------------ | --------------- |
+| API (`/api/*`) | 60           | 1               |
+| Login          | 5            | 1               |
+| Registration   | 3            | 1               |
+| Password Reset | 3            | 1               |
+| General        | 60           | 1               |
+
+Rate limits are configured in `app/Providers/RouteServiceProvider.php`. To customize:
+
+```php
+// In boot() method of RouteServiceProvider
+RateLimiter::for('api', function (Request $request) {
+    return Limit::perMinute(120)->by($request->user()?->id ?: $request->ip());
+});
+```
+
+## Cache Headers
+
+For production deployments, add cache headers to your web server. Recommended headers:
+
+```nginx
+# Nginx configuration in server block
+location / {
+    # Cache static assets for 1 year
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    # Don't cache dynamic content
+    add_header Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0";
+    add_header Pragma "no-cache";
+}
+```
+
+```apache
+# Apache .htaccess
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+</IfModule>
+
+Header set Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0"
+Header set Pragma "no-cache"
+```
 
 ## License
 

@@ -26,10 +26,19 @@
             showSearch = false
             $wire.close()
         "
+        aria-hidden="true"
     ></div>
 
     <!-- Search Dialog -->
-    <div x-cloak x-show="showSearch" x-transition class="fixed inset-x-0 top-[20%] z-50 mx-auto w-full max-w-lg">
+    <div
+        x-cloak
+        x-show="showSearch"
+        x-transition
+        role="dialog"
+        aria-modal="true"
+        aria-label="{{ __('Spotlight search') }}"
+        class="fixed inset-x-0 top-[20%] z-50 mx-auto w-full max-w-lg"
+    >
         <div
             class="mx-4 overflow-hidden rounded-radius border border-outline bg-surface shadow-2xl dark:border-outline-dark dark:bg-surface-dark"
         >
@@ -42,6 +51,7 @@
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
                     stroke="currentColor"
+                    aria-hidden="true"
                 >
                     <path
                         stroke-linecap="round"
@@ -54,6 +64,7 @@
                     wire:model.live.debounce.200ms="query"
                     type="text"
                     placeholder="{{ __('Search posts, pages...') }}"
+                    aria-label="{{ __('Search posts and pages') }}"
                     class="w-full border-0 bg-transparent py-3 text-sm text-on-surface-strong placeholder-on-surface/50 focus:outline-none focus:ring-0 dark:text-on-surface-dark-strong dark:placeholder-on-surface-dark/50"
                 />
                 <kbd
