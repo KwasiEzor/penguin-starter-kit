@@ -98,6 +98,12 @@
                         </x-sidebar-link>
                     </li>
                     <li>
+                        <x-sidebar-link href="{{ route('admin.playground') }}" :active="request()->routeIs('admin.playground')">
+                            <x-icons.sparkles variant="outline" size="sm" />
+                            <span>{{ __('UI Playground') }}</span>
+                        </x-sidebar-link>
+                    </li>
+                    <li>
                         <x-sidebar-link href="{{ route('admin.health') }}" :active="request()->routeIs('admin.health')">
                             <x-icons.heart variant="outline" size="sm" />
                             <span>{{ __('System Health') }}</span>
