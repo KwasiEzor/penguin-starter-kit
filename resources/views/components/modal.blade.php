@@ -14,8 +14,7 @@
     x-data="{ modalIsOpen: @js($show ?? false) }"
     x-init="$watch('modalIsOpen', value => {
         if (!value) {
-            // When closing internally (ESC, click outside), we should notify Livewire
-            // This is optional but good for keeping state in sync
+            $dispatch('modal-closed');
         }
     })"
     x-effect="modalIsOpen = @js($show ?? false)"

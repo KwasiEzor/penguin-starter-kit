@@ -9,54 +9,61 @@
 
 @theme {
     /* Fonts */
-    --font-sans:
-        'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: var(--font-sans-override, 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji');
 
-    /* Refined Color Scale - using oklch for better perception */
-    --color-surface: var(--color-white);
-    --color-surface-alt: oklch(0.985 0.001 106);
-    --color-on-surface: oklch(0.45 0.02 264);
-    --color-on-surface-strong: oklch(0.2 0.02 264);
+    /* Theme Colors with CSS variable overrides */
+    --color-surface: var(--color-surface, var(--color-white));
+    --color-surface-alt: var(--color-surface-alt, oklch(0.985 0.001 106));
+    --color-on-surface: var(--color-on-surface, oklch(0.45 0.02 264));
+    --color-on-surface-strong: var(--color-on-surface-strong, oklch(0.2 0.02 264));
     
-    /* Modern Indigo Primary */
-    --color-primary: oklch(0.55 0.18 264);
-    --color-on-primary: var(--color-white);
+    --color-primary: var(--color-primary, oklch(0.55 0.18 264));
+    --color-on-primary: var(--color-on-primary, var(--color-white));
     
-    --color-secondary: oklch(0.3 0.02 264);
-    --color-on-secondary: var(--color-white);
+    --color-secondary: var(--color-secondary, oklch(0.3 0.02 264));
+    --color-on-secondary: var(--color-on-secondary, var(--color-white));
     
-    --color-outline: oklch(0.92 0.01 264);
-    --color-outline-strong: oklch(0.8 0.02 264);
+    --color-outline: var(--color-outline, oklch(0.92 0.01 264));
+    --color-outline-strong: var(--color-outline-strong, oklch(0.8 0.02 264));
 
     /* Premium Dark Theme */
-    --color-surface-dark: oklch(0.12 0.01 264);
-    --color-surface-dark-alt: oklch(0.15 0.01 264);
-    --color-on-surface-dark: oklch(0.8 0.01 264);
-    --color-on-surface-dark-strong: oklch(0.98 0.01 264);
+    --color-surface-dark: var(--color-surface-dark, oklch(0.12 0.01 264));
+    --color-surface-dark-alt: var(--color-surface-dark-alt, oklch(0.15 0.01 264));
+    --color-on-surface-dark: var(--color-on-surface-dark, oklch(0.8 0.01 264));
+    --color-on-surface-dark-strong: var(--color-on-surface-dark-strong, oklch(0.98 0.01 264));
     
-    --color-primary-dark: oklch(0.7 0.12 264);
-    --color-on-primary-dark: oklch(0.1 0.01 264);
+    --color-primary-dark: var(--color-primary-dark, oklch(0.7 0.12 264));
+    --color-on-primary-dark: var(--color-on-primary-dark, oklch(0.1 0.01 264));
     
-    --color-outline-dark: oklch(0.25 0.02 264);
-    --color-outline-dark-strong: oklch(0.4 0.02 264);
+    --color-outline-dark: var(--color-outline-dark, oklch(0.25 0.02 264));
+    --color-outline-dark-strong: var(--color-outline-dark-strong, oklch(0.4 0.02 264));
 
     /* Feedback Colors */
-    --color-info: oklch(0.65 0.12 231);
-    --color-success: oklch(0.65 0.15 160);
-    --color-warning: oklch(0.75 0.15 70);
-    --color-danger: oklch(0.6 0.18 25);
+    --color-info: var(--color-info, oklch(0.65 0.12 231));
+    --color-on-info: var(--color-on-info, var(--color-white));
+    --color-success: var(--color-success, oklch(0.65 0.15 160));
+    --color-on-success: var(--color-on-success, var(--color-white));
+    --color-warning: var(--color-warning, oklch(0.75 0.15 70));
+    --color-on-warning: var(--color-on-warning, var(--color-white));
+    --color-danger: var(--color-danger, oklch(0.6 0.18 25));
+    --color-on-danger: var(--color-on-danger, var(--color-white));
 
-    /* Border Radius */
-    --radius-radius: 0.75rem;
+    /* Border Radius & Effects */
+    --radius-radius: var(--radius-radius, 0.75rem);
+    --radius-button: var(--radius-button, var(--radius-radius));
+    
+    /* Animation Easing */
+    --default-transition-duration: var(--default-transition-duration, 0.15s);
+    --default-transition-timing-function: var(--default-transition-timing-function, cubic-bezier(0.4, 0, 0.2, 1));
     
     /* Custom Shadows */
-    --shadow-premium: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+    --shadow-premium: var(--shadow-premium, 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02));
 }
 
 @layer base {
     body {
-        @apply text-on-surface dark:text-on-surface-dark antialiased selection:bg-primary/10 selection:text-primary;
+        @apply text-on-surface dark:text-on-surface-dark antialiased selection:bg-primary/10 selection:text-primary transition-colors duration-200;
+        font-family: var(--font-sans);
     }
 }
 

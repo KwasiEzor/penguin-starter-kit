@@ -21,6 +21,8 @@ final class Show extends Component
 
     public string $taskInput = '';
 
+    public string $streamingOutput = '';
+
     public ?AiExecution $latestExecution = null;
 
     public bool $isExecuting = false;
@@ -40,12 +42,23 @@ final class Show extends Component
         $this->authorize('execute', $this->aiAgent);
 
         $this->isExecuting = true;
+        $this->streamingOutput = '';
+        $this->latestExecution = null;
 
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        $this->latestExecution = $aiService->execute($this->aiAgent, $this->taskInput, $user);
+        $generator = $aiService->stream($this->aiAgent, $this->taskInput, $user);
 
+        foreach ($generator as $token) {
+            $this->streamingOutput .= $token;
+            $this->stream(
+                to: 'streaming-output',
+                content: $token,
+            );
+        }
+
+        $this->latestExecution = $generator->getReturn();
         $this->isExecuting = false;
 
         if ($this->latestExecution->status === 'failed') {

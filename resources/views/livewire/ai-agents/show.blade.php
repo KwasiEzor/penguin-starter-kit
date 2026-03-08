@@ -64,47 +64,51 @@
             </form>
         </x-card>
 
-        <!-- Latest Result -->
-        @if ($latestExecution)
-            <x-card>
+        <!-- Execution Result -->
+        <div x-show="$wire.isExecuting || $wire.latestExecution" x-cloak class="mt-8">
+            <x-card padding="false" class="overflow-hidden">
                 <x-slot name="header">
                     <div class="flex items-center justify-between">
-                        <x-typography.heading accent>{{ __('Result') }}</x-typography.heading>
-                        <div class="flex gap-2">
-                            @if ($latestExecution->tokens_input)
-                                <x-badge variant="default" size="sm">
-                                    {{ __('In:') }} {{ number_format($latestExecution->tokens_input) }}
-                                    {{ __('tokens') }}
-                                </x-badge>
-                            @endif
-
-                            @if ($latestExecution->tokens_output)
-                                <x-badge variant="default" size="sm">
-                                    {{ __('Out:') }} {{ number_format($latestExecution->tokens_output) }}
-                                    {{ __('tokens') }}
-                                </x-badge>
-                            @endif
-
-                            @if ($latestExecution->execution_time_ms)
-                                <x-badge variant="default" size="sm">
-                                    {{ number_format($latestExecution->execution_time_ms) }}ms
-                                </x-badge>
-                            @endif
+                        <div class="flex items-center gap-2">
+                            <div @class([
+                                'size-2 rounded-full',
+                                'bg-primary animate-pulse' => $isExecuting,
+                                'bg-success' => ! $isExecuting && $latestExecution?->status === 'completed',
+                                'bg-danger' => ! $isExecuting && $latestExecution?->status === 'failed',
+                            ])></div>
+                            <span class="text-sm font-bold text-on-surface-strong dark:text-on-surface-dark-strong">
+                                {{ $isExecuting ? __('Agent is thinking...') : __('Execution Result') }}
+                            </span>
                         </div>
+                        
+                        @if ($latestExecution)
+                            <div class="flex gap-2">
+                                @if ($latestExecution->execution_time_ms)
+                                    <x-badge variant="default" size="sm" class="!bg-surface-alt dark:!bg-surface-dark">
+                                        {{ number_format($latestExecution->execution_time_ms) }}ms
+                                    </x-badge>
+                                @endif
+                            </div>
+                        @endif
                     </div>
                 </x-slot>
 
-                @if ($latestExecution->status === 'completed')
-                    <div class="prose dark:prose-invert max-w-none text-sm">
-                        {!! nl2br(e($latestExecution->output)) !!}
-                    </div>
-                @elseif ($latestExecution->status === 'failed')
-                    <div class="text-sm text-danger">
-                        {{ $latestExecution->error_message }}
-                    </div>
-                @endif
+                <div class="p-8 bg-surface-alt/30 dark:bg-surface-dark/30 min-h-[100px]">
+                    <div 
+                        id="streaming-output" 
+                        wire:stream="streaming-output"
+                        class="prose dark:prose-invert max-w-none text-sm font-medium leading-relaxed whitespace-pre-wrap"
+                    >@if(!$isExecuting && $latestExecution){!! nl2br(e($latestExecution->output)) !!}@endif</div>
+
+                    @if ($latestExecution?->status === 'failed')
+                        <div class="flex items-start gap-3 p-4 rounded-xl bg-danger/5 border border-danger/10 text-danger mt-4">
+                            <x-icons.x-mark size="sm" class="shrink-0" />
+                            <p class="text-xs font-bold uppercase tracking-wide">{{ $latestExecution->error_message }}</p>
+                        </div>
+                    @endif
+                </div>
             </x-card>
-        @endif
+        </div>
     @endcan
 
     <!-- Recent Executions -->

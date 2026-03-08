@@ -47,6 +47,7 @@
                         <x-table-cell>
                             <div class="flex items-center justify-end gap-1">
                                 <button
+                                    type="button"
                                     wire:click="editCategory({{ $category->id }})"
                                     class="inline-flex items-center justify-center rounded-lg p-2 text-on-surface/60 transition-all hover:bg-primary/10 hover:text-primary dark:hover:bg-primary-dark/10 dark:hover:text-primary-dark"
                                     title="{{ __('Edit Category') }}"
@@ -86,57 +87,71 @@
         @endif
     </x-card>
 
-    <!-- Create/Edit Modal -->
-    <x-modal :show="$showingModal" maxWidth="md">
-        <form wire:submit="save" class="p-8">
-            <h3 class="text-xl font-bold text-on-surface-strong dark:text-on-surface-dark-strong mb-6">
-                {{ $editingCategoryId ? __('Edit Category') : __('New Category') }}
-            </h3>
+    @teleport('body')
+        <!-- Create/Edit Modal -->
+        <x-modal :show="$showModal" maxWidth="md">
+            <x-slot:header>
+                <h3 class="text-lg font-bold text-on-surface-strong dark:text-on-surface-dark-strong">
+                    {{ $editingCategoryId ? __('Edit Category') : __('New Category') }}
+                </h3>
+            </x-slot:header>
 
-            <div class="space-y-6">
-                <div>
-                    <x-input-label for="name" :value="__('Name')" />
-                    <x-input id="name" type="text" class="mt-1" wire:model="name" required autofocus placeholder="e.g. Technology" />
-                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
+            <form wire:submit="saveCategory" class="p-6">
+                <div class="space-y-6">
+                    <div>
+                        <x-input-label for="name" :value="__('Name')" />
+                        <x-input id="name" type="text" class="mt-1" wire:model.live="name" required autofocus placeholder="e.g. Technology" />
+                        <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                    </div>
+
+                    <div>
+                        <x-input-label for="slug" :value="__('Slug (Optional)')" />
+                        <x-input id="slug" type="text" class="mt-1" wire:model="slug" placeholder="e.g. technology" />
+                        <x-input-error :messages="$errors->get('slug')" class="mt-2" />
+                        <p class="text-[10px] mt-1 text-on-surface/40 italic">{{ __('The "slug" is the URL-friendly version of the name.') }}</p>
+                    </div>
                 </div>
 
-                <div>
-                    <x-input-label for="slug" :value="__('Slug (Optional)')" />
-                    <x-input id="slug" type="text" class="mt-1" wire:model="slug" placeholder="e.g. technology" />
-                    <x-input-error :messages="$errors->get('slug')" class="mt-2" />
+                <div class="mt-8 flex items-center justify-end gap-3">
+                    <x-button variant="ghost" type="button" wire:click="resetForm">{{ __('Cancel') }}</x-button>
+                    <x-button type="submit" class="shadow-md shadow-primary/20">
+                        <x-icons.check variant="outline" size="sm" class="mr-1" />
+                        {{ __('Save Category') }}
+                    </x-button>
+                </div>
+            </form>
+        </x-modal>
+
+        <!-- Delete Confirmation Modal -->
+        <x-modal :show="$deletingCategoryId !== null" maxWidth="md">
+            <x-slot:header>
+                <h3 class="text-lg font-bold text-on-surface-strong dark:text-on-surface-dark-strong">
+                    {{ __('Delete Category') }}
+                </h3>
+            </x-slot:header>
+
+            <div class="p-6">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="flex size-12 items-center justify-center rounded-full bg-danger/10 text-danger">
+                        <x-icons.trash variant="outline" size="md" />
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-on-surface-strong dark:text-on-surface-dark-strong">
+                            {{ __('Confirm Deletion') }}
+                        </h4>
+                        <p class="text-xs text-on-surface/60">{{ __('This action cannot be undone.') }}</p>
+                    </div>
+                </div>
+                
+                <p class="text-on-surface dark:text-on-surface-dark mb-8 leading-relaxed">
+                    {!! __('Are you sure you want to delete the category **:name**? It will be removed from all associated content.', ['name' => $deletingCategoryName]) !!}
+                </p>
+
+                <div class="flex items-center justify-end gap-3">
+                    <x-button variant="ghost" type="button" wire:click="cancelDelete">{{ __('Cancel') }}</x-button>
+                    <x-button variant="danger" type="button" wire:click="deleteCategory">{{ __('Delete Category') }}</x-button>
                 </div>
             </div>
-
-            <div class="mt-8 flex items-center justify-end gap-3">
-                <x-button variant="ghost" type="button" wire:click="cancelModal">{{ __('Cancel') }}</x-button>
-                <x-button type="submit">{{ __('Save Category') }}</x-button>
-            </div>
-        </form>
-    </x-modal>
-
-    <!-- Delete Confirmation Modal -->
-    <x-modal :show="$deletingCategoryId !== null" maxWidth="md">
-        <div class="p-8">
-            <div class="flex items-center gap-4 mb-6">
-                <div class="flex size-12 items-center justify-center rounded-full bg-danger/10 text-danger">
-                    <x-icons.trash variant="outline" size="md" />
-                </div>
-                <div>
-                    <h3 class="text-xl font-bold text-on-surface-strong dark:text-on-surface-dark-strong">
-                        {{ __('Delete Category') }}
-                    </h3>
-                    <p class="text-sm text-on-surface/60">{{ __('This action cannot be undone.') }}</p>
-                </div>
-            </div>
-            
-            <p class="text-on-surface dark:text-on-surface-dark mb-8 leading-relaxed">
-                {{ __('Are you sure you want to delete this category? It will be removed from all associated content.') }}
-            </p>
-
-            <div class="flex items-center justify-end gap-3">
-                <x-button variant="ghost" type="button" wire:click="cancelDelete">{{ __('Cancel') }}</x-button>
-                <x-button variant="danger" type="button" wire:click="deleteCategory">{{ __('Delete Category') }}</x-button>
-            </div>
-        </div>
-    </x-modal>
+        </x-modal>
+    @endteleport
 </div>

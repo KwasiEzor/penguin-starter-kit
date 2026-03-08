@@ -91,122 +91,223 @@ final class ThemeService
                     ],
                 ],
                 'radius' => '0.5rem',
+                'button-radius' => '0.375rem',
                 'transition-duration' => '0.15s',
+                'transition-easing' => 'cubic-bezier(0.4, 0, 0.2, 1)',
+                'shadow' => '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02)',
                 'font' => 'Instrument Sans',
             ],
-            'ocean' => [
-                'name' => 'Ocean',
-                'description' => 'Cool blue tones',
+            'midnight' => [
+                'name' => 'Midnight',
+                'description' => 'Deep blacks and electric accents',
                 'colors' => [
                     'light' => [
-                        'surface' => '#f0f9ff',
-                        'surface-alt' => '#e0f2fe',
+                        'surface' => '#ffffff',
+                        'surface-alt' => '#f8fafc',
                         'on-surface' => '#475569',
-                        'on-surface-strong' => '#0c4a6e',
-                        'primary' => '#0369a1',
-                        'on-primary' => '#f0f9ff',
-                        'secondary' => '#0284c7',
+                        'on-surface-strong' => '#0f172a',
+                        'primary' => '#6366f1',
+                        'on-primary' => '#ffffff',
+                        'secondary' => '#1e293b',
                         'on-secondary' => '#ffffff',
-                        'outline' => '#bae6fd',
-                        'outline-strong' => '#0369a1',
+                        'outline' => '#e2e8f0',
+                        'outline-strong' => '#6366f1',
                     ],
                     'dark' => [
-                        'surface' => '#082f49',
-                        'surface-alt' => '#0c4a6e',
-                        'on-surface' => '#7dd3fc',
-                        'on-surface-strong' => '#e0f2fe',
-                        'primary' => '#38bdf8',
-                        'on-primary' => '#082f49',
-                        'secondary' => '#7dd3fc',
-                        'on-secondary' => '#082f49',
-                        'outline' => '#075985',
-                        'outline-strong' => '#7dd3fc',
+                        'surface' => '#020617',
+                        'surface-alt' => '#0f172a',
+                        'on-surface' => '#94a3b8',
+                        'on-surface-strong' => '#f8fafc',
+                        'primary' => '#818cf8',
+                        'on-primary' => '#020617',
+                        'secondary' => '#94a3b8',
+                        'on-secondary' => '#020617',
+                        'outline' => '#1e293b',
+                        'outline-strong' => '#818cf8',
                     ],
                     'semantic' => [
-                        'info' => '#0ea5e9',
+                        'info' => '#38bdf8',
                         'on-info' => '#ffffff',
-                        'success' => '#22c55e',
+                        'success' => '#4ade80',
                         'on-success' => '#ffffff',
-                        'warning' => '#f59e0b',
+                        'warning' => '#fbbf24',
                         'on-warning' => '#ffffff',
-                        'danger' => '#ef4444',
+                        'danger' => '#f87171',
                         'on-danger' => '#ffffff',
                     ],
                 ],
                 'radius' => '0.75rem',
-                'transition-duration' => '0.15s',
+                'button-radius' => '0.5rem',
+                'transition-duration' => '0.2s',
+                'transition-easing' => 'cubic-bezier(0.4, 0, 0.2, 1)',
+                'shadow' => '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
                 'font' => 'Inter',
             ],
-            'forest' => [
-                'name' => 'Forest',
-                'description' => 'Natural green palette',
+            'slate' => [
+                'name' => 'Slate',
+                'description' => 'Professional and sober',
                 'colors' => [
                     'light' => [
-                        'surface' => '#f0fdf4',
-                        'surface-alt' => '#dcfce7',
-                        'on-surface' => '#4b5563',
-                        'on-surface-strong' => '#14532d',
-                        'primary' => '#15803d',
-                        'on-primary' => '#f0fdf4',
-                        'secondary' => '#166534',
+                        'surface' => '#ffffff',
+                        'surface-alt' => '#f1f5f9',
+                        'on-surface' => '#64748b',
+                        'on-surface-strong' => '#334155',
+                        'primary' => '#475569',
+                        'on-primary' => '#ffffff',
+                        'secondary' => '#1e293b',
                         'on-secondary' => '#ffffff',
-                        'outline' => '#bbf7d0',
-                        'outline-strong' => '#15803d',
+                        'outline' => '#cbd5e1',
+                        'outline-strong' => '#475569',
                     ],
                     'dark' => [
-                        'surface' => '#052e16',
-                        'surface-alt' => '#14532d',
-                        'on-surface' => '#86efac',
-                        'on-surface-strong' => '#dcfce7',
-                        'primary' => '#4ade80',
-                        'on-primary' => '#052e16',
-                        'secondary' => '#86efac',
-                        'on-secondary' => '#052e16',
-                        'outline' => '#166534',
-                        'outline-strong' => '#86efac',
+                        'surface' => '#0f172a',
+                        'surface-alt' => '#1e293b',
+                        'on-surface' => '#94a3b8',
+                        'on-surface-strong' => '#f1f5f9',
+                        'primary' => '#94a3b8',
+                        'on-primary' => '#0f172a',
+                        'secondary' => '#64748b',
+                        'on-secondary' => '#ffffff',
+                        'outline' => '#334155',
+                        'outline-strong' => '#94a3b8',
                     ],
                     'semantic' => [
                         'info' => '#0ea5e9',
                         'on-info' => '#ffffff',
-                        'success' => '#22c55e',
+                        'success' => '#10b981',
                         'on-success' => '#ffffff',
                         'warning' => '#f59e0b',
                         'on-warning' => '#ffffff',
-                        'danger' => '#ef4444',
+                        'danger' => '#e11d48',
                         'on-danger' => '#ffffff',
                     ],
                 ],
                 'radius' => '0.375rem',
-                'transition-duration' => '0.15s',
-                'font' => 'DM Sans',
+                'button-radius' => '0.25rem',
+                'transition-duration' => '0.1s',
+                'transition-easing' => 'linear',
+                'shadow' => '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+                'font' => 'Plus Jakarta Sans',
             ],
-            'sunset' => [
-                'name' => 'Sunset',
-                'description' => 'Warm orange and amber',
+            'rose' => [
+                'name' => 'Rose',
+                'description' => 'Soft and elegant',
                 'colors' => [
                     'light' => [
-                        'surface' => '#fffbeb',
-                        'surface-alt' => '#fef3c7',
-                        'on-surface' => '#78716c',
-                        'on-surface-strong' => '#78350f',
-                        'primary' => '#c2410c',
-                        'on-primary' => '#fffbeb',
-                        'secondary' => '#d97706',
+                        'surface' => '#fff1f2',
+                        'surface-alt' => '#ffe4e6',
+                        'on-surface' => '#9f1239',
+                        'on-surface-strong' => '#4c0519',
+                        'primary' => '#e11d48',
+                        'on-primary' => '#ffffff',
+                        'secondary' => '#fb7185',
                         'on-secondary' => '#ffffff',
-                        'outline' => '#fde68a',
-                        'outline-strong' => '#c2410c',
+                        'outline' => '#fecdd3',
+                        'outline-strong' => '#e11d48',
                     ],
                     'dark' => [
-                        'surface' => '#431407',
-                        'surface-alt' => '#7c2d12',
-                        'on-surface' => '#fdba74',
-                        'on-surface-strong' => '#fed7aa',
-                        'primary' => '#fb923c',
-                        'on-primary' => '#431407',
-                        'secondary' => '#fdba74',
-                        'on-secondary' => '#431407',
-                        'outline' => '#9a3412',
-                        'outline-strong' => '#fdba74',
+                        'surface' => '#4c0519',
+                        'surface-alt' => '#881337',
+                        'on-surface' => '#fda4af',
+                        'on-surface-strong' => '#fff1f2',
+                        'primary' => '#fb7185',
+                        'on-primary' => '#4c0519',
+                        'secondary' => '#fda4af',
+                        'on-secondary' => '#4c0519',
+                        'outline' => '#9f1239',
+                        'outline-strong' => '#fda4af',
+                    ],
+                    'semantic' => [
+                        'info' => '#38bdf8',
+                        'on-info' => '#ffffff',
+                        'success' => '#34d399',
+                        'on-success' => '#ffffff',
+                        'warning' => '#fbbf24',
+                        'on-warning' => '#ffffff',
+                        'danger' => '#f87171',
+                        'on-danger' => '#ffffff',
+                    ],
+                ],
+                'radius' => '1.5rem',
+                'button-radius' => '9999px',
+                'transition-duration' => '0.3s',
+                'transition-easing' => 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+                'shadow' => '0 10px 15px -3px rgba(0, 0, 0, 0.05)',
+                'font' => 'Outfit',
+            ],
+            'vintage' => [
+                'name' => 'Vintage',
+                'description' => 'Classic and timeless',
+                'colors' => [
+                    'light' => [
+                        'surface' => '#faf9f6',
+                        'surface-alt' => '#f2f0e9',
+                        'on-surface' => '#444444',
+                        'on-surface-strong' => '#1a1a1a',
+                        'primary' => '#2c3e50',
+                        'on-primary' => '#faf9f6',
+                        'secondary' => '#7f8c8d',
+                        'on-secondary' => '#ffffff',
+                        'outline' => '#dcdcdc',
+                        'outline-strong' => '#2c3e50',
+                    ],
+                    'dark' => [
+                        'surface' => '#1a1a1a',
+                        'surface-alt' => '#2c2c2c',
+                        'on-surface' => '#dcdcdc',
+                        'on-surface-strong' => '#faf9f6',
+                        'primary' => '#ecf0f1',
+                        'on-primary' => '#1a1a1a',
+                        'secondary' => '#95a5a6',
+                        'on-secondary' => '#1a1a1a',
+                        'outline' => '#444444',
+                        'outline-strong' => '#ecf0f1',
+                    ],
+                    'semantic' => [
+                        'info' => '#3498db',
+                        'on-info' => '#ffffff',
+                        'success' => '#27ae60',
+                        'on-success' => '#ffffff',
+                        'warning' => '#f1c40f',
+                        'on-warning' => '#ffffff',
+                        'danger' => '#c0392b',
+                        'on-danger' => '#ffffff',
+                    ],
+                ],
+                'radius' => '0',
+                'button-radius' => '0',
+                'transition-duration' => '0.15s',
+                'transition-easing' => 'ease',
+                'shadow' => 'none',
+                'font' => 'Playfair Display',
+            ],
+            'cyberpunk' => [
+                'name' => 'Cyberpunk',
+                'description' => 'High-tech, low-life vibes',
+                'colors' => [
+                    'light' => [
+                        'surface' => '#fef08a',
+                        'surface-alt' => '#fde047',
+                        'on-surface' => '#1c1917',
+                        'on-surface-strong' => '#000000',
+                        'primary' => '#d946ef',
+                        'on-primary' => '#000000',
+                        'secondary' => '#06b6d4',
+                        'on-secondary' => '#000000',
+                        'outline' => '#1c1917',
+                        'outline-strong' => '#d946ef',
+                    ],
+                    'dark' => [
+                        'surface' => '#0c0a09',
+                        'surface-alt' => '#1c1917',
+                        'on-surface' => '#fde047',
+                        'on-surface-strong' => '#facc15',
+                        'primary' => '#d946ef',
+                        'on-primary' => '#000000',
+                        'secondary' => '#06b6d4',
+                        'on-secondary' => '#000000',
+                        'outline' => '#d946ef',
+                        'outline-strong' => '#06b6d4',
                     ],
                     'semantic' => [
                         'info' => '#0ea5e9',
@@ -219,9 +320,12 @@ final class ThemeService
                         'on-danger' => '#ffffff',
                     ],
                 ],
-                'radius' => '1rem',
-                'transition-duration' => '0.25s',
-                'font' => 'Plus Jakarta Sans',
+                'radius' => '0',
+                'button-radius' => '0',
+                'transition-duration' => '0.05s',
+                'transition-easing' => 'linear',
+                'shadow' => 'none',
+                'font' => 'Fira Code',
             ],
         ];
     }
@@ -251,82 +355,75 @@ final class ThemeService
 
         $lines = [];
 
-        // Light mode color tokens
-        $lightMap = [
-            'surface' => '--color-surface',
-            'surface-alt' => '--color-surface-alt',
-            'on-surface' => '--color-on-surface',
-            'on-surface-strong' => '--color-on-surface-strong',
-            'primary' => '--color-primary',
-            'on-primary' => '--color-on-primary',
-            'secondary' => '--color-secondary',
-            'on-secondary' => '--color-on-secondary',
-            'outline' => '--color-outline',
-            'outline-strong' => '--color-outline-strong',
+        // Color Maps
+        $colorMaps = [
+            'light' => [
+                'surface' => '--color-surface',
+                'surface-alt' => '--color-surface-alt',
+                'on-surface' => '--color-on-surface',
+                'on-surface-strong' => '--color-on-surface-strong',
+                'primary' => '--color-primary',
+                'on-primary' => '--color-on-primary',
+                'secondary' => '--color-secondary',
+                'on-secondary' => '--color-on-secondary',
+                'outline' => '--color-outline',
+                'outline-strong' => '--color-outline-strong',
+            ],
+            'dark' => [
+                'surface' => '--color-surface-dark',
+                'surface-alt' => '--color-surface-dark-alt',
+                'on-surface' => '--color-on-surface-dark',
+                'on-surface-strong' => '--color-on-surface-dark-strong',
+                'primary' => '--color-primary-dark',
+                'on-primary' => '--color-on-primary-dark',
+                'secondary' => '--color-secondary-dark',
+                'on-secondary' => '--color-on-secondary-dark',
+                'outline' => '--color-outline-dark',
+                'outline-strong' => '--color-outline-dark-strong',
+            ],
+            'semantic' => [
+                'info' => '--color-info',
+                'on-info' => '--color-on-info',
+                'success' => '--color-success',
+                'on-success' => '--color-on-success',
+                'warning' => '--color-warning',
+                'on-warning' => '--color-on-warning',
+                'danger' => '--color-danger',
+                'on-danger' => '--color-on-danger',
+            ],
         ];
 
-        // Dark mode color tokens
-        $darkMap = [
-            'surface' => '--color-surface-dark',
-            'surface-alt' => '--color-surface-dark-alt',
-            'on-surface' => '--color-on-surface-dark',
-            'on-surface-strong' => '--color-on-surface-dark-strong',
-            'primary' => '--color-primary-dark',
-            'on-primary' => '--color-on-primary-dark',
-            'secondary' => '--color-secondary-dark',
-            'on-secondary' => '--color-on-secondary-dark',
-            'outline' => '--color-outline-dark',
-            'outline-strong' => '--color-outline-dark-strong',
-        ];
-
-        // Semantic color tokens
-        $semanticMap = [
-            'info' => '--color-info',
-            'on-info' => '--color-on-info',
-            'success' => '--color-success',
-            'on-success' => '--color-on-success',
-            'warning' => '--color-warning',
-            'on-warning' => '--color-on-warning',
-            'danger' => '--color-danger',
-            'on-danger' => '--color-on-danger',
-        ];
-
-        if (isset($overrides['light']) && is_array($overrides['light'])) {
-            foreach ($lightMap as $key => $cssVar) {
-                if (isset($overrides['light'][$key])) {
-                    $lines[] = '    '.$cssVar.': '.$overrides['light'][$key].';';
+        foreach ($colorMaps as $mode => $map) {
+            if (isset($overrides[$mode]) && is_array($overrides[$mode])) {
+                foreach ($map as $key => $cssVar) {
+                    if (isset($overrides[$mode][$key])) {
+                        $lines[] = '    '.$cssVar.': '.$overrides[$mode][$key].';';
+                    }
                 }
             }
         }
 
-        if (isset($overrides['dark']) && is_array($overrides['dark'])) {
-            foreach ($darkMap as $key => $cssVar) {
-                if (isset($overrides['dark'][$key])) {
-                    $lines[] = '    '.$cssVar.': '.$overrides['dark'][$key].';';
-                }
-            }
-        }
-
-        if (isset($overrides['semantic']) && is_array($overrides['semantic'])) {
-            foreach ($semanticMap as $key => $cssVar) {
-                if (isset($overrides['semantic'][$key])) {
-                    $lines[] = '    '.$cssVar.': '.$overrides['semantic'][$key].';';
-                }
-            }
-        }
-
+        // Effects
         if (isset($overrides['radius'])) {
             $lines[] = '    --radius-radius: '.$overrides['radius'].';';
         }
-
+        if (isset($overrides['button-radius'])) {
+            $lines[] = '    --radius-button: '.$overrides['button-radius'].';';
+        }
         if (isset($overrides['transition-duration'])) {
             $lines[] = '    --default-transition-duration: '.$overrides['transition-duration'].';';
+        }
+        if (isset($overrides['transition-easing'])) {
+            $lines[] = '    --default-transition-timing-function: '.$overrides['transition-easing'].';';
+        }
+        if (isset($overrides['shadow'])) {
+            $lines[] = '    --shadow-premium: '.$overrides['shadow'].';';
         }
 
         // Font family override
         $fontFamily = $this->getFontFamily();
         if ($fontFamily !== 'Instrument Sans') {
-            $lines[] = "    --font-sans: '{$fontFamily}', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';";
+            $lines[] = "    --font-sans-override: '{$fontFamily}', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';";
         }
 
         if ($lines === []) {

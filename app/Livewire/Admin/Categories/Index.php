@@ -8,8 +8,9 @@ use App\Livewire\Concerns\HasToast;
 use App\Models\Category;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 use Livewire\Component;
-use Str;
+use Illuminate\Support\Str;
 
 /**
  * Livewire component for managing blog post categories.
@@ -29,9 +30,40 @@ final class Index extends Component
 
     public ?int $deletingCategoryId = null;
 
+    public ?string $deletingCategoryName = null;
+
     public string $name = '';
 
     public string $slug = '';
+
+    /**
+     * Handle the modal-closed event from Alpine.
+     */
+    #[On('modal-closed')]
+    public function closeModal(): void
+    {
+        $this->resetForm();
+        $this->cancelDelete();
+    }
+
+    /**
+     * Watcher for the showModal property to reset form when closed.
+     */
+    public function updatedShowModal(bool $value): void
+    {
+        if (!$value) {
+            $this->resetForm();
+        }
+    }
+
+    /**
+     * Reset the form fields and state.
+     */
+    public function resetForm(): void
+    {
+        $this->reset(['editingCategoryId', 'name', 'slug', 'showModal']);
+        $this->resetValidation();
+    }
 
     /**
      * Open the modal form for creating a new category.
@@ -42,7 +74,7 @@ final class Index extends Component
      */
     public function createCategory(): void
     {
-        $this->reset(['editingCategoryId', 'name', 'slug']);
+        $this->resetForm();
         $this->showModal = true;
     }
 
@@ -112,7 +144,7 @@ final class Index extends Component
         }
 
         $this->showModal = false;
-        $this->reset(['editingCategoryId', 'name', 'slug']);
+        $this->resetForm();
     }
 
     /**
@@ -123,7 +155,9 @@ final class Index extends Component
      */
     public function confirmDelete(int $id): void
     {
+        $category = Category::findOrFail($id);
         $this->deletingCategoryId = $id;
+        $this->deletingCategoryName = $category->name;
     }
 
     /**
@@ -134,6 +168,7 @@ final class Index extends Component
     public function cancelDelete(): void
     {
         $this->deletingCategoryId = null;
+        $this->deletingCategoryName = null;
     }
 
     /**
@@ -156,6 +191,7 @@ final class Index extends Component
 
         $category->delete();
         $this->deletingCategoryId = null;
+        $this->deletingCategoryName = null;
         $this->toastSuccess('Category deleted successfully.');
     }
 

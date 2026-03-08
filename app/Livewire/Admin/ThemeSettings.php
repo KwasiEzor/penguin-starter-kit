@@ -25,69 +25,45 @@ final class ThemeSettings extends Component
 
     // Light mode colors
     public string $lightSurface = '#ffffff';
-
     public string $lightSurfaceAlt = '#fafafa';
-
     public string $lightOnSurface = '#525252';
-
     public string $lightOnSurfaceStrong = '#171717';
-
     public string $lightPrimary = '#000000';
-
     public string $lightOnPrimary = '#e5e5e5';
-
     public string $lightSecondary = '#262626';
-
     public string $lightOnSecondary = '#ffffff';
-
     public string $lightOutline = '#d4d4d4';
-
     public string $lightOutlineStrong = '#262626';
 
     // Dark mode colors
     public string $darkSurface = '#0a0a0a';
-
     public string $darkSurfaceAlt = '#171717';
-
     public string $darkOnSurface = '#d4d4d4';
-
     public string $darkOnSurfaceStrong = '#ffffff';
-
     public string $darkPrimary = '#ffffff';
-
     public string $darkOnPrimary = '#000000';
-
     public string $darkSecondary = '#d4d4d4';
-
     public string $darkOnSecondary = '#000000';
-
     public string $darkOutline = '#404040';
-
     public string $darkOutlineStrong = '#d4d4d4';
 
     // Semantic colors
     public string $semanticInfo = '#0ea5e9';
-
     public string $semanticOnInfo = '#ffffff';
-
     public string $semanticSuccess = '#22c55e';
-
     public string $semanticOnSuccess = '#ffffff';
-
     public string $semanticWarning = '#f59e0b';
-
     public string $semanticOnWarning = '#ffffff';
-
     public string $semanticDanger = '#ef4444';
-
     public string $semanticOnDanger = '#ffffff';
 
     // Typography & Effects
     public string $fontFamily = 'Instrument Sans';
-
     public string $radius = '0.5rem';
-
+    public string $buttonRadius = '0.375rem';
     public string $speed = '0.15s';
+    public string $easing = 'cubic-bezier(0.4, 0, 0.2, 1)';
+    public string $shadow = 'premium';
 
     /**
      * Initialize the component with current theme values.
@@ -120,7 +96,10 @@ final class ThemeSettings extends Component
         $this->preset = $name;
         $this->fontFamily = $preset['font'];
         $this->radius = $preset['radius'];
+        $this->buttonRadius = $preset['button-radius'] ?? $preset['radius'];
         $this->speed = $preset['transition-duration'];
+        $this->easing = $preset['transition-easing'] ?? 'cubic-bezier(0.4, 0, 0.2, 1)';
+        $this->shadow = $preset['shadow'] ?? 'premium';
 
         $this->fillFromOverrides($preset['colors']);
     }
@@ -185,7 +164,10 @@ final class ThemeSettings extends Component
                 'on-danger' => $this->semanticOnDanger,
             ],
             'radius' => $this->radius,
+            'button-radius' => $this->buttonRadius,
             'transition-duration' => $this->speed,
+            'transition-easing' => $this->easing,
+            'shadow' => $this->shadow,
         ];
 
         $themeService = app(ThemeService::class);
@@ -215,6 +197,8 @@ final class ThemeSettings extends Component
             'fontOptions' => array_keys(config('theme.fonts', [])),
             'radiusOptions' => config('theme.radius', []),
             'speedOptions' => config('theme.speed', []),
+            'easingOptions' => config('theme.easing', []),
+            'shadowOptions' => config('theme.shadows', []),
         ]);
     }
 
@@ -289,9 +273,17 @@ final class ThemeSettings extends Component
         if (isset($overrides['radius'])) {
             $this->radius = $overrides['radius'];
         }
-
+        if (isset($overrides['button-radius'])) {
+            $this->buttonRadius = $overrides['button-radius'];
+        }
         if (isset($overrides['transition-duration'])) {
             $this->speed = $overrides['transition-duration'];
+        }
+        if (isset($overrides['transition-easing'])) {
+            $this->easing = $overrides['transition-easing'];
+        }
+        if (isset($overrides['shadow'])) {
+            $this->shadow = $overrides['shadow'];
         }
     }
 }

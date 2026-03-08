@@ -55,6 +55,14 @@
                         <span>{{ __('Posts') }}</span>
                     </x-sidebar-link>
                 </li>
+                @can('admin.access')
+                    <li>
+                        <x-sidebar-link href="{{ route('admin.categories.index') }}" :active="request()->routeIs('admin.categories.*')">
+                            <x-icons.tag variant="outline" size="sm" />
+                            <span>{{ __('Categories') }}</span>
+                        </x-sidebar-link>
+                    </li>
+                @endcan
                 <li>
                     <x-sidebar-link href="{{ route('agents.index') }}" :active="request()->routeIs('agents.*')">
                         <x-icons.sparkles variant="outline" size="sm" />
@@ -81,6 +89,12 @@
                         <x-sidebar-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.*')">
                             <x-icons.users variant="outline" size="sm" />
                             <span>{{ __('User Manager') }}</span>
+                        </x-sidebar-link>
+                    </li>
+                    <li>
+                        <x-sidebar-link href="{{ route('admin.theme') }}" :active="request()->routeIs('admin.theme')">
+                            <x-icons.swatch variant="outline" size="sm" />
+                            <span>{{ __('Theme Settings') }}</span>
                         </x-sidebar-link>
                     </li>
                     <li>

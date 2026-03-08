@@ -79,6 +79,65 @@ class AiService
     }
 
     /**
+     * Execute an AI agent with streaming response.
+     *
+     * @param  AiAgent  $aiAgent  The AI agent to execute.
+     * @param  string   $input    The user-provided prompt input.
+     * @param  User     $user     The user initiating the execution.
+     * @return \Generator<string, void, mixed, AiExecution>
+     */
+    public function stream(AiAgent $aiAgent, string $input, User $user): \Generator
+    {
+        $execution = AiExecution::create([
+            'ai_agent_id' => $aiAgent->id,
+            'user_id' => $user->id,
+            'input' => $input,
+            'status' => 'running',
+        ]);
+
+        $fullOutput = '';
+
+        try {
+            $provider = $aiAgent->providerEnum();
+            $resolvedKey = $this->resolveApiKey($provider, $user);
+
+            config([sprintf('ai.providers.%s.key', $provider->configKey()) => $resolvedKey]);
+
+            $startTime = microtime(true);
+
+            $stream = agent(
+                instructions: $aiAgent->system_prompt,
+            )->stream(
+                $input,
+                provider: $provider->configKey(),
+                model: $aiAgent->model,
+            );
+
+            foreach ($stream as $response) {
+                $token = $response->text;
+                $fullOutput .= $token;
+                yield $token;
+            }
+
+            $executionTimeMs = (int) round((microtime(true) - $startTime) * 1000);
+
+            $execution->update([
+                'output' => $fullOutput,
+                'status' => 'completed',
+                'execution_time_ms' => $executionTimeMs,
+                // Usage tracking might be limited in streaming depending on the provider/package version
+            ]);
+        } catch (\Throwable $throwable) {
+            $execution->update([
+                'status' => 'failed',
+                'error_message' => $throwable->getMessage(),
+            ]);
+        }
+
+        return $execution->refresh();
+    }
+
+    /**
      * Resolve the API key for a given AI provider and user.
      *
      * Attempts to find an active user-specific key first, then falls back
