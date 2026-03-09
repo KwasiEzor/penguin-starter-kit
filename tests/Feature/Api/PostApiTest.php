@@ -16,6 +16,12 @@ it('returns unauthenticated without token', function (): void {
         ->assertUnauthorized();
 });
 
+it('returns json error for unauthenticated api requests', function (): void {
+    $this->getJson('/api/posts')
+        ->assertUnauthorized()
+        ->assertJson(['message' => 'Unauthenticated.']);
+});
+
 it('lists the authenticated users posts', function (): void {
     $user = User::factory()->create();
     Post::factory(3)->for($user)->create();
@@ -41,6 +47,28 @@ it('creates a post via api', function (): void {
         ->assertJsonPath('data.title', 'API Post');
 
     $this->assertDatabaseHas('posts', ['title' => 'API Post', 'user_id' => $user->id]);
+});
+
+it('returns 422 when creating a post without title', function (): void {
+    $user = User::factory()->create();
+    Sanctum::actingAs($user);
+
+    $this->postJson('/api/posts', [
+        'body' => 'Missing title.',
+    ])
+        ->assertUnprocessable()
+        ->assertJsonValidationErrors(['title']);
+});
+
+it('returns 422 when creating a post without body', function (): void {
+    $user = User::factory()->create();
+    Sanctum::actingAs($user);
+
+    $this->postJson('/api/posts', [
+        'title' => 'Missing body',
+    ])
+        ->assertUnprocessable()
+        ->assertJsonValidationErrors(['body']);
 });
 
 it('shows a post', function (): void {
@@ -72,7 +100,7 @@ it('deletes a post via api', function (): void {
     Sanctum::actingAs($user);
 
     $this->deleteJson('/api/posts/'.$post->id)
-        ->assertOk();
+        ->assertNoContent();
 
     $this->assertDatabaseMissing('posts', ['id' => $post->id]);
 });
@@ -93,5 +121,16 @@ it('returns the authenticated user', function (): void {
 
     $this->getJson('/api/user')
         ->assertOk()
-        ->assertJsonPath('email', $user->email);
+        ->assertJsonPath('data.email', $user->email);
+});
+
+it('returns the authenticated user with expected resource structure', function (): void {
+    $user = User::factory()->create();
+    Sanctum::actingAs($user);
+
+    $this->getJson('/api/user')
+        ->assertOk()
+        ->assertJsonStructure([
+            'data' => ['id', 'name', 'email', 'email_verified_at', 'created_at', 'updated_at', 'avatar_url'],
+        ]);
 });

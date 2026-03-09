@@ -12,6 +12,12 @@ final class ApiTokens extends Component
 {
     use HasToast;
 
+    public const AVAILABLE_ABILITIES = [
+        'posts:read' => 'Read posts',
+        'posts:write' => 'Create & update posts',
+        'posts:delete' => 'Delete posts',
+    ];
+
     public string $tokenName = '';
 
     public ?string $newToken = null;
@@ -20,16 +26,24 @@ final class ApiTokens extends Component
 
     public bool $showDeleteModal = false;
 
+    /** @var array<int, string> */
+    public array $selectedAbilities = [];
+
     public function createToken(): void
     {
         $this->validate([
             'tokenName' => ['required', 'string', 'max:255'],
+            'selectedAbilities' => ['array'],
+            'selectedAbilities.*' => ['string', 'in:'.implode(',', array_keys(self::AVAILABLE_ABILITIES))],
         ]);
 
-        $token = Auth::user()->createToken($this->tokenName);
+        $abilities = empty($this->selectedAbilities) ? ['*'] : $this->selectedAbilities;
+
+        $token = Auth::user()->createToken($this->tokenName, $abilities);
 
         $this->newToken = $token->plainTextToken;
         $this->tokenName = '';
+        $this->selectedAbilities = [];
         $this->toastSuccess('API token created.');
     }
 
@@ -57,6 +71,7 @@ final class ApiTokens extends Component
     {
         return view('livewire.settings.api-tokens', [
             'tokens' => Auth::user()->tokens()->latest()->get(),
+            'availableAbilities' => self::AVAILABLE_ABILITIES,
         ]);
     }
 }

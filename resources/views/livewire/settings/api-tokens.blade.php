@@ -19,21 +19,44 @@
         <div class="space-y-8">
             <!-- Create Token -->
             <div class="p-4 rounded-radius bg-surface-alt/30 border border-outline/20 dark:bg-surface-dark/30 dark:border-outline-dark/20">
-                <form wire:submit="createToken" class="flex flex-col sm:flex-row gap-4">
-                    <div class="flex-1">
-                        <x-input-label for="tokenName" :value="__('New Token Name')" class="sr-only" />
-                        <x-input 
-                            id="tokenName"
-                            wire:model="tokenName" 
-                            placeholder="{{ __('Token name (e.g. Mobile App, CI/CD)') }}" 
-                            class="w-full transition-all duration-200 border-outline/40 bg-surface dark:border-outline-dark/40 dark:bg-surface-dark"
-                        />
-                        <x-input-error :messages="$errors->get('tokenName')" class="mt-2" />
+                <form wire:submit="createToken" class="space-y-4">
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <div class="flex-1">
+                            <x-input-label for="tokenName" :value="__('New Token Name')" class="sr-only" />
+                            <x-input
+                                id="tokenName"
+                                wire:model="tokenName"
+                                placeholder="{{ __('Token name (e.g. Mobile App, CI/CD)') }}"
+                                class="w-full transition-all duration-200 border-outline/40 bg-surface dark:border-outline-dark/40 dark:bg-surface-dark"
+                            />
+                            <x-input-error :messages="$errors->get('tokenName')" class="mt-2" />
+                        </div>
+                        <x-button type="submit" variant="primary" class="shrink-0 shadow-md">
+                            <x-icons.plus class="size-4 mr-2" />
+                            {{ __('Create Token') }}
+                        </x-button>
                     </div>
-                    <x-button type="submit" variant="primary" class="shrink-0 shadow-md">
-                        <x-icons.plus class="size-4 mr-2" />
-                        {{ __('Create Token') }}
-                    </x-button>
+
+                    <div>
+                        <x-input-label :value="__('Token Abilities')" class="text-xs font-bold uppercase tracking-wider opacity-60 mb-2" />
+                        <p class="text-xs text-on-surface/50 dark:text-on-surface-dark/50 mb-3">
+                            {{ __('Leave unchecked to grant full access.') }}
+                        </p>
+                        <div class="flex flex-wrap gap-3">
+                            @foreach ($availableAbilities as $ability => $label)
+                                <label class="inline-flex items-center gap-2 cursor-pointer text-sm">
+                                    <input
+                                        type="checkbox"
+                                        wire:model="selectedAbilities"
+                                        value="{{ $ability }}"
+                                        class="rounded border-outline/40 text-primary focus:ring-primary/50 dark:border-outline-dark/40 dark:bg-surface-dark"
+                                    />
+                                    <span class="text-on-surface/80 dark:text-on-surface-dark/80">{{ __($label) }}</span>
+                                </label>
+                            @endforeach
+                        </div>
+                        <x-input-error :messages="$errors->get('selectedAbilities')" class="mt-2" />
+                    </div>
                 </form>
             </div>
 
@@ -87,6 +110,15 @@
                                                 {{ __('Last used') }} {{ $token->last_used_at->diffForHumans() }}
                                             @endif
                                         </p>
+                                        @if($token->abilities && $token->abilities !== ['*'])
+                                            <div class="flex flex-wrap gap-1 mt-1">
+                                                @foreach($token->abilities as $ability)
+                                                    <span class="inline-block px-1.5 py-0.5 text-[10px] font-medium rounded bg-primary/10 text-primary dark:bg-primary-dark/10 dark:text-primary-dark">
+                                                        {{ $ability }}
+                                                    </span>
+                                                @endforeach
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                                 

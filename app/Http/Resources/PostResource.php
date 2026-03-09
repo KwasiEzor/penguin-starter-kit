@@ -24,7 +24,7 @@ class PostResource extends JsonResource
             'id' => $this->id,
             'slug' => $this->slug,
             'title' => $this->title,
-            'body' => $this->when($this->body, (string) $this->body),
+            'body' => (string) $this->body,
             'excerpt' => $this->when($this->excerpt, $this->getExcerpt()),
             'meta_title' => $this->when($this->meta_title, $this->meta_title),
             'meta_description' => $this->when($this->meta_description, $this->meta_description),

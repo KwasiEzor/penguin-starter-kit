@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\StorePostRequest;
+use App\Http\Requests\Api\UpdatePostRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
 
 /**
  * API controller for managing blog posts.
@@ -55,24 +57,12 @@ final class PostController extends Controller
      * @bodyParam tags string[] List of tags to sync. Example: ["tech", "laravel"]
      * @bodyParam category_ids integer[] List of category IDs to sync. Example: [1, 2]
      *
-     * @param  Request  $request  The incoming HTTP request with post data
-     * @return JsonResponse A JSON response with the created post and 201 status code
+     * @param  StorePostRequest  $request  The validated incoming request with post data
+     * @return \Illuminate\Http\JsonResponse A JSON response with the created post and 201 status code
      */
-    public function store(Request $request): JsonResponse
+    public function store(StorePostRequest $request): \Illuminate\Http\JsonResponse
     {
-        $validated = $request->validate([
-            'title' => ['sometimes', 'required', 'string', 'max:255'],
-            'body' => ['sometimes', 'required', 'string'],
-            'status' => ['sometimes', 'in:draft,published'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:posts,slug'],
-            'excerpt' => ['nullable', 'string', 'max:500'],
-            'meta_title' => ['nullable', 'string', 'max:60'],
-            'meta_description' => ['nullable', 'string', 'max:160'],
-            'tags' => ['nullable', 'array'],
-            'tags.*' => ['string', 'max:50'],
-            'category_ids' => ['nullable', 'array'],
-            'category_ids.*' => ['integer', 'exists:categories,id'],
-        ]);
+        $validated = $request->validated();
 
         if (($validated['status'] ?? 'draft') === 'published') {
             $validated['published_at'] = now();
@@ -120,7 +110,7 @@ final class PostController extends Controller
     /**
      * Update an existing post.
      *
-     * Authorizes the request, validates the input, updates the post fields,
+     * Validates the input, updates the post fields,
      * and syncs tags and categories if provided. Manages the published_at
      * timestamp when the status changes between draft and published.
      *
@@ -130,27 +120,13 @@ final class PostController extends Controller
      * @bodyParam tags string[] List of tags to sync. Example: ["php"]
      * @bodyParam category_ids integer[] List of category IDs to sync. Example: [1]
      *
-     * @param  Request  $request  The incoming HTTP request with updated post data
+     * @param  UpdatePostRequest  $request  The validated incoming request with updated post data
      * @param  Post  $post  The post to update (resolved via route model binding)
      * @return PostResource A JSON resource representing the updated post
      */
-    public function update(Request $request, Post $post): PostResource
+    public function update(UpdatePostRequest $request, Post $post): PostResource
     {
-        $this->authorize('update', $post);
-
-        $validated = $request->validate([
-            'title' => ['sometimes', 'required', 'string', 'max:255'],
-            'body' => ['sometimes', 'required', 'string'],
-            'status' => ['sometimes', 'in:draft,published'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:posts,slug,'.$post->id],
-            'excerpt' => ['nullable', 'string', 'max:500'],
-            'meta_title' => ['nullable', 'string', 'max:60'],
-            'meta_description' => ['nullable', 'string', 'max:160'],
-            'tags' => ['nullable', 'array'],
-            'tags.*' => ['string', 'max:50'],
-            'category_ids' => ['nullable', 'array'],
-            'category_ids.*' => ['integer', 'exists:categories,id'],
-        ]);
+        $validated = $request->validated();
 
         if (isset($validated['status']) && $validated['status'] === 'published' && ! $post->published_at) {
             $validated['published_at'] = now();
@@ -184,14 +160,14 @@ final class PostController extends Controller
      *
      * @param  Request  $request  The incoming HTTP request
      * @param  Post  $post  The post to delete (resolved via route model binding)
-     * @return JsonResponse A JSON response confirming the deletion
+     * @return Response An empty 204 No Content response
      */
-    public function destroy(Request $request, Post $post): JsonResponse
+    public function destroy(Request $request, Post $post): Response
     {
         $this->authorize('delete', $post);
 
         $post->delete();
 
-        return response()->json(['message' => 'Post deleted.']);
+        return response()->noContent();
     }
 }
