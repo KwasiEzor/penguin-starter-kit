@@ -19,7 +19,6 @@ final class Toast
      * Flash a success toast notification to the session.
      *
      * @param  string  $content  The message to display in the toast.
-     * @return void
      */
     public static function success(string $content): void
     {
@@ -30,7 +29,6 @@ final class Toast
      * Flash a warning toast notification to the session.
      *
      * @param  string  $content  The message to display in the toast.
-     * @return void
      */
     public static function warning(string $content): void
     {
@@ -41,7 +39,6 @@ final class Toast
      * Flash an error toast notification to the session.
      *
      * @param  string  $content  The message to display in the toast.
-     * @return void
      */
     public static function error(string $content): void
     {
@@ -52,7 +49,6 @@ final class Toast
      * Flash an info toast notification to the session.
      *
      * @param  string  $content  The message to display in the toast.
-     * @return void
      */
     public static function info(string $content): void
     {
@@ -63,8 +59,7 @@ final class Toast
      * Flash a toast notification of the given type to the session.
      *
      * @param  string  $content  The message to display in the toast.
-     * @param  string  $type     The notification type (e.g., 'success', 'warning', 'error', 'info').
-     * @return void
+     * @param  string  $type  The notification type (e.g., 'success', 'warning', 'error', 'info').
      */
     public static function add(string $content, string $type): void
     {

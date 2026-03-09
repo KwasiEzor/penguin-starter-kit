@@ -6,7 +6,6 @@
  * Verifies rendering of tables with head and body slots including headings
  * and cells, as well as sortable table heading functionality with direction indicators.
  */
-
 it('renders a table with head and body', function (): void {
     $view = $this->blade('
         <x-table>

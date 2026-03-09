@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Setting;
+use Illuminate\Support\Facades\Log;
 
 final class ThemeService
 {
@@ -25,6 +26,12 @@ final class ThemeService
         $decoded = json_decode($json, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
+            Log::warning('Theme settings JSON decode error', [
+                'error' => json_last_error(),
+                'error_message' => json_last_error_msg(),
+                'raw_value' => $json,
+            ]);
+
             return null;
         }
 

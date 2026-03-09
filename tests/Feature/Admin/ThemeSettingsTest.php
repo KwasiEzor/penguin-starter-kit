@@ -116,7 +116,7 @@ it('generates correct CSS root overrides', function (): void {
     \Illuminate\Support\Facades\Cache::forget('setting.theme.overrides');
     \Illuminate\Support\Facades\Cache::forget('setting.theme.font_family');
 
-    $themeService = new ThemeService();
+    $themeService = new ThemeService;
     $css = $themeService->generateCss();
 
     expect($css)->toContain(':root {');
@@ -125,7 +125,7 @@ it('generates correct CSS root overrides', function (): void {
 });
 
 it('generates empty CSS when no overrides exist', function (): void {
-    $themeService = new ThemeService();
+    $themeService = new ThemeService;
     $css = $themeService->generateCss();
 
     expect($css)->toBe('');
@@ -142,7 +142,7 @@ it('changes font family correctly', function (): void {
 
     \Illuminate\Support\Facades\Cache::forget('setting.theme.font_family');
 
-    $themeService = new ThemeService();
+    $themeService = new ThemeService;
     expect($themeService->getFontFamily())->toBe('DM Sans');
 });
 

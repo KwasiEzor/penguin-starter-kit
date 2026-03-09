@@ -41,10 +41,9 @@ final class NewPostPublished implements ShouldBroadcast
      */
     public function broadcastOn(): array
     {
-        return User::where('id', '!=', $this->author->id)
-            ->pluck('id')
-            ->map(fn (int $id): \Illuminate\Broadcasting\PrivateChannel => new PrivateChannel('App.Models.User.'.$id))
-            ->all();
+        return [
+            new PrivateChannel('notifications'),
+        ];
     }
 
     /**

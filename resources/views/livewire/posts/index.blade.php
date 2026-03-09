@@ -167,7 +167,7 @@
                     <x-icons.document-text variant="outline" size="xl" class="text-on-surface/20" />
                 </div>
                 <h3 class="text-xl font-bold text-on-surface-strong dark:text-on-surface-dark-strong">
-                    {{ __('No publications found') }}
+                    {{ __('No posts found') }}
                 </h3>
                 <p class="text-on-surface/60 max-w-sm mt-2 leading-relaxed">
                     {{ $search || $statusFilter || $tagFilter || $categoryFilter ? __('We couldn\'t find any posts matching your current filters.') : __('Start your journey by creating your first blog post or article.') }}
@@ -187,7 +187,7 @@
     @endif
 
     <!-- Delete Modal -->
-    <x-modal :show="$deletingPostId !== null" maxWidth="md">
+    <x-modal wire:model="showDeleteModal" maxWidth="md">
         <div class="p-8">
             <div class="flex items-center gap-4 mb-6">
                 <div class="flex size-12 items-center justify-center rounded-full bg-danger/10 text-danger">

@@ -48,17 +48,9 @@ final class Show extends Component
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        $generator = $aiService->stream($this->aiAgent, $this->taskInput, $user);
-
-        foreach ($generator as $token) {
-            $this->streamingOutput .= $token;
-            $this->stream(
-                to: 'streaming-output',
-                content: $token,
-            );
-        }
-
-        $this->latestExecution = $generator->getReturn();
+        $execution = $aiService->execute($this->aiAgent, $this->taskInput, $user);
+        $this->streamingOutput = $execution->output ?? '';
+        $this->latestExecution = $execution;
         $this->isExecuting = false;
 
         if ($this->latestExecution->status === 'failed') {

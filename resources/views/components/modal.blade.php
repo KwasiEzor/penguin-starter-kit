@@ -10,14 +10,15 @@
     ][$maxWidth];
 @endphp
 
-<div 
+<div
     x-data="{ modalIsOpen: @js($show ?? false) }"
+    x-modelable="modalIsOpen"
+    {{ $attributes->whereStartsWith('wire:model') }}
     x-init="$watch('modalIsOpen', value => {
         if (!value) {
             $dispatch('modal-closed');
         }
     })"
-    x-effect="modalIsOpen = @js($show ?? false)"
 >
     @isset($trigger)
         {{ $trigger }}

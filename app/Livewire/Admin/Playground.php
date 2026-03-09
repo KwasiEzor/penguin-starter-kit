@@ -8,7 +8,7 @@ use Livewire\Component;
 /**
  * Livewire component to showcase and test UI components.
  */
-#[Layout('layouts.app')]
+#[Layout('components.layouts.app')]
 final class Playground extends Component
 {
     /**

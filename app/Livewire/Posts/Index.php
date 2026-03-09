@@ -39,6 +39,8 @@ final class Index extends Component
 
     public ?int $deletingPostId = null;
 
+    public bool $showDeleteModal = false;
+
     public function sortBy(string $column): void
     {
         if ($this->sortBy === $column) {
@@ -74,11 +76,13 @@ final class Index extends Component
     public function confirmDelete(int $id): void
     {
         $this->deletingPostId = $id;
+        $this->showDeleteModal = true;
     }
 
     public function cancelDelete(): void
     {
         $this->deletingPostId = null;
+        $this->showDeleteModal = false;
     }
 
     public function deletePost(): void
@@ -88,6 +92,7 @@ final class Index extends Component
         $post->delete();
 
         $this->deletingPostId = null;
+        $this->showDeleteModal = false;
         $this->toastSuccess('Post deleted successfully.');
     }
 
@@ -96,13 +101,13 @@ final class Index extends Component
         $posts = Post::query()
             ->with(['tags', 'categories'])
             ->where('user_id', Auth::id())
-            ->when($this->search, fn(\Illuminate\Database\Eloquent\Builder $q) => $q->where(function (\Illuminate\Database\Eloquent\Builder $q): void {
+            ->when($this->search, fn (\Illuminate\Database\Eloquent\Builder $q) => $q->where(function (\Illuminate\Database\Eloquent\Builder $q): void {
                 $q->where('title', 'like', sprintf('%%%s%%', $this->search))
                     ->orWhere('body', 'like', sprintf('%%%s%%', $this->search));
             }))
-            ->when($this->statusFilter, fn(\Illuminate\Database\Eloquent\Builder $q) => $q->where('status', $this->statusFilter))
-            ->when($this->tagFilter, fn(\Illuminate\Database\Eloquent\Builder $q) => $q->withAnyTags([$this->tagFilter]))
-            ->when($this->categoryFilter, fn(\Illuminate\Database\Eloquent\Builder $q) => $q->whereHas('categories', fn(\Illuminate\Database\Eloquent\Builder $q) => $q->where('categories.slug', $this->categoryFilter)))
+            ->when($this->statusFilter, fn (\Illuminate\Database\Eloquent\Builder $q) => $q->where('status', $this->statusFilter))
+            ->when($this->tagFilter, fn (\Illuminate\Database\Eloquent\Builder $q) => $q->withAnyTags([$this->tagFilter]))
+            ->when($this->categoryFilter, fn (\Illuminate\Database\Eloquent\Builder $q) => $q->whereHas('categories', fn (\Illuminate\Database\Eloquent\Builder $q) => $q->where('categories.slug', $this->categoryFilter)))
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate(10);
 

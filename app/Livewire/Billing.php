@@ -15,7 +15,7 @@ final class Billing extends Component
 
     public function redirectToPortal(): mixed
     {
-        $user = auth()->user();
+        $user = auth()->user()->fresh();
 
         if (! $user->hasStripeId()) {
             $this->toastError('No billing account found. Please make a purchase first.');
@@ -28,7 +28,7 @@ final class Billing extends Component
 
     public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        $user = auth()->user();
+        $user = auth()->user()->fresh();
 
         return view('livewire.billing', [
             'subscription' => $user->subscription('default'),

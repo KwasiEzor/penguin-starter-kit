@@ -2,7 +2,7 @@
     <!-- Header -->
     <div class="flex flex-col gap-2">
         <h1 class="text-3xl font-black tracking-tight text-on-surface-strong dark:text-on-surface-dark-strong">
-            {{ __('AI Configuration') }}
+            {{ __('AI Settings') }}
         </h1>
         <p class="text-on-surface/60 dark:text-on-surface-dark/60 font-medium">
             {{ __('Manage AI model providers and set global API keys.') }}

@@ -24,6 +24,8 @@ class CategoryFactory extends Factory
         return [
             'name' => ucfirst($name),
             'slug' => Str::slug($name),
+            'description' => fake()->sentence(),
+            'color' => fake()->safeHexColor(),
         ];
     }
 }

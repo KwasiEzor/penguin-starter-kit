@@ -32,8 +32,6 @@ final class AiSettings extends Component
 
     /**
      * Initialize the component state with the current AI enabled setting.
-     *
-     * @return void
      */
     public function mount(): void
     {
@@ -45,8 +43,6 @@ final class AiSettings extends Component
      *
      * Saves the AI enabled/disabled toggle and any non-empty API keys
      * for each provider, then clears the key fields for security.
-     *
-     * @return void
      */
     public function saveSettings(): void
     {
@@ -70,7 +66,6 @@ final class AiSettings extends Component
      *
      * @param  AiProviderEnum  $provider  The AI provider to save the key for.
      * @param  string  $key  The API key value to store.
-     * @return void
      */
     private function saveApiKey(AiProviderEnum $provider, string $key): void
     {
@@ -86,8 +81,6 @@ final class AiSettings extends Component
 
     /**
      * Render the AI settings view with provider information and existing key status.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {

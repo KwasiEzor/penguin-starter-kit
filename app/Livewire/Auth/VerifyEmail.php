@@ -23,8 +23,6 @@ final class VerifyEmail extends Component
      * Send an email verification notification to the authenticated user.
      *
      * If the user's email is already verified, redirect to the dashboard instead.
-     *
-     * @return void
      */
     public function sendVerification(): void
     {
@@ -44,8 +42,6 @@ final class VerifyEmail extends Component
 
     /**
      * Render the email verification view.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {

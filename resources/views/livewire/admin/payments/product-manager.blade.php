@@ -128,7 +128,7 @@
     @endif
 
     <!-- Delete Confirmation Modal -->
-    <x-modal :show="$deletingProductId !== null" maxWidth="md">
+    <x-modal wire:model="showDeleteModal" maxWidth="md">
         <x-slot name="trigger"><span></span></x-slot>
         <x-slot name="header">
             <x-typography.subheading accent size="lg">{{ __('Delete Product') }}</x-typography.subheading>

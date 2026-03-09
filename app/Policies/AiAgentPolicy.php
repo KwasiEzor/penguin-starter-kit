@@ -29,7 +29,7 @@ final class AiAgentPolicy
     /**
      * Determine whether the user can view a specific AI agent.
      *
-     * @param  User     $user     The authenticated user attempting to view the agent.
+     * @param  User  $user  The authenticated user attempting to view the agent.
      * @param  AiAgent  $aiAgent  The AI agent being viewed.
      * @return bool True if the user owns the agent or the agent is public.
      */
@@ -51,7 +51,7 @@ final class AiAgentPolicy
     /**
      * Determine whether the user can update an AI agent.
      *
-     * @param  User     $user     The authenticated user attempting the update.
+     * @param  User  $user  The authenticated user attempting the update.
      * @param  AiAgent  $aiAgent  The AI agent being updated.
      * @return bool True if the user owns the agent or has the AI agents manage permission.
      */
@@ -63,7 +63,7 @@ final class AiAgentPolicy
     /**
      * Determine whether the user can delete an AI agent.
      *
-     * @param  User     $user     The authenticated user attempting the deletion.
+     * @param  User  $user  The authenticated user attempting the deletion.
      * @param  AiAgent  $aiAgent  The AI agent being deleted.
      * @return bool True if the user owns the agent or has the AI agents manage permission.
      */
@@ -75,7 +75,7 @@ final class AiAgentPolicy
     /**
      * Determine whether the user can execute an AI agent.
      *
-     * @param  User     $user     The authenticated user attempting to execute the agent.
+     * @param  User  $user  The authenticated user attempting to execute the agent.
      * @param  AiAgent  $aiAgent  The AI agent being executed.
      * @return bool True if the user owns the agent, or the agent is both public and active.
      */

@@ -153,7 +153,7 @@
                         @endif
                     </div>
                     
-                    <x-file-upload wire:model="featured_image" :label="$post->hasMedia('featured_image') ? __('Replace Image') : __('Upload Image')" />
+                    <x-file-upload wire:model="featured_image" :label="$post->hasMedia('featured_image') ? __('Replace featured image') : __('Upload featured image')" />
                     <x-input-error :messages="$errors->get('featured_image')" />
                     
                     <div wire:loading wire:target="featured_image" class="flex items-center gap-2 text-xs font-bold text-primary animate-pulse">

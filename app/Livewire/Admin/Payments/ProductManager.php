@@ -18,6 +18,8 @@ final class ProductManager extends Component
 
     public ?int $deletingProductId = null;
 
+    public bool $showDeleteModal = false;
+
     public string $name = '';
 
     public string $description = '';
@@ -80,17 +82,20 @@ final class ProductManager extends Component
     public function confirmDelete(int $id): void
     {
         $this->deletingProductId = $id;
+        $this->showDeleteModal = true;
     }
 
     public function cancelDelete(): void
     {
         $this->deletingProductId = null;
+        $this->showDeleteModal = false;
     }
 
     public function deleteProduct(): void
     {
         Product::findOrFail($this->deletingProductId)->delete();
         $this->deletingProductId = null;
+        $this->showDeleteModal = false;
         $this->toastSuccess('Product deleted successfully.');
     }
 

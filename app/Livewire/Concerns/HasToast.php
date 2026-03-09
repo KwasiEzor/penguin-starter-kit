@@ -16,7 +16,6 @@ trait HasToast
      * Dispatch a success toast notification.
      *
      * @param  string  $content  The message to display in the toast.
-     * @return void
      */
     public function toastSuccess(string $content): void
     {
@@ -27,7 +26,6 @@ trait HasToast
      * Dispatch a warning toast notification.
      *
      * @param  string  $content  The message to display in the toast.
-     * @return void
      */
     public function toastWarning(string $content): void
     {
@@ -38,7 +36,6 @@ trait HasToast
      * Dispatch an error toast notification.
      *
      * @param  string  $content  The message to display in the toast.
-     * @return void
      */
     public function toastError(string $content): void
     {
@@ -49,7 +46,6 @@ trait HasToast
      * Dispatch an info toast notification.
      *
      * @param  string  $content  The message to display in the toast.
-     * @return void
      */
     public function toastInfo(string $content): void
     {
@@ -60,8 +56,7 @@ trait HasToast
      * Dispatch a toast notification of the given type.
      *
      * @param  string  $content  The message to display in the toast.
-     * @param  string  $type     The notification type (default: 'info').
-     * @return void
+     * @param  string  $type  The notification type (default: 'info').
      */
     public function toast(string $content, string $type = 'info'): void
     {

@@ -91,8 +91,6 @@ class PaymentSettings
      *
      * Sets the publishable key, secret key, and webhook secret in the
      * application config and initializes the Stripe API client.
-     *
-     * @return void
      */
     public function configureStripe(): void
     {

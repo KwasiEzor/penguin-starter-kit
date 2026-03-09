@@ -50,7 +50,6 @@ final class Edit extends Component
      * Initialize the component with the given AI agent's data.
      *
      * @param  AiAgent  $aiAgent  The AI agent to edit.
-     * @return void
      */
     public function mount(AiAgent $aiAgent): void
     {
@@ -70,8 +69,6 @@ final class Edit extends Component
 
     /**
      * Update available models when the selected provider changes.
-     *
-     * @return void
      */
     public function updatedProvider(): void
     {
@@ -82,8 +79,6 @@ final class Edit extends Component
 
     /**
      * Validate the form inputs and update the AI agent with the new configuration.
-     *
-     * @return void
      */
     public function save(): void
     {
@@ -117,8 +112,6 @@ final class Edit extends Component
 
     /**
      * Render the AI agent edit form view.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {

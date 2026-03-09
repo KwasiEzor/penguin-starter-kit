@@ -19,6 +19,7 @@ final class Edit extends Component
 
     public string $name = '';
 
+    /** @var array<int, string> */
     public array $selectedPermissions = [];
 
     public function mount(Role $role): void

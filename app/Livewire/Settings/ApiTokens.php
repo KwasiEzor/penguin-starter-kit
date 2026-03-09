@@ -18,6 +18,8 @@ final class ApiTokens extends Component
 
     public ?int $deletingTokenId = null;
 
+    public bool $showDeleteModal = false;
+
     public function createToken(): void
     {
         $this->validate([
@@ -34,12 +36,20 @@ final class ApiTokens extends Component
     public function confirmDelete(int $id): void
     {
         $this->deletingTokenId = $id;
+        $this->showDeleteModal = true;
+    }
+
+    public function cancelDelete(): void
+    {
+        $this->deletingTokenId = null;
+        $this->showDeleteModal = false;
     }
 
     public function deleteToken(): void
     {
         Auth::user()->tokens()->where('id', $this->deletingTokenId)->delete();
         $this->deletingTokenId = null;
+        $this->showDeleteModal = false;
         $this->toastSuccess('API token revoked.');
     }
 

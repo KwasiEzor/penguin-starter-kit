@@ -20,7 +20,7 @@ it('renders the password settings component', function (): void {
 
     Livewire::test(Password::class)
         ->assertOk()
-        ->assertSee('Update password');
+        ->assertSee('Update Password');
 });
 
 it('updates the user password', function (): void {

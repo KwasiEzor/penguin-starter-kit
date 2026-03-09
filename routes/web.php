@@ -23,7 +23,7 @@ use Spatie\MarkdownResponse\Middleware\ProvideMarkdownResponse;
 
 Route::middleware(ProvideMarkdownResponse::class)->group(function () {
 
-    Route::get('/', fn(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View => view('welcome'))->name('home');
+    Route::get('/', fn (): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View => view('welcome'))->name('home');
     Route::get('/blog/{slug}', Blog\Show::class)->name('blog.show');
 
     // Guest-only auth routes
@@ -58,6 +58,8 @@ Route::middleware(ProvideMarkdownResponse::class)->group(function () {
             Route::get('/payments', Admin\Payments\Settings::class)->name('payments');
             Route::get('/categories', Admin\Categories\Index::class)->name('categories.index');
             Route::get('/ai-settings', Admin\AiSettings::class)->name('ai-settings');
+            Route::get('/auth-settings', Admin\AuthSettings::class)->name('auth-settings');
+            Route::get('/settings', Admin\WebsiteSettings::class)->name('settings');
             Route::get('/theme', Admin\ThemeSettings::class)->name('theme');
             Route::get('/playground', Admin\Playground::class)->name('playground');
 
@@ -82,7 +84,7 @@ Route::middleware(ProvideMarkdownResponse::class)->group(function () {
         Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
             $request->fulfill();
 
-            return redirect()->intended(route('dashboard') . '?verified=1');
+            return redirect()->intended(route('dashboard').'?verified=1');
         })->name('verification.verify');
     });
 });

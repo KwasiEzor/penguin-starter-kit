@@ -132,7 +132,7 @@
     @endif
 
     <!-- Delete Modal -->
-    <x-modal :show="$deletingAgentId !== null" maxWidth="md">
+    <x-modal wire:model="showDeleteModal" maxWidth="md">
         <div class="p-8">
             <div class="flex items-center gap-4 mb-6">
                 <div class="flex size-12 items-center justify-center rounded-full bg-danger/10 text-danger">

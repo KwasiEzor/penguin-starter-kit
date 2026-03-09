@@ -108,6 +108,7 @@ A production-ready Laravel starter kit built with **Livewire 4**, **Alpine.js 3*
 - **Full CRUD** -- list (with status filter), create (with tags array), show, update, delete
 - **Token management UI** in settings -- create named tokens, view existing tokens, revoke tokens
 - Token shown once on creation, never displayed again
+- **Interactive API documentation** at `/docs/api` (powered by Scramble)
 
 ### Spotlight Search
 

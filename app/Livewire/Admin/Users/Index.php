@@ -33,6 +33,8 @@ final class Index extends Component
 
     public ?int $deletingUserId = null;
 
+    public bool $showDeleteModal = false;
+
     public function sortBy(string $column): void
     {
         if ($this->sortBy === $column) {
@@ -58,11 +60,13 @@ final class Index extends Component
     public function confirmDelete(int $id): void
     {
         $this->deletingUserId = $id;
+        $this->showDeleteModal = true;
     }
 
     public function cancelDelete(): void
     {
         $this->deletingUserId = null;
+        $this->showDeleteModal = false;
     }
 
     public function deleteUser(): void
@@ -72,6 +76,7 @@ final class Index extends Component
         if ($user->id === Auth::id()) {
             $this->toastError('You cannot delete your own account.');
             $this->deletingUserId = null;
+            $this->showDeleteModal = false;
 
             return;
         }
@@ -79,12 +84,14 @@ final class Index extends Component
         if ($user->hasRole(RoleEnum::Admin) && User::role(RoleEnum::Admin->value)->count() <= 1) {
             $this->toastError('Cannot delete the last admin user.');
             $this->deletingUserId = null;
+            $this->showDeleteModal = false;
 
             return;
         }
 
         $user->delete();
         $this->deletingUserId = null;
+        $this->showDeleteModal = false;
         $this->toastSuccess('User deleted successfully.');
     }
 

@@ -13,6 +13,7 @@ use Illuminate\Validation\Rule;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Spatie\Permission\Models\Role;
 
 #[Layout('components.layouts.app')]
 final class Edit extends Component
@@ -39,7 +40,10 @@ final class Edit extends Component
         $this->user = $user;
         $this->name = $user->name;
         $this->email = $user->email;
-        $this->role = $user->roles->first()?->name ?? RoleEnum::User->value;
+        /** @var Role|null $primaryRole */
+        $primaryRole = $user->roles->first();
+        $roleName = $primaryRole?->name;
+        $this->role = $roleName ?? RoleEnum::User->value;
     }
 
     public function save(): void

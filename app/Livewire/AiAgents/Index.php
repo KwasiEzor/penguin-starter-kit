@@ -40,6 +40,8 @@ final class Index extends Component
 
     public ?int $deletingAgentId = null;
 
+    public bool $showDeleteModal = false;
+
     public function sortBy(string $column): void
     {
         if ($this->sortBy === $column) {
@@ -65,11 +67,13 @@ final class Index extends Component
     public function confirmDelete(int $id): void
     {
         $this->deletingAgentId = $id;
+        $this->showDeleteModal = true;
     }
 
     public function cancelDelete(): void
     {
         $this->deletingAgentId = null;
+        $this->showDeleteModal = false;
     }
 
     public function deleteAgent(): void
@@ -79,6 +83,7 @@ final class Index extends Component
         $agent->delete();
 
         $this->deletingAgentId = null;
+        $this->showDeleteModal = false;
         $this->toastSuccess('Agent deleted successfully.');
     }
 

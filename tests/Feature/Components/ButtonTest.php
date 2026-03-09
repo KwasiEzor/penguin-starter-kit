@@ -6,7 +6,6 @@
  * Verifies rendering of buttons with different variants (primary, danger),
  * size options, and the ability to render as an anchor tag when an href is provided.
  */
-
 it('renders a primary button by default', function (): void {
     $view = $this->blade('<x-button>Click me</x-button>');
 

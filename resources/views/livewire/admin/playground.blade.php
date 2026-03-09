@@ -105,27 +105,25 @@
                 {{ __('Carousels') }}
             </h2>
             <div class="h-64">
-                <x-carousel :autoPlay="true" :interval="4000" class="h-full">
-                    <x-slot name="slides">
-                        <div class="flex h-full items-center justify-center bg-primary/10 p-10">
-                            <div class="text-center">
-                                <h3 class="text-2xl font-black text-primary">{{ __('First Slide') }}</h3>
-                                <p class="mt-2 text-primary/60">{{ __('Animated with smooth Alpine.js transitions.') }}</p>
-                            </div>
+                <x-carousel :autoPlay="true" :interval="4000" :count="3" class="h-full">
+                    <x-carousel-item class="flex h-full items-center justify-center bg-primary/10 p-10 text-center">
+                        <div>
+                            <h3 class="text-2xl font-black text-primary">{{ __('First Slide') }}</h3>
+                            <p class="mt-2 text-primary/60">{{ __('Animated with smooth Alpine.js transitions.') }}</p>
                         </div>
-                        <div class="flex h-full items-center justify-center bg-secondary/10 p-10">
-                            <div class="text-center">
-                                <h3 class="text-2xl font-black text-secondary">{{ __('Second Slide') }}</h3>
-                                <p class="mt-2 text-secondary/60">{{ __('Fully responsive and touch-friendly.') }}</p>
-                            </div>
+                    </x-carousel-item>
+                    <x-carousel-item class="flex h-full items-center justify-center bg-secondary/10 p-10 text-center">
+                        <div>
+                            <h3 class="text-2xl font-black text-secondary">{{ __('Second Slide') }}</h3>
+                            <p class="mt-2 text-secondary/60">{{ __('Fully responsive and touch-friendly.') }}</p>
                         </div>
-                        <div class="flex h-full items-center justify-center bg-success/10 p-10">
-                            <div class="text-center">
-                                <h3 class="text-2xl font-black text-success">{{ __('Third Slide') }}</h3>
-                                <p class="mt-2 text-success/60">{{ __('Customize intervals and auto-play settings.') }}</p>
-                            </div>
+                    </x-carousel-item>
+                    <x-carousel-item class="flex h-full items-center justify-center bg-success/10 p-10 text-center">
+                        <div>
+                            <h3 class="text-2xl font-black text-success">{{ __('Third Slide') }}</h3>
+                            <p class="mt-2 text-success/60">{{ __('Customize intervals and auto-play settings.') }}</p>
                         </div>
-                    </x-slot>
+                    </x-carousel-item>
                 </x-carousel>
             </div>
         </div>
@@ -138,7 +136,7 @@
                 <x-steps>
                     <x-step number="1" title="Onboarding" description="Complete your profile and account setup." completed />
                     <x-step number="2" title="Verification" description="Verify your email and phone number." active />
-                    <x-step number="3" title="Success" description="You are all set and ready to go!" />
+                    <x-step number="3" title="Success" description="You are all set and ready to go!" isLast />
                 </x-steps>
             </x-card>
         </div>

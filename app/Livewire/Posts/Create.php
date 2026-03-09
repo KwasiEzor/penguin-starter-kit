@@ -52,15 +52,13 @@ final class Create extends Component
 
     public ?\Livewire\Features\SupportFileUploads\TemporaryUploadedFile $featured_image = null;
 
-    private string $previousAutoSlug = '';
+    public string $previousAutoSlug = '';
 
     /**
      * Handle updates to the title property by auto-generating a slug.
      *
      * Automatically derives a URL-friendly slug from the title whenever it changes,
      * unless the user has manually customized the slug to differ from the auto-generated value.
-     *
-     * @return void
      */
     public function updatedTitle(): void
     {
@@ -80,8 +78,6 @@ final class Create extends Component
      * syncs categories and tags, attaches a featured image if provided, and sends
      * notifications to other users when the post is published. Redirects to the
      * posts index on success.
-     *
-     * @return void
      */
     public function save(): void
     {
@@ -104,7 +100,7 @@ final class Create extends Component
         }
 
         $categoryIds = $validated['category_ids'] ?? [];
-        unset($validated['category_ids']);
+        unset($validated['category_ids'], $validated['tags_input'], $validated['featured_image']);
 
         $post = Auth::user()->posts()->create($validated);
 
@@ -125,8 +121,7 @@ final class Create extends Component
         }
 
         if ($post->isPublished()) {
-            $otherUsers = User::where('id', '!=', Auth::id())->get();
-            Notification::send($otherUsers, new PostPublished($post));
+            \App\Jobs\NotifyUsersOfNewPost::dispatch($post, Auth::id());
             NewPostPublished::dispatch($post, Auth::user());
         }
 
@@ -140,8 +135,6 @@ final class Create extends Component
      *
      * Passes the list of available categories (sorted alphabetically) to the view
      * for category selection.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {

@@ -2,9 +2,11 @@
     <!-- Header -->
     <div class="flex flex-col gap-2">
         <h1 class="text-3xl font-black tracking-tight text-on-surface-strong dark:text-on-surface-dark-strong">
-            {{ __('Welcome back,') }} {{ auth()->user()->name }} 👋
+            {{ __('Admin Dashboard') }}
         </h1>
         <p class="text-on-surface/60 dark:text-on-surface-dark/60 font-medium">
+            {{ __('Welcome back,') }} {{ auth()->user()->name }} 👋
+            <br>
             {{ __('Here is what is happening with your platform today.') }}
         </p>
     </div>
@@ -224,7 +226,7 @@
                 userEl.innerHTML = '';
                 new ApexCharts(userEl, {
                     ...chartOptions,
-                    series: [{ name: 'New Users', data: @json(array_combine($userTrend['labels'], $userTrend['data'])) }],
+                    series: [{ name: 'New Users', data: @json(array_map(null, $userTrend['labels'], $userTrend['data'])) }],
                     colors: ['#6366f1'],
                 }).render();
             }
@@ -234,7 +236,7 @@
                 tokenEl.innerHTML = '';
                 new ApexCharts(tokenEl, {
                     ...chartOptions,
-                    series: [{ name: 'Tokens', data: @json(array_combine($tokenTrend['labels'], $tokenTrend['data'])) }],
+                    series: [{ name: 'Tokens', data: @json(array_map(null, $tokenTrend['labels'], $tokenTrend['data'])) }],
                     colors: ['#10b981'],
                 }).render();
             }

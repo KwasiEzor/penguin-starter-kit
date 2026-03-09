@@ -153,7 +153,7 @@
     @endif
 
     <!-- Delete Confirmation Modal -->
-    <x-modal :show="$deletingPlanId !== null" maxWidth="md">
+    <x-modal wire:model="showDeleteModal" maxWidth="md">
         <x-slot name="trigger"><span></span></x-slot>
         <x-slot name="header">
             <x-typography.subheading accent size="lg">{{ __('Delete Plan') }}</x-typography.subheading>

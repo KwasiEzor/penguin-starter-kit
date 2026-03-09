@@ -37,7 +37,6 @@ final class ResetPassword extends Component
      * Initialize the component with the password reset token and email from the request.
      *
      * @param  string  $token  The password reset token from the reset link.
-     * @return void
      */
     public function mount(string $token): void
     {
@@ -47,8 +46,6 @@ final class ResetPassword extends Component
 
     /**
      * Validate the reset token and new password, then update the user's credentials.
-     *
-     * @return void
      */
     public function resetPassword(): void
     {
@@ -84,8 +81,6 @@ final class ResetPassword extends Component
 
     /**
      * Render the password reset view.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {

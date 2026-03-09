@@ -62,7 +62,6 @@ final class Edit extends Component
      * properties from the post model, including tags and category IDs.
      *
      * @param  Post  $post  The post model instance to edit, resolved via route model binding.
-     * @return void
      */
     public function mount(Post $post): void
     {
@@ -77,7 +76,7 @@ final class Edit extends Component
         $this->meta_title = $post->meta_title ?? '';
         $this->meta_description = $post->meta_description ?? '';
         $this->tags_input = $post->tags->pluck('name')->implode(', ');
-        $this->category_ids = $post->categories->pluck('id')->map(fn($id): int => (int) $id)->toArray();
+        $this->category_ids = $post->categories->pluck('id')->map(fn ($id): int => (int) $id)->toArray();
     }
 
     /**
@@ -85,8 +84,6 @@ final class Edit extends Component
      *
      * Only regenerates the slug from the new title if the current slug still matches
      * the slug derived from the original post title, preserving any manual slug edits.
-     *
-     * @return void
      */
     public function updatedTitle(): void
     {
@@ -104,8 +101,6 @@ final class Edit extends Component
      * attaches a new featured image if uploaded, and sends notifications to other
      * users if the post transitions from draft to published. Redirects to the
      * posts index on success.
-     *
-     * @return void
      */
     public function save(): void
     {
@@ -113,7 +108,7 @@ final class Edit extends Component
             'title' => ['required', 'string', 'max:255'],
             'body' => ['required', 'string'],
             'status' => ['required', 'in:draft,published'],
-            'slug' => ['required', 'string', 'max:255', 'unique:posts,slug,' . $this->post->id],
+            'slug' => ['required', 'string', 'max:255', 'unique:posts,slug,'.$this->post->id],
             'excerpt' => ['nullable', 'string', 'max:500'],
             'meta_title' => ['nullable', 'string', 'max:60'],
             'meta_description' => ['nullable', 'string', 'max:160'],
@@ -134,15 +129,14 @@ final class Edit extends Component
         }
 
         $categoryIds = $validated['category_ids'] ?? [];
-        unset($validated['category_ids']);
+        unset($validated['category_ids'], $validated['tags_input'], $validated['featured_image']);
 
         $this->post->update($validated);
 
         $this->post->categories()->sync($categoryIds);
 
         if (! $wasPublished && $this->post->isPublished()) {
-            $otherUsers = User::where('id', '!=', Auth::id())->get();
-            Notification::send($otherUsers, new PostPublished($this->post));
+            \App\Jobs\NotifyUsersOfNewPost::dispatch($this->post, Auth::id());
             NewPostPublished::dispatch($this->post, Auth::user());
         }
 

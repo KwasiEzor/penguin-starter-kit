@@ -16,6 +16,8 @@
         'xl' => 'text-2xl',
         'lg' => 'text-base',
         'base' => 'text-sm',
+        'sm' => 'text-xs',
+        default => 'text-sm',
     };
 
     $classes = "{$baseClasses} {$accentClasses} {$sizeClasses}";

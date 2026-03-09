@@ -46,7 +46,9 @@
 
             // Font
             const fontFamily = $wire.fontFamily
-            root.setProperty('--font-sans-override', `'${fontFamily}', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'`)
+            const fontStack = `'${fontFamily}', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'`
+            root.setProperty('--font-sans', fontStack)
+            root.setProperty('--font-sans-override', fontStack)
         },
     }"
     x-effect="applyPreview()"

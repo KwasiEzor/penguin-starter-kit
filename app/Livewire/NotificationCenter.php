@@ -18,6 +18,9 @@ final class NotificationCenter extends Component
         return Auth::id();
     }
 
+    /**
+     * @param  array<string, mixed>  $data
+     */
     #[On('echo-private:App.Models.User.{userId},post.published')]
     public function onPostPublished(array $data): void
     {

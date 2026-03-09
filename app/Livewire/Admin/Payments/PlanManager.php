@@ -25,6 +25,8 @@ final class PlanManager extends Component
 
     public ?int $deletingPlanId = null;
 
+    public bool $showDeleteModal = false;
+
     public string $name = '';
 
     public string $description = '';
@@ -45,8 +47,6 @@ final class PlanManager extends Component
      * Open the modal form for creating a new subscription plan.
      *
      * Resets all form fields to defaults and displays the creation modal.
-     *
-     * @return void
      */
     public function createPlan(): void
     {
@@ -61,7 +61,6 @@ final class PlanManager extends Component
      * Loads the plan data into the form fields and displays the modal.
      *
      * @param  int  $id  The ID of the plan to edit.
-     * @return void
      */
     public function editPlan(int $id): void
     {
@@ -83,8 +82,6 @@ final class PlanManager extends Component
      *
      * Validates form inputs, parses the features text into an array,
      * and creates a new plan or updates the existing one.
-     *
-     * @return void
      */
     public function savePlan(): void
     {
@@ -126,32 +123,30 @@ final class PlanManager extends Component
      * Set the plan ID pending deletion to show the confirmation dialog.
      *
      * @param  int  $id  The ID of the plan to confirm deletion for.
-     * @return void
      */
     public function confirmDelete(int $id): void
     {
         $this->deletingPlanId = $id;
+        $this->showDeleteModal = true;
     }
 
     /**
      * Cancel the pending plan deletion and dismiss the confirmation dialog.
-     *
-     * @return void
      */
     public function cancelDelete(): void
     {
         $this->deletingPlanId = null;
+        $this->showDeleteModal = false;
     }
 
     /**
      * Delete the plan pending deletion.
-     *
-     * @return void
      */
     public function deletePlan(): void
     {
         Plan::findOrFail($this->deletingPlanId)->delete();
         $this->deletingPlanId = null;
+        $this->showDeleteModal = false;
         $this->toastSuccess('Plan deleted successfully.');
     }
 
@@ -159,7 +154,6 @@ final class PlanManager extends Component
      * Toggle the active status of a subscription plan.
      *
      * @param  int  $id  The ID of the plan to toggle.
-     * @return void
      */
     public function toggleActive(int $id): void
     {
@@ -170,8 +164,6 @@ final class PlanManager extends Component
 
     /**
      * Render the plan manager view with all plans ordered by sort order and name.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {

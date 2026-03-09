@@ -79,13 +79,23 @@
                                 </div>
 
                                 <div>
-                                    <x-input-label value="{{ __('Secret Key') }}" for="stripe-secret" />
+                                    <div class="flex items-center gap-2">
+                                        <x-input-label value="{{ __('Secret Key') }}" for="stripe-secret" />
+                                        @if($hasStripeSecret)
+                                            <x-badge variant="success" size="xs">{{ __('Configured') }}</x-badge>
+                                        @endif
+                                    </div>
                                     <x-input id="stripe-secret" type="password" wire:model="stripeSecret" placeholder="sk_test_••••••••" class="mt-1" />
                                     <x-input-error :messages="$errors->get('stripeSecret')" class="mt-1" />
                                 </div>
 
                                 <div>
-                                    <x-input-label value="{{ __('Webhook Secret') }}" for="webhook-secret" />
+                                    <div class="flex items-center gap-2">
+                                        <x-input-label value="{{ __('Webhook Secret') }}" for="webhook-secret" />
+                                        @if($hasWebhookSecret)
+                                            <x-badge variant="success" size="xs">{{ __('Configured') }}</x-badge>
+                                        @endif
+                                    </div>
                                     <x-input id="webhook-secret" type="password" wire:model="stripeWebhookSecret" placeholder="whsec_••••••••" class="mt-1" />
                                     <x-input-error :messages="$errors->get('stripeWebhookSecret')" class="mt-1" />
                                 </div>

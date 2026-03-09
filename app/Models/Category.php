@@ -30,6 +30,8 @@ class Category extends Model
     protected $fillable = [
         'name',
         'slug',
+        'description',
+        'color',
     ];
 
     /**
@@ -44,6 +46,14 @@ class Category extends Model
             if (empty($category->slug)) {
                 $category->slug = Str::slug($category->name);
             }
+        });
+
+        static::deleting(function (Category $category): bool {
+            if ($category->posts()->exists()) {
+                throw new \RuntimeException('Cannot delete category because it has associated posts.');
+            }
+
+            return true;
         });
     }
 

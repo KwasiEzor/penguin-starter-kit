@@ -29,6 +29,9 @@ class AiService
      * the prompt to the configured AI provider, and updates the execution
      * record with the result or error.
      *
+     * WARNING: This method uses temporary config swapping which is NOT thread-safe
+     * in concurrent environments like Laravel Octane or Swoole.
+     *
      * @param  AiAgent  $aiAgent  The AI agent to execute.
      * @param  string  $input  The user-provided prompt input.
      * @param  User  $user  The user initiating the execution.
@@ -88,6 +91,9 @@ class AiService
 
     /**
      * Execute an AI agent with streaming response.
+     *
+     * WARNING: This method uses temporary config swapping which is NOT thread-safe
+     * in concurrent environments like Laravel Octane or Swoole.
      *
      * @param  AiAgent  $aiAgent  The AI agent to execute.
      * @param  string  $input  The user-provided prompt input.

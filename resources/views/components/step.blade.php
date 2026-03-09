@@ -4,9 +4,15 @@
     'description' => '',
     'active' => false,
     'completed' => false,
+    'isLast' => false,
 ])
 
 <div {{ $attributes->merge(['class' => 'relative flex gap-8 group']) }}>
+    <!-- Vertical Line -->
+    @unless($isLast)
+        <div class="absolute left-4.5 top-10 h-[calc(100%+2rem)] w-px bg-outline dark:bg-outline-dark lg:left-5.5 lg:top-12"></div>
+    @endunless
+
     <!-- Step Circle -->
     <div @class([
         'relative z-10 flex size-9 shrink-0 items-center justify-center rounded-full border-2 transition-all duration-500 lg:size-11',

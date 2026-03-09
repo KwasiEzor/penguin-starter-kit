@@ -32,8 +32,6 @@ final class RegisterForm extends Form
      * Validates name, email uniqueness, and password confirmation, then
      * creates the user record, fires the Registered event, and
      * authenticates the new user.
-     *
-     * @return void
      */
     public function register(): void
     {

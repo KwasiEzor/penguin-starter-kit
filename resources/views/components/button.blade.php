@@ -29,7 +29,7 @@
 @endphp
 
 @if ($href)
-    <a {{ $attributes->merge(['href' => $href, 'class' => $classes]) }}>
+    <a {{ $attributes->merge(['href' => $href, 'class' => $classes]) }} wire:navigate>
         {{ $slot }}
     </a>
 @else

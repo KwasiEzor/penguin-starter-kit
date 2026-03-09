@@ -6,7 +6,6 @@
  * Verifies rendering of select dropdowns with proper name attributes,
  * option elements, styling classes, and the disabled state.
  */
-
 it('renders a select element', function (): void {
     $view = $this->blade('<x-select name="role"><option value="admin">Admin</option></x-select>');
 

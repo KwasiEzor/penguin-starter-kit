@@ -23,7 +23,6 @@ class StripeEventListener
      * Checks the event type and delegates to the appropriate handler method.
      *
      * @param  WebhookReceived  $event  The webhook event received from Stripe via Laravel Cashier
-     * @return void
      */
     public function handle(WebhookReceived $event): void
     {
@@ -43,7 +42,6 @@ class StripeEventListener
      * with the product specified in the session metadata.
      *
      * @param  array<string, mixed>  $session  The checkout session data from the Stripe payload
-     * @return void
      */
     protected function handleCheckoutSessionCompleted(array $session): void
     {

@@ -25,11 +25,17 @@ final class Settings extends Component
 
     public string $currency = 'usd';
 
+    public bool $hasStripeSecret = false;
+
+    public bool $hasWebhookSecret = false;
+
     public function mount(): void
     {
         $this->paymentsEnabled = Setting::paymentsEnabled();
         $this->stripeKey = (string) Setting::get('payments.stripe_key', '');
         $this->currency = (string) Setting::get('payments.currency', 'usd');
+        $this->hasStripeSecret = ! empty(Setting::get('payments.stripe_secret'));
+        $this->hasWebhookSecret = ! empty(Setting::get('payments.stripe_webhook_secret'));
     }
 
     public function saveSettings(): void
@@ -73,6 +79,8 @@ final class Settings extends Component
 
         $this->stripeSecret = '';
         $this->stripeWebhookSecret = '';
+        $this->hasStripeSecret = ! empty(Setting::get('payments.stripe_secret'));
+        $this->hasWebhookSecret = ! empty(Setting::get('payments.stripe_webhook_secret'));
 
         $this->toastSuccess('Payment settings saved successfully.');
     }

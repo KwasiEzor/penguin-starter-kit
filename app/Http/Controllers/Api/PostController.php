@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -39,7 +40,7 @@ final class PostController extends Controller
             ->latest()
             ->paginate(15);
 
-        return JsonResource::collection($posts);
+        return PostResource::collection($posts);
     }
 
     /**
@@ -60,8 +61,8 @@ final class PostController extends Controller
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'body' => ['required', 'string'],
+            'title' => ['sometimes', 'required', 'string', 'max:255'],
+            'body' => ['sometimes', 'required', 'string'],
             'status' => ['sometimes', 'in:draft,published'],
             'slug' => ['nullable', 'string', 'max:255', 'unique:posts,slug'],
             'excerpt' => ['nullable', 'string', 'max:500'],
@@ -93,7 +94,7 @@ final class PostController extends Controller
 
         $post->load(['tags', 'categories']);
 
-        return (new JsonResource($post))
+        return (new PostResource($post))
             ->response()
             ->setStatusCode(201);
     }
@@ -105,15 +106,15 @@ final class PostController extends Controller
      *
      * @param  Request  $request  The incoming HTTP request
      * @param  Post  $post  The post to display (resolved via route model binding)
-     * @return JsonResource A JSON resource representing the post
+     * @return PostResource A JSON resource representing the post
      */
-    public function show(Request $request, Post $post): JsonResource
+    public function show(Request $request, Post $post): PostResource
     {
         $this->authorize('view', $post);
 
         $post->load(['tags', 'categories']);
 
-        return new JsonResource($post);
+        return new PostResource($post);
     }
 
     /**
@@ -131,15 +132,15 @@ final class PostController extends Controller
      *
      * @param  Request  $request  The incoming HTTP request with updated post data
      * @param  Post  $post  The post to update (resolved via route model binding)
-     * @return JsonResource A JSON resource representing the updated post
+     * @return PostResource A JSON resource representing the updated post
      */
-    public function update(Request $request, Post $post): JsonResource
+    public function update(Request $request, Post $post): PostResource
     {
         $this->authorize('update', $post);
 
         $validated = $request->validate([
-            'title' => ['sometimes', 'string', 'max:255'],
-            'body' => ['sometimes', 'string'],
+            'title' => ['sometimes', 'required', 'string', 'max:255'],
+            'body' => ['sometimes', 'required', 'string'],
             'status' => ['sometimes', 'in:draft,published'],
             'slug' => ['nullable', 'string', 'max:255', 'unique:posts,slug,'.$post->id],
             'excerpt' => ['nullable', 'string', 'max:500'],
@@ -173,7 +174,7 @@ final class PostController extends Controller
             $post->categories()->sync($categoryIds);
         }
 
-        return new JsonResource($post->fresh()->load(['tags', 'categories']));
+        return new PostResource($post->fresh()->load(['tags', 'categories']));
     }
 
     /**

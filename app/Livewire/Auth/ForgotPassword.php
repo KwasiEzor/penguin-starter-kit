@@ -24,8 +24,6 @@ final class ForgotPassword extends Component
 
     /**
      * Validate the email address and send a password reset link.
-     *
-     * @return void
      */
     public function sendPasswordResetLink(): void
     {
@@ -52,8 +50,6 @@ final class ForgotPassword extends Component
 
     /**
      * Render the forgot password view.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {

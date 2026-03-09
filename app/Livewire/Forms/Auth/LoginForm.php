@@ -35,7 +35,6 @@ final class LoginForm extends Form
      * Validates rate limiting, attempts authentication, and clears
      * the rate limiter on success. Increments the rate limiter on failure.
      *
-     * @return void
      *
      * @throws ValidationException If authentication fails or the user is rate limited.
      */
@@ -60,7 +59,6 @@ final class LoginForm extends Form
      * Allows up to 5 attempts before locking out. Fires a Lockout event
      * and throws a validation exception when the limit is exceeded.
      *
-     * @return void
      *
      * @throws ValidationException If too many login attempts have been made.
      */

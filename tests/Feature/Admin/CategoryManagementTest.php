@@ -23,7 +23,7 @@ it('forbids non-admin from accessing categories page', function (): void {
         ->assertForbidden();
 });
 
-it('can create a category with auto-generated slug', function (): void {
+it('can create a category with auto-generated slug and new fields', function (): void {
     $admin = User::factory()->admin()->create();
 
     Livewire::actingAs($admin)
@@ -32,6 +32,8 @@ it('can create a category with auto-generated slug', function (): void {
         ->assertSet('showModal', true)
         ->set('name', 'My New Category')
         ->assertSet('slug', 'my-new-category')
+        ->set('description', 'A test description')
+        ->set('color', '#ff0000')
         ->call('saveCategory')
         ->assertHasNoErrors()
         ->assertSet('showModal', false);
@@ -39,10 +41,47 @@ it('can create a category with auto-generated slug', function (): void {
     $this->assertDatabaseHas('categories', [
         'name' => 'My New Category',
         'slug' => 'my-new-category',
+        'description' => 'A test description',
+        'color' => '#ff0000',
     ]);
 });
 
-it('can update a category', function (): void {
+it('can search for categories', function (): void {
+    $admin = User::factory()->admin()->create();
+    Category::factory()->create(['name' => 'Apple']);
+    Category::factory()->create(['name' => 'Banana']);
+
+    Livewire::actingAs($admin)
+        ->test(Index::class)
+        ->set('search', 'Apple')
+        ->assertSee('Apple')
+        ->assertDontSee('Banana');
+});
+
+it('can paginate categories', function (): void {
+    $admin = User::factory()->admin()->create();
+    Category::factory()->count(15)->create();
+
+    Livewire::actingAs($admin)
+        ->test(Index::class)
+        ->assertViewHas('categories', function ($categories) {
+            return $categories->count() === 10;
+        });
+});
+
+it('validates color format', function (): void {
+    $admin = User::factory()->admin()->create();
+
+    Livewire::actingAs($admin)
+        ->test(Index::class)
+        ->call('createCategory')
+        ->set('name', 'Test')
+        ->set('color', 'invalid-color')
+        ->call('saveCategory')
+        ->assertHasErrors(['color']);
+});
+
+it('can update a category with new fields', function (): void {
     $admin = User::factory()->admin()->create();
     $category = Category::factory()->create(['name' => 'Old Name', 'slug' => 'old-name']);
 
@@ -51,9 +90,11 @@ it('can update a category', function (): void {
         ->call('editCategory', $category->id)
         ->assertSet('showModal', true)
         ->assertSet('name', 'Old Name')
-        ->assertSet('slug', 'old-name')
+        ->assertSet('description', $category->description)
         ->set('name', 'New Name')
         ->set('slug', 'new-name')
+        ->set('description', 'New description')
+        ->set('color', '#00ff00')
         ->call('saveCategory')
         ->assertHasNoErrors()
         ->assertSet('showModal', false);
@@ -62,6 +103,8 @@ it('can update a category', function (): void {
         'id' => $category->id,
         'name' => 'New Name',
         'slug' => 'new-name',
+        'description' => 'New description',
+        'color' => '#00ff00',
     ]);
 });
 

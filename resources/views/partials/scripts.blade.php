@@ -1,4 +1,4 @@
-<script>
+<script data-navigate-once>
     (function () {
         const ThemeManager = {
             init() {
@@ -39,3 +39,19 @@
         ThemeManager.init();
     })();
 </script>
+
+@php
+    $websiteService = app(\App\Services\WebsiteService::class);
+    $gtmId = $websiteService->getGtmId();
+    $customFooterScripts = $websiteService->getCustomScriptsFooter();
+@endphp
+
+<!-- Google Tag Manager (noscript) -->
+@if($gtmId)
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ $gtmId }}"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+@endif
+
+<!-- Custom Footer Scripts -->
+{!! $customFooterScripts !!}
+

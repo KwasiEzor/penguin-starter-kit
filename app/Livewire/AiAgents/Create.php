@@ -45,8 +45,6 @@ final class Create extends Component
 
     /**
      * Update available models when the selected provider changes.
-     *
-     * @return void
      */
     public function updatedProvider(): void
     {
@@ -57,8 +55,6 @@ final class Create extends Component
 
     /**
      * Validate the form inputs and create a new AI agent for the authenticated user.
-     *
-     * @return void
      */
     public function save(): void
     {
@@ -92,8 +88,6 @@ final class Create extends Component
 
     /**
      * Render the AI agent creation form view.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {

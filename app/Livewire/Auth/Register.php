@@ -22,8 +22,6 @@ final class Register extends Component
 
     /**
      * Create a new user account using the submitted registration form data.
-     *
-     * @return void
      */
     public function register(): void
     {
@@ -36,8 +34,6 @@ final class Register extends Component
 
     /**
      * Render the registration view.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {

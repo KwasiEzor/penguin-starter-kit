@@ -23,8 +23,6 @@ final class Login extends Component
 
     /**
      * Authenticate the user using the submitted login form data.
-     *
-     * @return void
      */
     public function login(): void
     {
@@ -41,8 +39,6 @@ final class Login extends Component
 
     /**
      * Render the login view.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {

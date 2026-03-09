@@ -6,7 +6,6 @@
  * Verifies rendering of the file upload input with default and custom labels,
  * hint text, image preview display, and the removable action button.
  */
-
 it('renders the file upload component with default label', function (): void {
     $view = $this->blade('<x-file-upload wire="avatar" />');
 

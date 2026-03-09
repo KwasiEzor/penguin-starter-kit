@@ -17,14 +17,18 @@ final class Index extends Component
 
     public ?int $deletingRoleId = null;
 
+    public bool $showDeleteModal = false;
+
     public function confirmDelete(int $id): void
     {
         $this->deletingRoleId = $id;
+        $this->showDeleteModal = true;
     }
 
     public function cancelDelete(): void
     {
         $this->deletingRoleId = null;
+        $this->showDeleteModal = false;
     }
 
     public function deleteRole(): void
@@ -34,6 +38,7 @@ final class Index extends Component
         if ($role->name === RoleEnum::Admin->value) {
             $this->toastError('Cannot delete the admin role.');
             $this->deletingRoleId = null;
+            $this->showDeleteModal = false;
 
             return;
         }
@@ -41,12 +46,14 @@ final class Index extends Component
         if ($role->users()->count() > 0) {
             $this->toastError('Cannot delete a role that has users assigned.');
             $this->deletingRoleId = null;
+            $this->showDeleteModal = false;
 
             return;
         }
 
         $role->delete();
         $this->deletingRoleId = null;
+        $this->showDeleteModal = false;
         $this->toastSuccess('Role deleted successfully.');
     }
 

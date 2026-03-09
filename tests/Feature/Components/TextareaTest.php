@@ -6,7 +6,6 @@
  * Verifies rendering of textarea elements with proper name attributes,
  * slot content, styling classes, and the disabled state.
  */
-
 it('renders a textarea', function (): void {
     $view = $this->blade('<x-textarea name="body">Hello</x-textarea>');
 

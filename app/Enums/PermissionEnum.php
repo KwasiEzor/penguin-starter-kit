@@ -11,19 +11,20 @@ namespace App\Enums;
  * the application. Permissions are organized into logical groups (Users, Posts,
  * Admin, Roles, Payments, AI).
  *
- * @case UsersView     - Permission to view user listings and profiles
- * @case UsersCreate   - Permission to create new user accounts
- * @case UsersEdit     - Permission to modify existing user accounts
- * @case UsersDelete   - Permission to delete user accounts
- * @case PostsView     - Permission to view posts
- * @case PostsCreate   - Permission to create new posts
- * @case PostsEdit     - Permission to edit existing posts
- * @case PostsDelete   - Permission to delete posts
- * @case PostsPublish  - Permission to publish draft posts
- * @case AdminAccess   - Permission to access the admin panel
- * @case RolesView     - Permission to view roles and their permissions
- * @case RolesEdit     - Permission to modify roles and assign permissions
- * @case PaymentsManage - Permission to manage payment settings and products
+ * @case UsersView      - Permission to view user listings and profiles
+ * @case UsersCreate    - Permission to create new user accounts
+ * @case UsersEdit      - Permission to modify existing user accounts
+ * @case UsersDelete    - Permission to delete user accounts
+ * @case PostsView      - Permission to view posts
+ * @case PostsCreate    - Permission to create new posts
+ * @case PostsEdit      - Permission to edit existing posts
+ * @case PostsDelete    - Permission to delete posts
+ * @case PostsPublish   - Permission to publish draft posts
+ * @case AdminAccess    - Permission to access the admin panel
+ * @case RolesView      - Permission to view roles and their permissions
+ * @case RolesEdit      - Permission to modify roles and assign permissions
+ * @case PaymentsManage  - Permission to manage payment settings and products
+ * @case SettingsManage  - Permission to manage general application settings and branding
  * @case AiAgentsManage - Permission to manage AI agents and their configurations
  */
 enum PermissionEnum: string
@@ -67,6 +68,9 @@ enum PermissionEnum: string
     /** Permission to manage payment settings and products. */
     case PaymentsManage = 'payments.manage';
 
+    /** Permission to manage general application settings and branding. */
+    case SettingsManage = 'settings.manage';
+
     /** Permission to manage AI agents and their configurations. */
     case AiAgentsManage = 'ai-agents.manage';
 
@@ -91,6 +95,7 @@ enum PermissionEnum: string
             self::RolesView => 'View Roles',
             self::RolesEdit => 'Edit Roles',
             self::PaymentsManage => 'Manage Payments',
+            self::SettingsManage => 'Manage Settings',
             self::AiAgentsManage => 'Manage AI Agents',
         };
     }
@@ -108,7 +113,7 @@ enum PermissionEnum: string
         return match ($this) {
             self::UsersView, self::UsersCreate, self::UsersEdit, self::UsersDelete => 'Users',
             self::PostsView, self::PostsCreate, self::PostsEdit, self::PostsDelete, self::PostsPublish => 'Posts',
-            self::AdminAccess => 'Admin',
+            self::AdminAccess, self::SettingsManage => 'Admin',
             self::RolesView, self::RolesEdit => 'Roles',
             self::PaymentsManage => 'Payments',
             self::AiAgentsManage => 'AI',

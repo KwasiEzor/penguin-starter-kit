@@ -3,8 +3,11 @@
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
             <h1 class="text-3xl font-black tracking-tight text-on-surface-strong dark:text-on-surface-dark-strong">
-                {{ __('Role Management') }}
+                {{ __('Roles') }}
             </h1>
+            <p class="text-on-surface/60 dark:text-on-surface-dark/60 font-medium mt-1">
+                {{ __('Role Management') }}
+            </p>
             <p class="text-on-surface/60 dark:text-on-surface-dark/60 font-medium mt-1">
                 {{ __('Define and control access levels for your application.') }}
             </p>
@@ -93,7 +96,7 @@
     </x-card>
 
     <!-- Delete Confirmation Modal -->
-    <x-modal :show="$deletingRoleId !== null" maxWidth="md">
+    <x-modal wire:model="showDeleteModal" maxWidth="md">
         <div class="p-8">
             <div class="flex items-center gap-4 mb-6">
                 <div class="flex size-12 items-center justify-center rounded-full bg-danger/10 text-danger">

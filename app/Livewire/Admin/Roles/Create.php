@@ -15,6 +15,7 @@ final class Create extends Component
 {
     public string $name = '';
 
+    /** @var array<int, string> */
     public array $selectedPermissions = [];
 
     public function save(): void

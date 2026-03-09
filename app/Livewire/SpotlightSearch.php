@@ -32,10 +32,7 @@ final class SpotlightSearch extends Component
         if (strlen($this->query) >= 2) {
             $results = Post::query()
                 ->where('user_id', Auth::id())
-                ->where(fn (\Illuminate\Database\Eloquent\Builder $q) => $q
-                    ->where('title', 'like', sprintf('%%%s%%', $this->query))
-                    ->orWhere('body', 'like', sprintf('%%%s%%', $this->query))
-                )
+                ->where('title', 'like', sprintf('%%%s%%', $this->query))
                 ->latest()
                 ->take(5)
                 ->get(['id', 'title', 'status', 'created_at']);

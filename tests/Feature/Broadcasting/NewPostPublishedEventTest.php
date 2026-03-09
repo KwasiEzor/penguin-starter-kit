@@ -46,10 +46,8 @@ it('does not dispatch the event for draft posts', function (): void {
     Event::assertNotDispatched(NewPostPublished::class);
 });
 
-it('broadcasts to private channels excluding the author', function (): void {
+it('broadcasts to a single notifications channel', function (): void {
     $author = User::factory()->create();
-    $user1 = User::factory()->create();
-    $user2 = User::factory()->create();
     $post = Post::factory()->for($author)->published()->create();
 
     $event = new NewPostPublished($post, $author);
@@ -57,9 +55,8 @@ it('broadcasts to private channels excluding the author', function (): void {
 
     $channelNames = array_map(fn (PrivateChannel $ch) => $ch->name, $channels);
 
-    expect($channelNames)->toContain('private-App.Models.User.'.$user1->id)
-        ->toContain('private-App.Models.User.'.$user2->id)
-        ->not->toContain('private-App.Models.User.'.$author->id);
+    expect($channelNames)->toContain('private-notifications')
+        ->and($channels)->toHaveCount(1);
 });
 
 it('returns the correct broadcast payload', function (): void {

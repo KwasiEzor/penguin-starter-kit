@@ -15,6 +15,13 @@
     class="fixed left-0 z-50 flex h-screen w-72 shrink-0 flex-col border-r border-outline bg-surface-alt p-6 transition-transform duration-300 lg:sticky lg:top-0 dark:border-outline-dark dark:bg-surface-dark"
     aria-label="sidebar navigation"
 >
+    @php
+        $websiteService = app(\App\Services\WebsiteService::class);
+        $siteName = $websiteService->getSiteName();
+        $logoLight = $websiteService->getLogoLight();
+        $logoDark = $websiteService->getLogoDark();
+    @endphp
+
     <!-- Mobile close button -->
     <button
         x-cloak
@@ -26,12 +33,19 @@
 
     <!-- Brand Header -->
     <div class="mb-8 flex items-center gap-3">
-        <div class="flex size-10 items-center justify-center rounded-xl bg-primary shadow-lg shadow-primary/20">
-            <x-app-logo class="size-6 text-white" />
-        </div>
+        @if($logoLight || $logoDark)
+            <div class="flex size-10 items-center justify-center rounded-xl overflow-hidden">
+                <img src="{{ asset('storage/' . ($logoLight ?: $logoDark)) }}" class="block dark:hidden h-8 w-auto">
+                <img src="{{ asset('storage/' . ($logoDark ?: $logoLight)) }}" class="hidden dark:block h-8 w-auto">
+            </div>
+        @else
+            <div class="flex size-10 items-center justify-center rounded-xl bg-primary shadow-lg shadow-primary/20">
+                <x-app-logo class="size-6 text-white" />
+            </div>
+        @endif
         <div class="flex flex-col">
-            <span class="text-lg font-bold tracking-tight text-on-surface-strong dark:text-on-surface-dark-strong">Penguin</span>
-            <span class="text-[10px] font-bold uppercase tracking-widest text-on-surface/50 dark:text-on-surface-dark/50">Starter Kit</span>
+            <span class="text-lg font-bold tracking-tight text-on-surface-strong dark:text-on-surface-dark-strong">{{ $siteName }}</span>
+            <span class="text-[10px] font-bold uppercase tracking-widest text-on-surface/50 dark:text-on-surface-dark/50">{{ __('Starter Kit') }}</span>
         </div>
     </div>
 
@@ -89,6 +103,18 @@
                         <x-sidebar-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('admin.users.*')">
                             <x-icons.users variant="outline" size="sm" />
                             <span>{{ __('User Manager') }}</span>
+                        </x-sidebar-link>
+                    </li>
+                    <li>
+                        <x-sidebar-link href="{{ route('admin.settings') }}" :active="request()->routeIs('admin.settings')">
+                            <x-icons.cog variant="outline" size="sm" />
+                            <span>{{ __('Website Settings') }}</span>
+                        </x-sidebar-link>
+                    </li>
+                    <li>
+                        <x-sidebar-link href="{{ route('admin.auth-settings') }}" :active="request()->routeIs('admin.auth-settings')">
+                            <x-icons.shield variant="outline" size="sm" />
+                            <span>{{ __('Auth Settings') }}</span>
                         </x-sidebar-link>
                     </li>
                     <li>

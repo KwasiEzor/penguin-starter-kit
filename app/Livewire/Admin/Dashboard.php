@@ -29,8 +29,6 @@ final class Dashboard extends Component
      *
      * Includes payment-related metrics (active subscriptions, monthly revenue)
      * only when the payments feature is enabled.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {

@@ -23,7 +23,6 @@ final class ConfirmPassword extends Component
     /**
      * Validate the user's password and mark the session as password-confirmed.
      *
-     * @return void
      *
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -49,8 +48,6 @@ final class ConfirmPassword extends Component
 
     /**
      * Render the password confirmation view.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
