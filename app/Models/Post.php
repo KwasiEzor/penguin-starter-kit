@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\PostFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -40,7 +41,9 @@ use Tonysm\RichTextLaravel\Casts\AsRichTextContent;
  */
 class Post extends Model implements HasMedia
 {
+    /** @use HasFactory<PostFactory> */
     use HasFactory;
+
     use HasTags;
     use InteractsWithMedia;
 
@@ -73,8 +76,6 @@ class Post extends Model implements HasMedia
      *
      * Automatically generates a unique slug from the title when creating
      * or updating a post if no slug has been provided.
-     *
-     * @return void
      */
     protected static function booted(): void
     {
@@ -109,10 +110,10 @@ class Post extends Model implements HasMedia
 
         while (static::query()
             ->where('slug', $slug)
-            ->when($excludeId, fn(\Illuminate\Database\Eloquent\Builder $q) => $q->where('id', '!=', $excludeId))
+            ->when($excludeId, fn (\Illuminate\Database\Eloquent\Builder $q) => $q->where('id', '!=', $excludeId))
             ->exists()
         ) {
-            $slug = $baseSlug . '-' . $counter++;
+            $slug = $baseSlug.'-'.$counter++;
         }
 
         return $slug;
@@ -167,11 +168,8 @@ class Post extends Model implements HasMedia
      * Register the media collections for this model.
      *
      * Defines a single-file "featured_image" collection.
-     *
-     * @return void
      */
     public function registerMediaCollections(): void
-
     {
         $this->addMediaCollection('featured_image')->singleFile();
     }
@@ -184,5 +182,10 @@ class Post extends Model implements HasMedia
     public function featuredImageUrl(): ?string
     {
         return $this->getFirstMediaUrl('featured_image') ?: Storage::url('blog-default.jpg');
+    }
+
+    protected static function newFactory(): PostFactory
+    {
+        return PostFactory::new();
     }
 }

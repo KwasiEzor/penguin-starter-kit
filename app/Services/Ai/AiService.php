@@ -30,8 +30,8 @@ class AiService
      * record with the result or error.
      *
      * @param  AiAgent  $aiAgent  The AI agent to execute.
-     * @param  string   $input    The user-provided prompt input.
-     * @param  User     $user     The user initiating the execution.
+     * @param  string  $input  The user-provided prompt input.
+     * @param  User  $user  The user initiating the execution.
      * @return AiExecution The refreshed execution record containing the result or error.
      */
     public function execute(AiAgent $aiAgent, string $input, User $user): AiExecution
@@ -47,27 +47,35 @@ class AiService
             $provider = $aiAgent->providerEnum();
             $resolvedKey = $this->resolveApiKey($provider, $user);
 
-            config([sprintf('ai.providers.%s.key', $provider->configKey()) => $resolvedKey]);
+            // Temporarily set the user-specific key and restore afterward to prevent
+            // key leakage between concurrent requests (e.g. under Laravel Octane).
+            $configKey = sprintf('ai.providers.%s.key', $provider->configKey());
+            $originalKey = config($configKey);
+            config([$configKey => $resolvedKey]);
 
-            $startTime = microtime(true);
+            try {
+                $startTime = microtime(true);
 
-            $response = agent(
-                instructions: $aiAgent->system_prompt,
-            )->prompt(
-                $input,
-                provider: $provider->configKey(),
-                model: $aiAgent->model,
-            );
+                $response = agent(
+                    instructions: $aiAgent->system_prompt,
+                )->prompt(
+                    $input,
+                    provider: $provider->configKey(),
+                    model: $aiAgent->model,
+                );
 
-            $executionTimeMs = (int) round((microtime(true) - $startTime) * 1000);
+                $executionTimeMs = (int) round((microtime(true) - $startTime) * 1000);
 
-            $execution->update([
-                'output' => $response->text,
-                'status' => 'completed',
-                'tokens_input' => $response->usage->promptTokens,
-                'tokens_output' => $response->usage->completionTokens,
-                'execution_time_ms' => $executionTimeMs,
-            ]);
+                $execution->update([
+                    'output' => $response->text,
+                    'status' => 'completed',
+                    'tokens_input' => $response->usage->promptTokens,
+                    'tokens_output' => $response->usage->completionTokens,
+                    'execution_time_ms' => $executionTimeMs,
+                ]);
+            } finally {
+                config([$configKey => $originalKey]);
+            }
         } catch (\Throwable $throwable) {
             $execution->update([
                 'status' => 'failed',
@@ -82,9 +90,9 @@ class AiService
      * Execute an AI agent with streaming response.
      *
      * @param  AiAgent  $aiAgent  The AI agent to execute.
-     * @param  string   $input    The user-provided prompt input.
-     * @param  User     $user     The user initiating the execution.
-     * @return \Generator<string, void, mixed, AiExecution>
+     * @param  string  $input  The user-provided prompt input.
+     * @param  User  $user  The user initiating the execution.
+     * @return \Generator<int, string, mixed, AiExecution>
      */
     public function stream(AiAgent $aiAgent, string $input, User $user): \Generator
     {
@@ -101,32 +109,40 @@ class AiService
             $provider = $aiAgent->providerEnum();
             $resolvedKey = $this->resolveApiKey($provider, $user);
 
-            config([sprintf('ai.providers.%s.key', $provider->configKey()) => $resolvedKey]);
+            // Temporarily set the user-specific key and restore afterward to prevent
+            // key leakage between concurrent requests (e.g. under Laravel Octane).
+            $configKey = sprintf('ai.providers.%s.key', $provider->configKey());
+            $originalKey = config($configKey);
+            config([$configKey => $resolvedKey]);
 
-            $startTime = microtime(true);
+            try {
+                $startTime = microtime(true);
 
-            $stream = agent(
-                instructions: $aiAgent->system_prompt,
-            )->stream(
-                $input,
-                provider: $provider->configKey(),
-                model: $aiAgent->model,
-            );
+                $stream = agent(
+                    instructions: $aiAgent->system_prompt,
+                )->stream(
+                    $input,
+                    provider: $provider->configKey(),
+                    model: $aiAgent->model,
+                );
 
-            foreach ($stream as $response) {
-                $token = $response->text;
-                $fullOutput .= $token;
-                yield $token;
+                foreach ($stream as $response) {
+                    $token = $response->text;
+                    $fullOutput .= $token;
+                    yield $token;
+                }
+
+                $executionTimeMs = (int) round((microtime(true) - $startTime) * 1000);
+
+                $execution->update([
+                    'output' => $fullOutput,
+                    'status' => 'completed',
+                    'execution_time_ms' => $executionTimeMs,
+                    // Note: token usage tracking is not available when streaming.
+                ]);
+            } finally {
+                config([$configKey => $originalKey]);
             }
-
-            $executionTimeMs = (int) round((microtime(true) - $startTime) * 1000);
-
-            $execution->update([
-                'output' => $fullOutput,
-                'status' => 'completed',
-                'execution_time_ms' => $executionTimeMs,
-                // Usage tracking might be limited in streaming depending on the provider/package version
-            ]);
         } catch (\Throwable $throwable) {
             $execution->update([
                 'status' => 'failed',
@@ -144,7 +160,7 @@ class AiService
      * to a global key. Throws an exception if no key is configured.
      *
      * @param  AiProviderEnum  $provider  The AI provider to resolve a key for.
-     * @param  User            $user      The user whose personal key should be checked first.
+     * @param  User  $user  The user whose personal key should be checked first.
      * @return string The decrypted API key.
      *
      * @throws RuntimeException If no active API key is found for the provider.

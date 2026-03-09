@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\PlanFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -30,6 +31,7 @@ use Illuminate\Support\Str;
  */
 class Plan extends Model
 {
+    /** @use HasFactory<PlanFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -66,8 +68,6 @@ class Plan extends Model
      *
      * Automatically generates a slug from the name when creating a plan
      * if no slug has been provided.
-     *
-     * @return void
      */
     protected static function booted(): void
     {
@@ -86,5 +86,10 @@ class Plan extends Model
     public function formattedPrice(): string
     {
         return '$'.number_format($this->price / 100, 2);
+    }
+
+    protected static function newFactory(): PlanFactory
+    {
+        return PlanFactory::new();
     }
 }

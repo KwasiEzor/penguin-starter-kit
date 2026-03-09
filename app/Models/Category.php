@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\CategoryFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -23,6 +24,7 @@ use Illuminate\Support\Str;
  */
 class Category extends Model
 {
+    /** @use HasFactory<CategoryFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -35,8 +37,6 @@ class Category extends Model
      *
      * Automatically generates a slug from the name when creating a category
      * if no slug has been provided.
-     *
-     * @return void
      */
     protected static function booted(): void
     {
@@ -55,5 +55,10 @@ class Category extends Model
     public function posts(): MorphToMany
     {
         return $this->morphedByMany(Post::class, 'categorizable');
+    }
+
+    protected static function newFactory(): CategoryFactory
+    {
+        return CategoryFactory::new();
     }
 }

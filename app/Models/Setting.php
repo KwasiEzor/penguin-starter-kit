@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 
 /**
@@ -47,7 +48,9 @@ class Setting extends Model
 
                 return $setting->value ?? $default;
             });
-        } catch (\Illuminate\Database\QueryException) {
+        } catch (\Illuminate\Database\QueryException $e) {
+            Log::warning('Setting lookup failed', ['key' => $key, 'error' => $e->getMessage()]);
+
             return $default;
         }
     }

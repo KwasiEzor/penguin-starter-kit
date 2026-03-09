@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -27,6 +28,7 @@ use Illuminate\Support\Str;
  */
 class Product extends Model
 {
+    /** @use HasFactory<ProductFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -58,8 +60,6 @@ class Product extends Model
      *
      * Automatically generates a slug from the name when creating a product
      * if no slug has been provided.
-     *
-     * @return void
      */
     protected static function booted(): void
     {
@@ -78,5 +78,10 @@ class Product extends Model
     public function formattedPrice(): string
     {
         return '$'.number_format($this->price / 100, 2);
+    }
+
+    protected static function newFactory(): ProductFactory
+    {
+        return ProductFactory::new();
     }
 }

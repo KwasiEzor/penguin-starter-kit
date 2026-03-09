@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\RoleEnum;
+use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -41,7 +42,10 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
 {
     use Billable;
     use HasApiTokens;
+
+    /** @use HasFactory<UserFactory> */
     use HasFactory;
+
     use HasRoles;
     use InteractsWithMedia;
     use Notifiable;
@@ -107,7 +111,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
      */
     public function posts(): HasMany
     {
-        return $this->hasMany(\App\Models\Post::class);
+        return $this->hasMany(Post::class);
     }
 
     /**
@@ -157,8 +161,6 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
      * Register the media collections for this model.
      *
      * Defines a single-file "avatar" collection for the user's profile picture.
-     *
-     * @return void
      */
     public function registerMediaCollections(): void
     {
@@ -173,5 +175,10 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     public function avatarUrl(): ?string
     {
         return $this->getFirstMediaUrl('avatar') ?: null;
+    }
+
+    protected static function newFactory(): UserFactory
+    {
+        return UserFactory::new();
     }
 }

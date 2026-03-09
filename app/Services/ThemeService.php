@@ -24,6 +24,10 @@ final class ThemeService
         /** @var array<string, mixed>|null $decoded */
         $decoded = json_decode($json, true);
 
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return null;
+        }
+
         return $decoded;
     }
 
@@ -143,6 +147,52 @@ final class ThemeService
                 'shadow' => '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
                 'font' => 'Inter',
             ],
+            'ocean' => [
+                'name' => 'Ocean',
+                'description' => 'Fresh blues and breezy greens',
+                'colors' => [
+                    'light' => [
+                        'surface' => '#ecfeff',
+                        'surface-alt' => '#dbeafe',
+                        'on-surface' => '#0f172a',
+                        'on-surface-strong' => '#0b0f19',
+                        'primary' => '#0369a1',
+                        'on-primary' => '#ffffff',
+                        'secondary' => '#0ea5e9',
+                        'on-secondary' => '#ffffff',
+                        'outline' => '#a5f3fc',
+                        'outline-strong' => '#22d3ee',
+                    ],
+                    'dark' => [
+                        'surface' => '#0f172a',
+                        'surface-alt' => '#1e293b',
+                        'on-surface' => '#e0f2fe',
+                        'on-surface-strong' => '#ffffff',
+                        'primary' => '#38bdf8',
+                        'on-primary' => '#0f172a',
+                        'secondary' => '#22d3ee',
+                        'on-secondary' => '#0f172a',
+                        'outline' => '#2563eb',
+                        'outline-strong' => '#38bdf8',
+                    ],
+                    'semantic' => [
+                        'info' => '#38bdf8',
+                        'on-info' => '#0f172a',
+                        'success' => '#34d399',
+                        'on-success' => '#083334',
+                        'warning' => '#facc15',
+                        'on-warning' => '#0f172a',
+                        'danger' => '#ef4444',
+                        'on-danger' => '#0f172a',
+                    ],
+                ],
+                'radius' => '0.75rem',
+                'button-radius' => '0.75rem',
+                'transition-duration' => '0.2s',
+                'transition-easing' => 'cubic-bezier(0.4, 0, 0.2, 1)',
+                'shadow' => '0 10px 15px -3px rgba(14, 165, 233, 0.3), 0 4px 6px -2px rgba(2, 6, 23, 0.2)',
+                'font' => 'Inter',
+            ],
             'slate' => [
                 'name' => 'Slate',
                 'description' => 'Professional and sober',
@@ -188,6 +238,52 @@ final class ThemeService
                 'transition-easing' => 'linear',
                 'shadow' => '0 1px 2px 0 rgb(0 0 0 / 0.05)',
                 'font' => 'Plus Jakarta Sans',
+            ],
+            'forest' => [
+                'name' => 'Forest',
+                'description' => 'Earthy tones with verdant energy',
+                'colors' => [
+                    'light' => [
+                        'surface' => '#f0fdf4',
+                        'surface-alt' => '#dcfce7',
+                        'on-surface' => '#065f46',
+                        'on-surface-strong' => '#064e3b',
+                        'primary' => '#15803d',
+                        'on-primary' => '#ffffff',
+                        'secondary' => '#10b981',
+                        'on-secondary' => '#064e3b',
+                        'outline' => '#bbf7d0',
+                        'outline-strong' => '#047857',
+                    ],
+                    'dark' => [
+                        'surface' => '#052e16',
+                        'surface-alt' => '#064e3b',
+                        'on-surface' => '#bbf7d0',
+                        'on-surface-strong' => '#e0f2fe',
+                        'primary' => '#15803d',
+                        'on-primary' => '#ffffff',
+                        'secondary' => '#34d399',
+                        'on-secondary' => '#064e3b',
+                        'outline' => '#065f46',
+                        'outline-strong' => '#22c55e',
+                    ],
+                    'semantic' => [
+                        'info' => '#38bdf8',
+                        'on-info' => '#0f172a',
+                        'success' => '#22c55e',
+                        'on-success' => '#0f172a',
+                        'warning' => '#facc15',
+                        'on-warning' => '#0f172a',
+                        'danger' => '#ef4444',
+                        'on-danger' => '#0f172a',
+                    ],
+                ],
+                'radius' => '0.5rem',
+                'button-radius' => '0.375rem',
+                'transition-duration' => '0.18s',
+                'transition-easing' => 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+                'shadow' => '0 12px 20px -7px rgba(5, 150, 105, 0.35)',
+                'font' => 'DM Sans',
             ],
             'rose' => [
                 'name' => 'Rose',
@@ -343,6 +439,30 @@ final class ThemeService
     }
 
     /**
+     * Validate a hex color string.
+     */
+    private function isValidHexColor(string $value): bool
+    {
+        return (bool) preg_match('/^#[0-9a-fA-F]{3,8}$/', $value);
+    }
+
+    /**
+     * Sanitize a font family name by stripping characters that could break CSS.
+     */
+    private function sanitizeFontFamily(string $value): string
+    {
+        return preg_replace('/[{};]/', '', $value) ?? $value;
+    }
+
+    /**
+     * Validate a CSS numeric value (e.g., "0.5rem", "0.15s", "9999px").
+     */
+    private function isValidCssNumericValue(string $value): bool
+    {
+        return (bool) preg_match('/^[0-9]+(\.[0-9]+)?(rem|em|px|s|ms|%)$/', $value);
+    }
+
+    /**
      * Generate CSS string from stored overrides.
      */
     public function generateCss(): string
@@ -396,34 +516,36 @@ final class ThemeService
         foreach ($colorMaps as $mode => $map) {
             if (isset($overrides[$mode]) && is_array($overrides[$mode])) {
                 foreach ($map as $key => $cssVar) {
-                    if (isset($overrides[$mode][$key])) {
+                    if (isset($overrides[$mode][$key]) && is_string($overrides[$mode][$key]) && $this->isValidHexColor($overrides[$mode][$key])) {
                         $lines[] = '    '.$cssVar.': '.$overrides[$mode][$key].';';
                     }
                 }
             }
         }
 
-        // Effects
-        if (isset($overrides['radius'])) {
+        // Effects - validate numeric/safe values before outputting
+        if (isset($overrides['radius']) && is_string($overrides['radius']) && $this->isValidCssNumericValue($overrides['radius'])) {
             $lines[] = '    --radius-radius: '.$overrides['radius'].';';
         }
-        if (isset($overrides['button-radius'])) {
+        if (isset($overrides['button-radius']) && is_string($overrides['button-radius']) && ($this->isValidCssNumericValue($overrides['button-radius']) || $overrides['button-radius'] === '9999px')) {
             $lines[] = '    --radius-button: '.$overrides['button-radius'].';';
         }
-        if (isset($overrides['transition-duration'])) {
+        if (isset($overrides['transition-duration']) && is_string($overrides['transition-duration']) && $this->isValidCssNumericValue($overrides['transition-duration'])) {
             $lines[] = '    --default-transition-duration: '.$overrides['transition-duration'].';';
         }
-        if (isset($overrides['transition-easing'])) {
+        if (isset($overrides['transition-easing']) && is_string($overrides['transition-easing']) && preg_match('/^[a-z0-9\-(),.\s]+$/i', $overrides['transition-easing'])) {
             $lines[] = '    --default-transition-timing-function: '.$overrides['transition-easing'].';';
         }
-        if (isset($overrides['shadow'])) {
+        if (isset($overrides['shadow']) && is_string($overrides['shadow']) && preg_match('/^[a-z0-9\-(),.\s\/#%]+$/i', $overrides['shadow'])) {
             $lines[] = '    --shadow-premium: '.$overrides['shadow'].';';
         }
 
         // Font family override
-        $fontFamily = $this->getFontFamily();
+        $fontFamily = $this->sanitizeFontFamily($this->getFontFamily());
         if ($fontFamily !== 'Instrument Sans') {
-            $lines[] = "    --font-sans-override: '{$fontFamily}', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';";
+            $stack = "'{$fontFamily}', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'";
+            $lines[] = "    --font-sans: {$stack};";
+            $lines[] = "    --font-sans-override: {$stack};";
         }
 
         if ($lines === []) {

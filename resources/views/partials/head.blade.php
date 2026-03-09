@@ -12,7 +12,7 @@
     $themeFontUrl = config('theme.fonts')[$themeFont] ?? config('theme.fonts')['Instrument Sans'];
 @endphp
 <link rel="preconnect" href="https://fonts.bunny.net" />
-<link href="{{ $themeFontUrl }}" rel="stylesheet" />
+<link href="{{ $themeFontUrl }}&display=swap" rel="stylesheet" />
 
 <!-- Scripts -->
 @vite(['resources/css/app.css', 'resources/js/app.js'])
