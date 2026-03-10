@@ -18,12 +18,12 @@
                 </x-nav-link>
             </li>
             <li>
-                <x-nav-link href="https://github.com/laravel/livewire-starter-kit" target="_blank">
+                <x-nav-link href="https://github.com/kwasiezor/penguin-starter-kit" target="_blank">
                     {{ __('Repository') }}
                 </x-nav-link>
             </li>
             <li>
-                <x-nav-link href="https://laravel.com/docs/starter-kits" target="_blank">
+                <x-nav-link href="https://github.com/kwasiezor/penguin-starter-kit#-documentation" target="_blank">
                     {{ __('Docs') }}
                 </x-nav-link>
             </li>
@@ -70,6 +70,7 @@
                             @csrf
                             <x-dropdown-link
                                 :href="route('logout')"
+                                wire:navigate="false"
                                 onclick="
                                     event.preventDefault();
                                     this.closest('form').submit();
@@ -132,12 +133,12 @@
                 </x-responsive-nav-link>
             </li>
             <li class="p-2">
-                <x-responsive-nav-link href="https://github.com/laravel/livewire-starter-kit" target="_blank">
+                <x-responsive-nav-link href="https://github.com/kwasiezor/penguin-starter-kit" target="_blank">
                     {{ __('Repository') }}
                 </x-responsive-nav-link>
             </li>
             <li class="p-2">
-                <x-responsive-nav-link href="https://laravel.com/docs/starter-kits" target="_blank">
+                <x-responsive-nav-link href="https://github.com/kwasiezor/penguin-starter-kit#-documentation" target="_blank">
                     {{ __('Docs') }}
                 </x-responsive-nav-link>
             </li>
@@ -155,6 +156,7 @@
                     @csrf
                     <x-responsive-nav-link
                         :href="route('logout')"
+                        wire:navigate="false"
                         onclick="
                             event.preventDefault();
                             this.closest('form').submit();
